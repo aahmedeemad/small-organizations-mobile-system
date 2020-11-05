@@ -1,0 +1,4 @@
+#Thu Nov 05 16:22:51 EET 2020
+base.0=/home/aahmedeemad/small-organizations-mobile-system/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
