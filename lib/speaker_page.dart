@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class Speaker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,19 +10,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         fontFamily: 'Helvetica',
       ),
-      home: MyHomePage(title: 'Speaker Page'),
+      home: SpeakerPage(title: 'Speaker Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class SpeakerPage extends StatefulWidget {
+  SpeakerPage({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _SpeakerPageState createState() => _SpeakerPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SpeakerPageState extends State<SpeakerPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -73,12 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 SizedBox(height: 35.0),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    'BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA'
-                    '\nBLA BLA BLA BLA'
-                    '\nBLA BLA'
-                    '\nBLA',
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 21.0,

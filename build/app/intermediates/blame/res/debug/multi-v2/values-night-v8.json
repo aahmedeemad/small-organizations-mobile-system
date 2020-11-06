@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/aahmedeemad/small-organizations-mobile-system/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
+            "outputFile": "/home/mark/small-organizations-mobile-system/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "/home/aahmedeemad/small-organizations-mobile-system/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/home/mark/small-organizations-mobile-system/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

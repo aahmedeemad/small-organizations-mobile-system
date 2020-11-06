@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smallorgsys/screens/aboutus.dart';
+import 'package:smallorgsys/speaker_page.dart';
 import 'home_page.dart';
+import 'screens/login.dart';
 
 void main() async {
   runApp(App());
@@ -13,6 +16,6 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
-        home: HomePage());
+        home: Speaker());
   }
 }
