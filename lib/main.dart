@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smallorgsys/screens/aboutus.dart';
-import 'package:smallorgsys/speaker_page.dart';
+import 'package:smallorgsys/screens/speaker_page.dart';
 import 'home_page.dart';
 import 'screens/login.dart';
 
