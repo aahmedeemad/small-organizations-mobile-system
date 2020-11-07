@@ -3,26 +3,22 @@ import 'package:flutter/material.dart';
 class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'About us',
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Text('About us'),
-        ),
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Image.asset(
-                'images/tedx.jpg',
-                width: 411.4,
-                height: 240,
-                fit: BoxFit.cover,
-              ),
-              Datatext(),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('About us'),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Image.asset(
+              'images/tedx.jpg',
+              width: 411.4,
+              height: 240,
+              fit: BoxFit.cover,
+            ),
+            Datatext(),
+          ],
         ),
       ),
     );

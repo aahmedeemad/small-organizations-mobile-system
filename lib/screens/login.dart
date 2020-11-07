@@ -57,13 +57,14 @@ class _State extends State<LoginPage> {
                     ),
                   ),
                 ),
-                FlatButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
-                  textColor: Colors.black,
-                  child: Text('Forgot Password'),
-                ),
+                // FlatButton(
+                //   onPressed: () {
+                //     //forgot password screen
+                //   },
+                //   textColor: Colors.black,
+                //   child: Text('Forgot Password'),
+                // ),
+                SizedBox(height: 20),
                 Container(
                     height: 50,
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -72,6 +73,7 @@ class _State extends State<LoginPage> {
                       color: Colors.red,
                       child: Text('Login'),
                       onPressed: () {
+                        Navigator.of(context).pushNamed('/adminHomePage');
                         print(nameController.text);
                         print(passwordController.text);
                       },

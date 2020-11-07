@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-class Speaker extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Speaker Page',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        fontFamily: 'Helvetica',
-      ),
-      home: SpeakerPage(title: 'Speaker Page'),
-    );
-  }
-}
-
 class SpeakerPage extends StatefulWidget {
   SpeakerPage({Key key, this.title}) : super(key: key);
   final String title;
