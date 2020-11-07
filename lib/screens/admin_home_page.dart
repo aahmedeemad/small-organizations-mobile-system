@@ -69,13 +69,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
             repeat: ImageRepeat.noRepeat,
             fit: BoxFit.fitWidth,
             height: 120,
-            color: Colors.white60,
+            color: Colors.grey[800],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               title,
-              style: TextStyle(color: Colors.white60),
+              style: TextStyle(color: Colors.grey[800]),
             ),
           )
         ],
