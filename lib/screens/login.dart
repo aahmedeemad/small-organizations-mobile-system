@@ -66,18 +66,33 @@ class _State extends State<LoginPage> {
                 // ),
                 SizedBox(height: 20),
                 Container(
-                    height: 50,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: RaisedButton(
-                      textColor: Colors.black,
-                      color: Colors.red,
-                      child: Text('Login'),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/adminHomePage');
-                        print(nameController.text);
-                        print(passwordController.text);
-                      },
-                    )),
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: RaisedButton(
+                    textColor: Colors.black,
+                    color: Colors.red,
+                    child: Text('Login'),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/userHomePage');
+                      print(nameController.text);
+                      print(passwordController.text);
+                    },
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: RaisedButton(
+                    textColor: Colors.black,
+                    color: Colors.red,
+                    child: Text('Login'),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/adminHomePage');
+                      print(nameController.text);
+                      print(passwordController.text);
+                    },
+                  ),
+                ),
                 // Container(
                 //   child: Row(
                 //     children: <Widget>[

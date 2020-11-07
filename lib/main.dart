@@ -5,6 +5,7 @@ import 'package:smallorgsys/screens/board.dart';
 import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/screens/events.dart';
 import 'package:smallorgsys/screens/speaker_page.dart';
+import 'package:smallorgsys/screens/user_home_page.dart';
 import 'screens/login.dart';
 
 void main() async {
@@ -24,6 +25,7 @@ class App extends StatelessWidget {
         '/board': (context) => BoardPage(),
         '/aboutus': (context) => AboutUsPage(),
         '/speakerPage': (context) => SpeakerPage(),
+        '/userHomePage': (context) => UserHomePage(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),

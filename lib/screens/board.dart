@@ -27,6 +27,7 @@ class _BoardPageState extends State<BoardPage> {
                 top: MediaQuery.of(context).size.height / 9,
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: 10.0),
                     Container(
                         width: 150.0,
                         height: 150.0,
@@ -42,9 +43,8 @@ class _BoardPageState extends State<BoardPage> {
                             ])),
                     SizedBox(height: 15.0),
                     Text(
-                      'Pres',
+                      'President',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -65,9 +65,8 @@ class _BoardPageState extends State<BoardPage> {
                             ])),
                     SizedBox(height: 15.0),
                     Text(
-                      'VP',
+                      'Vice President',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -90,7 +89,6 @@ class _BoardPageState extends State<BoardPage> {
                     Text(
                       'IT Head',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
                       ),
