@@ -23,6 +23,7 @@ class App extends StatelessWidget {
         '/adminHomePage': (context) => AdminHomePage(),
         '/board': (context) => BoardPage(),
         '/aboutus': (context) => AboutUsPage(),
+        '/speakerPage': (context) => SpeakerPage(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),

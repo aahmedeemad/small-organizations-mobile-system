@@ -71,10 +71,11 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                 recognizer: new TapGestureRecognizer()
                                   ..onTap = () {},
                                 style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                    decoration: TextDecoration.underline),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ],
                           ),
@@ -180,7 +181,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       @required from,
       @required to}) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed('/speakerPage');
+      },
       child: new Card(
         child: new ListTile(
           leading: new CircleAvatar(
