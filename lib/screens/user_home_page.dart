@@ -1,85 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
-class UserHomePage extends StatefulWidget {
-  @override
-  _UserHomePageState createState() => _UserHomePageState();
-}
-
-class _UserHomePageState extends State<UserHomePage> {
+class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('Home'),
       ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
+      body: Center(
           child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  homeIcon(
-                    image: 'https://cdn2.iconfinder.com/data/icons/scan-to-pay/'
-                        '512/scan-pay-payment-01-512.png',
-                    title: 'QR Code',
-                    onpress: () {},
-                  ),
-                  homeIcon(
-                    image: 'https://cdn0.iconfinder.com/data/icons/app-pack-1-'
-                        'musket-monoline/32/app-17-clipboard-512.png',
-                    title: 'Tasks',
-                    onpress: () {},
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.all(25.0),
+                child: ProfilePic(),
               ),
-              SizedBox(height: 100),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  homeIcon(
-                    image: 'https://cdn2.iconfinder.com/data/icons/productivit'
-                        'y/256/Working_Schedule-512.png',
-                    title: 'Calendar',
-                    onpress: () {},
-                  ),
-                  homeIcon(
-                    image: 'https://cdn3.iconfinder.com/data/icons/eldorado-'
-                        'stroke-work/40/profile_2-512.png',
-                    title: 'Profile',
-                    onpress: () {},
-                  ),
-                ],
+              Flexible(
+                child: Column(
+                  children: [
+                    Text(
+                      "Fady Bassel",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                      tooltip: 'Qr Code',
+                      icon: Icon(Icons.qr_code),
+                      iconSize: 30,
+                      onPressed: () {
+                        ShowQr(context);
+                      },
+                    ),
+                  ],
+                ),
               )
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget homeIcon({@required image, @required title, @required onpress}) {
-    return InkWell(
-      onTap: onpress,
-      child: Column(
-        children: [
-          Image.network(
-            image,
-            repeat: ImageRepeat.noRepeat,
-            fit: BoxFit.fitWidth,
-            height: 120,
-            color: Colors.white60,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              title,
-              style: TextStyle(color: Colors.white60),
-            ),
-          )
+          HomeCard(word: 'tasks done 30%', icon: Icons.pending_actions),
+          HomeCard(
+              word: 'Attendance Meetings 70%', icon: Icons.pending_actions),
+          HomeCard(word: 'Attendance Events 90%', icon: Icons.pending_actions)
         ],
-      ),
+      )),
     );
   }
+}
+
+class ProfilePic extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 150.0,
+        height: 150.0,
+        decoration: BoxDecoration(
+            color: Colors.red,
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://avatars0.githubusercontent.com/u/56454311?s=400&u=6a76d8c13ad043b067e0227e27c3ea84e3bbb88e&v=4'),
+                fit: BoxFit.cover),
+            borderRadius: BorderRadius.all(Radius.circular(75.0)),
+            boxShadow: [BoxShadow(blurRadius: 7.0, color: Colors.black)]));
+  }
+}
+
+Widget HomeCard({word, icon}) {
+  return Card(
+      margin: EdgeInsets.all(15.0),
+      color: Colors.grey[300],
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 60.0,
+          ),
+          Text(
+            word,
+            style: TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ],
+      ));
+}
+
+Future ShowQr(context) {
+  return showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(
+          "Your QR Code",
+          textAlign: TextAlign.center,
+        ),
+        content: Container(
+          child: Icon(
+            Icons.qr_code,
+            size: 200,
+          ),
+        ),
+      ));
 }

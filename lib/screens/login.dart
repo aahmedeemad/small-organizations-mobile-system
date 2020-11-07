@@ -67,11 +67,14 @@ class _State extends State<LoginPage> {
                 SizedBox(height: 20),
                 Container(
                   height: 50,
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 6),
                   child: RaisedButton(
                     textColor: Colors.black,
                     color: Colors.red,
-                    child: Text('Login'),
+                    child: Text(
+                      'Login User',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/userHomePage');
                       print(nameController.text);
@@ -81,11 +84,14 @@ class _State extends State<LoginPage> {
                 ),
                 Container(
                   height: 50,
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 6),
                   child: RaisedButton(
                     textColor: Colors.black,
                     color: Colors.red,
-                    child: Text('Login'),
+                    child: Text(
+                      'Login Admin',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/adminHomePage');
                       print(nameController.text);
