@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class AdminHomePage extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     image: 'https://cdn2.iconfinder.com/data/icons/scan-to-pay/'
                         '512/scan-pay-payment-01-512.png',
                     title: 'Scan QR',
-                    onpress: () {},
+                    onpress: _scan,
                   ),
                   homeIcon(
                     image: 'https://cdn0.iconfinder.com/data/icons/'
@@ -42,7 +43,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     image: 'https://cdn4.iconfinder.com/data/icons/company-str'
                         'ucture-6/64/directors-board-committee-administration-organization-512.png',
                     title: 'Committees',
-                    onpress: () {},
+                    onpress: () {
+                      Navigator.of(context).pushNamed('/committeesPage');
+                    },
                   ),
                   homeIcon(
                     image: 'https://cdn0.iconfinder.com/data/icons/human-reso'
@@ -81,5 +84,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
         ],
       ),
     );
+  }
+
+  Future _scan() async {
+    String barcode = await scanner.scan();
+    // this._outputController.text = barcode;
   }
 }
