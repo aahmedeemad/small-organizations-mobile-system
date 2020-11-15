@@ -99,6 +99,23 @@ class _State extends State<LoginPage> {
                     },
                   ),
                 ),
+                Container(
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 6),
+                  child: RaisedButton(
+                    textColor: Colors.black,
+                    color: Colors.red,
+                    child: Text(
+                      'Login Head',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/headHomePage');
+                      print(nameController.text);
+                      print(passwordController.text);
+                    },
+                  ),
+                ),
                 // Container(
                 //   child: Row(
                 //     children: <Widget>[

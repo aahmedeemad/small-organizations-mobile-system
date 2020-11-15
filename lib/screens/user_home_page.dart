@@ -9,7 +9,7 @@ class UserHomePage extends StatelessWidget {
         title: Text('Home'),
       ),
       body: Center(
-          child: Column(
+          child: ListView(
         children: [
           Row(
             children: [
@@ -40,7 +40,29 @@ class UserHomePage extends StatelessWidget {
           HomeCard(word: 'tasks done 30%', icon: Icons.pending_actions),
           HomeCard(
               word: 'Attendance Meetings 70%', icon: Icons.pending_actions),
-          HomeCard(word: 'Attendance Events 90%', icon: Icons.pending_actions)
+          HomeCard(word: 'Attendance Events 90%', icon: Icons.pending_actions),
+          Divider(),
+          Text("Tasks", textAlign: TextAlign.center),
+          taskCard(
+              title: "Task 1",
+              description: "Task 1 description",
+              checkbox: true),
+          taskCard(
+              title: "Task 2",
+              description: "Task 2 description",
+              checkbox: false),
+          taskCard(
+              title: "Task 3",
+              description: "Task 3 description",
+              checkbox: true),
+          taskCard(
+              title: "Task 4",
+              description: "Task 4 description",
+              checkbox: true),
+          taskCard(
+              title: "Task 5",
+              description: "Task 5 description",
+              checkbox: true),
         ],
       )),
     );
@@ -72,17 +94,20 @@ Widget HomeCard({word, icon}) {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 60.0,
-          ),
-          Text(
-            word,
-            style: TextStyle(fontSize: 18, color: Colors.black),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 40.0,
+            ),
+            Text(
+              word,
+              style: TextStyle(fontSize: 18, color: Colors.black),
+            ),
+          ],
+        ),
       ));
 }
 
@@ -101,4 +126,16 @@ Future ShowQr(context) {
           ),
         ),
       ));
+}
+
+Widget taskCard({@required title, @required description, @required checkbox}) {
+  return ListTile(
+    title: Text(title),
+    subtitle: Text(description),
+    trailing: Checkbox(
+        value: checkbox,
+        onChanged: (val) {
+          print(val);
+        }),
+  );
 }
