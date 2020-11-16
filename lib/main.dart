@@ -42,8 +42,15 @@ class App extends StatelessWidget {
         '/addMember': (context) => AddMember(),
       },
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        primaryColor: Colors.black,
+        appBarTheme: AppBarTheme(
+          color: Colors.black87,
+        ),
+      ),
+      // theme: ThemeData.light(),
+      // darkTheme: ThemeData.dark(),
       // home: EventsPage(),
     );
   }

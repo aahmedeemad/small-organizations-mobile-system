@@ -11,40 +11,30 @@ class EventDetailsPage extends StatefulWidget {
 }
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
-  Future _allSpeakers;
-
-  @override
-  void initState() {
-    super.initState();
-    // _allSpeakers = getAllSpeakers();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text('Supernova'),
+      appBar: AppBar(
+        title: Text('Supernova'),
       ),
-      body: new ListView(
+      body: ListView(
         children: <Widget>[
-          new Image.network(
+          Image.network(
             'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
             repeat: ImageRepeat.noRepeat,
             fit: BoxFit.fitWidth,
           ),
-          new Padding(padding: const EdgeInsets.all(5.0)),
-          new Container(
-            height: 50,
-            child: new ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                new Card(
-                  child: new Padding(
+          SizedBox(height: 10.0, width: 10.0),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Card(
+                  child: Padding(
                     padding: const EdgeInsets.all(7.0),
                     child: Row(
                       children: <Widget>[
-                        new Icon(Icons.date_range),
-                        new Text(
+                        Icon(Icons.date_range),
+                        Text(
                           '20-10-2020',
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold),
@@ -53,20 +43,19 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                     ),
                   ),
                 ),
-                new Padding(
-                  padding: const EdgeInsets.all(2.0),
-                ),
-                new Card(
-                  child: new Padding(
+              ),
+              Expanded(
+                child: Card(
+                  child: Padding(
                     padding: const EdgeInsets.all(7.0),
                     child: Row(
                       children: <Widget>[
-                        new Icon(Icons.location_on),
-                        new RichText(
-                          text: new TextSpan(
+                        Icon(Icons.location_on),
+                        RichText(
+                          text: TextSpan(
                             children: [
-                              new TextSpan(text: ' '),
-                              new TextSpan(
+                              TextSpan(text: ' '),
+                              TextSpan(
                                 text: 'MIU',
                                 recognizer: new TapGestureRecognizer()
                                   ..onTap = () {},
@@ -84,14 +73,14 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          new Padding(
+          Padding(
             padding: const EdgeInsets.only(
                 left: 7.0, top: 15.0, bottom: 7.0, right: 7.0),
           ),
-          new Padding(
+          Padding(
             padding: const EdgeInsets.only(right: 8.0, left: 8.0),
             child: new Text(
               'descriptiondescriptiondescriptiondescriptiondescription'
@@ -103,14 +92,14 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
             ),
           ),
-          new Padding(
+          Padding(
             padding: const EdgeInsets.only(
                 left: 7.0, top: 20.0, bottom: 7.0, right: 7.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Icon(Icons.people),
-                new Text(
+                Icon(Icons.people),
+                Text(
                   ' Speakers',
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 ),
@@ -119,54 +108,20 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           ),
           Container(
             height: 320.0,
-            child: ListView(
-              children: [
-                speaker(
-                    imagePath:
-                        'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                        'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
-                    name: 'Mark Refaat',
-                    bio: 'BioBioBioBioBioBioBioBioBio'
-                        'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
-                    from: '08:00AM',
-                    to: '09:00AM'),
-                speaker(
-                    imagePath:
-                        'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                        'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
-                    name: 'Mark Refaat',
-                    bio: 'BioBioBioBioBioBioBioBioBio'
-                        'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
-                    from: '08:00AM',
-                    to: '09:00AM'),
-                speaker(
-                    imagePath:
-                        'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                        'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
-                    name: 'Mark Refaat',
-                    bio: 'BioBioBioBioBioBioBioBioBio'
-                        'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
-                    from: '08:00AM',
-                    to: '09:00AM'),
-                speaker(
-                    imagePath:
-                        'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                        'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
-                    name: 'Mark Refaat',
-                    bio: 'BioBioBioBioBioBioBioBioBio'
-                        'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
-                    from: '08:00AM',
-                    to: '09:00AM'),
-                speaker(
-                    imagePath:
-                        'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                        'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
-                    name: 'Mark Refaat',
-                    bio: 'BioBioBioBioBioBioBioBioBio'
-                        'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
-                    from: '08:00AM',
-                    to: '09:00AM'),
-              ],
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return speaker(
+                  imagePath:
+                      'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
+                      'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
+                  name: 'Mark Refaat',
+                  bio: 'BioBioBioBioBioBioBioBioBio'
+                      'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
+                  from: '08:00AM',
+                  to: '09:00AM',
+                );
+              },
             ),
           ),
         ],

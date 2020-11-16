@@ -12,16 +12,11 @@ class _EventsPageState extends State<EventsPage> {
       appBar: AppBar(
         title: Text('Events'),
       ),
-      body: ListView(
-        children: [
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-        ],
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return eventCard();
+        },
       ),
     );
   }

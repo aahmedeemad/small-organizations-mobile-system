@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smallorgsys/screens/drawer.dart';
 
 class NewsPage extends StatefulWidget {
   @override
@@ -9,95 +10,15 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: ListView(
-                children: <Widget>[
-                  Padding(padding: const EdgeInsets.all(10.0)),
-                  CircleAvatar(
-                    child: Image.asset(
-                      'images/tedxMiuHome.jpg',
-                    ),
-                    maxRadius: 35.0,
-                    minRadius: 25.0,
-                  ),
-                  Padding(padding: const EdgeInsets.all(10.0)),
-                  Text(
-                    'TEDX MIU',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-              decoration: BoxDecoration(color: Colors.black),
-            ),
-            InkWell(
-              child: ListTile(
-                title: Text('News'),
-                leading: Icon(Icons.event),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed('/');
-              },
-            ),
-            Divider(),
-            InkWell(
-              child: ListTile(
-                title: Text('Events'),
-                leading: Icon(Icons.event),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed('/events');
-              },
-            ),
-            Divider(),
-            InkWell(
-              child: ListTile(
-                title: Text('Our Team'),
-                leading: Icon(Icons.assignment_ind),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed('/board');
-              },
-            ),
-            Divider(),
-            InkWell(
-              child: ListTile(
-                title: Text('About us'),
-                leading: Icon(Icons.info),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed('/aboutus');
-              },
-            ),
-            Divider(),
-            InkWell(
-              child: ListTile(
-                title: Text('Login'),
-                leading: Icon(Icons.login),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed('/login');
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerPage(),
       appBar: AppBar(
         title: Text('News'),
       ),
-      body: ListView(
-        children: [
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-          eventCard(),
-        ],
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return eventCard();
+        },
       ),
     );
   }
