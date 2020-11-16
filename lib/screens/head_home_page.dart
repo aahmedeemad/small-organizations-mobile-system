@@ -12,6 +12,7 @@ class _HeadHomePageState extends State<HeadHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Head Home Page'),
+        actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
       ),
       body: Container(
         child: Padding(

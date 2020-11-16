@@ -17,17 +17,14 @@ class AboutUsPage extends StatelessWidget {
               height: 240,
               fit: BoxFit.cover,
             ),
-            Datatext(),
+            dataText(),
           ],
         ),
       ),
     );
   }
-}
 
-class Datatext extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget dataText() {
     return Container(
       padding: const EdgeInsets.all(12.0),
       child: Text(

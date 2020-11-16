@@ -12,6 +12,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin Home Page'),
+        actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
       ),
       body: Container(
         child: Padding(
