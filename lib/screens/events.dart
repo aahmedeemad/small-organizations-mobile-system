@@ -15,13 +15,15 @@ class _EventsPageState extends State<EventsPage> {
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return eventCard();
+          return eventCard(
+              imagePath:
+                  'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260');
         },
       ),
     );
   }
 
-  Widget eventCard() {
+  Widget eventCard({@required imagePath}) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: ClipRRect(
@@ -32,7 +34,7 @@ class _EventsPageState extends State<EventsPage> {
           },
           child: Card(
             child: Image.network(
-              'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
+              imagePath,
               fit: BoxFit.fitWidth,
               height: 160,
             ),

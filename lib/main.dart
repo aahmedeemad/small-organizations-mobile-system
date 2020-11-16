@@ -11,6 +11,7 @@ import 'package:smallorgsys/screens/members_page.dart';
 import 'package:smallorgsys/screens/news.dart';
 import 'package:smallorgsys/screens/news_details.dart';
 import 'package:smallorgsys/screens/speaker_page.dart';
+import 'package:smallorgsys/screens/statistics.dart';
 import 'package:smallorgsys/screens/user_home_page.dart';
 import 'package:smallorgsys/screens/add_task.dart';
 import 'screens/login.dart';
@@ -40,6 +41,7 @@ class App extends StatelessWidget {
         '/addTask': (context) => AddTask(),
         '/committeesPage': (context) => CommitteesPage(),
         '/addMember': (context) => AddMember(),
+        '/statisticsPage': (context) => StatisticsPage(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

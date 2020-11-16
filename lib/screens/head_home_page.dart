@@ -11,7 +11,7 @@ class _HeadHomePageState extends State<HeadHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('Head Home Page'),
       ),
       body: Container(
         child: Padding(

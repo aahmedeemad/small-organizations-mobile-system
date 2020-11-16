@@ -5,7 +5,7 @@ class Members extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('IT members')),
-      body: ListView(
+      body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -16,24 +16,14 @@ class Members extends StatelessWidget {
               ),
             ),
           ),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
-          member(name: "Mark Refaat", imagePath: null),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 15,
+              itemBuilder: (context, index) {
+                return member(name: "Mark Refaat $index", imagePath: null);
+              },
+            ),
+          ),
         ],
       ),
     );

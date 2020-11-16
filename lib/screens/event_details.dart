@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
@@ -51,22 +49,16 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                     child: Row(
                       children: <Widget>[
                         Icon(Icons.location_on),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(text: ' '),
-                              TextSpan(
-                                text: 'MIU',
-                                recognizer: new TapGestureRecognizer()
-                                  ..onTap = () {},
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ],
+                        InkWell(
+                          onTap: () {},
+                          child: Text(
+                            'MIU',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ),
                       ],
@@ -76,10 +68,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 7.0, top: 15.0, bottom: 7.0, right: 7.0),
-          ),
+          SizedBox(height: 25, width: 15),
           Padding(
             padding: const EdgeInsets.only(right: 8.0, left: 8.0),
             child: new Text(
@@ -106,23 +95,22 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               ],
             ),
           ),
-          Container(
-            height: 320.0,
-            child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return speaker(
-                  imagePath:
-                      'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                      'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
-                  name: 'Mark Refaat',
-                  bio: 'BioBioBioBioBioBioBioBioBio'
-                      'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
-                  from: '08:00AM',
-                  to: '09:00AM',
-                );
-              },
-            ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return speaker(
+                imagePath:
+                    'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
+                    'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
+                name: 'Mark Refaat',
+                bio: 'BioBioBioBioBioBioBioBioBio'
+                    'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
+                from: '08:00AM',
+                to: '09:00AM',
+              );
+            },
           ),
         ],
       ),

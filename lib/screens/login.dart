@@ -23,7 +23,7 @@ class _State extends State<LoginPage> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      'TEDxMIU Login',
+                      'TEDxMIU',
                       style: TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.w500,

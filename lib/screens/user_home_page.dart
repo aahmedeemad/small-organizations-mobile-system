@@ -43,26 +43,18 @@ class UserHomePage extends StatelessWidget {
           HomeCard(word: 'Attendance Events 90%', icon: Icons.pending_actions),
           Divider(),
           Text("Tasks", textAlign: TextAlign.center),
-          taskCard(
-              title: "Task 1",
-              description: "Task 1 description",
-              checkbox: true),
-          taskCard(
-              title: "Task 2",
-              description: "Task 2 description",
-              checkbox: false),
-          taskCard(
-              title: "Task 3",
-              description: "Task 3 description",
-              checkbox: true),
-          taskCard(
-              title: "Task 4",
-              description: "Task 4 description",
-              checkbox: true),
-          taskCard(
-              title: "Task 5",
-              description: "Task 5 description",
-              checkbox: true),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return taskCard(
+                title: "Task $index",
+                description: "Task $index description",
+                checkbox: true,
+              );
+            },
+          ),
         ],
       )),
     );

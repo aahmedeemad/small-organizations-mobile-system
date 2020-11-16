@@ -11,7 +11,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('Admin Home Page'),
       ),
       body: Container(
         child: Padding(
@@ -51,7 +51,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     image: 'https://cdn0.iconfinder.com/data/icons/human-reso'
                         'urce-management-5/64/sq482_human_resource_reporting_statistics_find_analyze_insights-512.png',
                     title: 'Statistics',
-                    onpress: () {},
+                    onpress: () {
+                      Navigator.of(context).pushNamed('/statisticsPage');
+                    },
                   ),
                 ],
               )
