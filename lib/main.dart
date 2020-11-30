@@ -27,9 +27,9 @@ class App extends StatelessWidget {
       title: 'Tedx MIU',
       routes: {
         '/': (context) => NewsPage(),
-        '/newsDetails': (context) => NewsDetailsPage(),
+        // '/newsDetails': (context) => NewsDetailsPage(index),
         '/events': (context) => EventsPage(),
-        '/eventDetails': (context) => EventDetailsPage(),
+        // '/eventDetails': (context) => EventDetailsPage(),
         '/login': (context) => LoginPage(),
         '/adminHomePage': (context) => AdminHomePage(),
         '/board': (context) => BoardPage(),

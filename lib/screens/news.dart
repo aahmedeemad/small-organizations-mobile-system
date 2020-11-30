@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smallorgsys/screens/drawer.dart';
+import 'package:smallorgsys/screens/news_details.dart';
 
 class NewsPage extends StatefulWidget {
   @override
@@ -17,26 +18,34 @@ class _NewsPageState extends State<NewsPage> {
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return eventCard();
+          return eventCard(
+              imagePath:
+                  'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
+              i: index);
         },
       ),
     );
   }
 
-  Widget eventCard() {
+  Widget eventCard({@required imagePath, @required i}) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed('/newsDetails');
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => NewsDetailsPage(i),
+            ));
           },
           child: Card(
-            child: Image.network(
-              'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
-              fit: BoxFit.fitWidth,
-              height: 160,
+            child: Hero(
+              tag: i,
+              child: Image.network(
+                imagePath,
+                fit: BoxFit.fitWidth,
+                height: 160,
+              ),
             ),
           ),
         ),

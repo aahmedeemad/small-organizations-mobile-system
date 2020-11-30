@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NewsDetailsPage extends StatelessWidget {
+  int index;
+  NewsDetailsPage(this.index);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,10 +12,13 @@ class NewsDetailsPage extends StatelessWidget {
       ),
       body: new ListView(
         children: <Widget>[
-          new Image.network(
-            'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
-            repeat: ImageRepeat.noRepeat,
-            fit: BoxFit.fitWidth,
+          Hero(
+            tag: index,
+            child: new Image.network(
+              'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
+              repeat: ImageRepeat.noRepeat,
+              fit: BoxFit.fitWidth,
+            ),
           ),
           new Padding(padding: const EdgeInsets.all(5.0)),
           new Padding(

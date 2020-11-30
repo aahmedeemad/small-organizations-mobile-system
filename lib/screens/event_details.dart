@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
 class EventDetailsPage extends StatefulWidget {
-  EventDetailsPage();
+  int index;
+  EventDetailsPage(this.index);
 
   @override
   _EventDetailsPageState createState() => _EventDetailsPageState();
@@ -17,10 +18,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       ),
       body: ListView(
         children: <Widget>[
-          Image.network(
-            'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
-            repeat: ImageRepeat.noRepeat,
-            fit: BoxFit.fitWidth,
+          Hero(
+            tag: widget.index,
+            child: Image.network(
+              'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
+              repeat: ImageRepeat.noRepeat,
+              fit: BoxFit.fitWidth,
+            ),
           ),
           SizedBox(height: 10.0, width: 10.0),
           Row(
