@@ -21,8 +21,10 @@ class EvalMembers extends StatelessWidget {
             child: ListView.builder(
               itemCount: 15,
               itemBuilder: (context, index) {
-                return
-                    member(name: "Mark Refaat $index", imagePath: null);
+                return member(
+                  name: "Mark Refaat $index",
+                  imagePath: null,
+                );
               },
             ),
           ),
@@ -36,6 +38,7 @@ class EvalMembers extends StatelessWidget {
       child: ListTile(
         leading: Icon(Icons.person),
         title: Text(name),
+        onTap: () {},
       ),
     );
   }
@@ -53,6 +56,7 @@ class EvalMembers extends StatelessWidget {
 //       children: List.generate(5, (index) {
 //         return Icon(
 //           index < value ? Icons.star : Icons.star_border,
+
 //         );
 //       }),
 //     );
