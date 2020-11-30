@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class EventDetailsPage extends StatefulWidget {
   int index;
@@ -54,7 +55,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       children: <Widget>[
                         Icon(Icons.location_on),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            _launchUrl();
+                          },
                           child: Text(
                             'MIU',
                             style: TextStyle(
@@ -150,5 +153,10 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
         ),
       ),
     );
+  }
+
+  void _launchUrl() async {
+    if (await launcher.canLaunch('https://goo.gl/maps/7zPhKwbhbqyBnPYU6'))
+      await launcher.launch('https://goo.gl/maps/7zPhKwbhbqyBnPYU6');
   }
 }

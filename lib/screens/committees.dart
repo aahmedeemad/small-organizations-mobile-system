@@ -12,7 +12,8 @@ class _CommitteesPageState extends State<CommitteesPage> {
       appBar: AppBar(
         title: Text('Committees'),
       ),
-      body: ListView(
+      body: GridView.count(
+        crossAxisCount: 2,
         children: [
           committeeCard(name: 'HR'),
           committeeCard(name: 'IT'),
@@ -24,12 +25,21 @@ class _CommitteesPageState extends State<CommitteesPage> {
   }
 
   Widget committeeCard({@required name}) {
-    return Card(
-      child: ListTile(
-        title: Text(name),
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: InkWell(
         onTap: () {
           Navigator.of(context).pushNamed('/membersPage');
         },
+        child: Card(
+          elevation: 5.0,
+          child: Center(
+            child: Text(
+              name,
+              style: TextStyle(fontSize: 22.0),
+            ),
+          ),
+        ),
       ),
     );
   }

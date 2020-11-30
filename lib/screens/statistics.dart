@@ -23,7 +23,7 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('statistics'),
+        title: Text('Statistics'),
       ),
       body: ListView(
         children: [
@@ -37,20 +37,26 @@ class StatisticsPage extends StatelessWidget {
   }
 
   Widget chartWidget({@required committeName, @required data}) {
-    return Column(
-      children: [
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              committeName,
-              style: TextStyle(fontSize: 18.0),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        elevation: 5.0,
+        child: Column(
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  committeName,
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
             ),
-          ),
+            PieChart(dataMap: data),
+            // Divider(color: Colors.red),
+          ],
         ),
-        PieChart(dataMap: data),
-        Divider(color: Colors.red),
-      ],
+      ),
     );
   }
 }

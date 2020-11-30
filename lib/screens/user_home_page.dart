@@ -24,6 +24,10 @@ class UserHomePage extends StatelessWidget {
                       "Fady Bassel",
                       style: TextStyle(fontSize: 20),
                     ),
+                    Text(
+                      "IT member",
+                      style: TextStyle(fontSize: 16),
+                    ),
                     IconButton(
                       tooltip: 'Qr Code',
                       icon: Icon(Icons.qr_code),
