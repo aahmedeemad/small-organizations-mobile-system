@@ -1,5 +1,5 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class EvalMembers extends StatelessWidget {
   @override
@@ -35,30 +35,33 @@ class EvalMembers extends StatelessWidget {
 
   Widget member({@required name, @required imagePath}) {
     return Card(
+      elevation: 3.0,
       child: ListTile(
         leading: Icon(Icons.person),
         title: Text(name),
+        subtitle: StarDisplay(value: Random().nextInt(5)),
         onTap: () {},
       ),
     );
   }
 }
 
-// class StarDisplay extends StatelessWidget {
-//   final int value;
-//   const StarDisplay({Key key, this.value = 0})
-//       : assert(value != null),
-//         super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisSize: MainAxisSize.min,
-//       children: List.generate(5, (index) {
-//         return Icon(
-//           index < value ? Icons.star : Icons.star_border,
+class StarDisplay extends StatelessWidget {
+  final int value;
+  StarDisplay({@required this.value});
 
-//         );
-//       }),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 3.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(5, (index) {
+          return Icon(
+            index < value ? Icons.star : Icons.star_border,
+          );
+        }),
+      ),
+    );
+  }
+}
