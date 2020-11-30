@@ -15,6 +15,7 @@ import 'package:smallorgsys/screens/statistics.dart';
 import 'package:smallorgsys/screens/user_home_page.dart';
 import 'package:smallorgsys/screens/add_task.dart';
 import 'screens/login.dart';
+import 'package:smallorgsys/screens/evaluate_members.dart';
 
 void main() async {
   runApp(App());
@@ -42,6 +43,7 @@ class App extends StatelessWidget {
         '/committeesPage': (context) => CommitteesPage(),
         '/addMember': (context) => AddMember(),
         '/statisticsPage': (context) => StatisticsPage(),
+        '/evalMembers': (context) => EvalMembers(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

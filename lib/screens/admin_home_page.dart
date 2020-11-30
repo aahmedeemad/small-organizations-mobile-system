@@ -32,7 +32,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     image: 'https://cdn0.iconfinder.com/data/icons/'
                         'human-resource-1-3/66/47-512.png',
                     title: 'Evalution',
-                    onpress: () {},
+                    onpress: () {
+                      Navigator.of(context).pushNamed('/evalMembers');
+                    },
                   ),
                 ],
               ),
