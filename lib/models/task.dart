@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class Task {
   final String title;
-  final String assignedto;
+  final int assignedto;
   final String description;
-  final String assignedby;
-  final String status;
+  final int assignedby;
+  final bool status;
   Task({
     @required this.title,
     @required this.assignedto,
