@@ -10,57 +10,73 @@ class AddMember extends StatefulWidget {
 
 class _AddMemberState extends State<AddMember> {
   File _image;
+  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Add new member')),
-      body: Form(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 50.0, left: 50.0, right: 50.0),
-          child: ListView(
-            children: [
-              InkWell(
-                onTap: () {
-                  _imgFromGallery();
-                },
-                child: CircleAvatar(
-                  radius: 55,
-                  backgroundColor: Colors.red,
-                  child: _image != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.file(
-                            _image,
+      body: Builder(
+        builder: (context) => Form(
+          key: _formkey,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 50.0, left: 50.0, right: 50.0),
+            child: ListView(
+              children: [
+                InkWell(
+                  onTap: () {
+                    _imgFromGallery();
+                  },
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundColor: Colors.red,
+                    child: _image != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.file(
+                              _image,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(50)),
                             width: 100,
                             height: 100,
-                            fit: BoxFit.fitHeight,
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.grey[800],
+                            ),
                           ),
-                        )
-                      : Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(50)),
-                          width: 100,
-                          height: 100,
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.grey[800],
-                          ),
-                        ),
+                  ),
                 ),
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: "Member name",
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: "Member name",
+                  ),
                 ),
-              ),
-              MaterialButton(
-                onPressed: () {},
-                child: Text("Add"),
-                color: Colors.red,
-                textColor: Colors.white,
-              ),
-            ],
+                MaterialButton(
+                  onPressed: () {
+                    if (_formkey.currentState.validate()) {
+                      Scaffold.of(context).showSnackBar(
+                          SnackBar(content: Text('Processing Data')));
+                    }
+                  },
+                  child: Text("Add"),
+                  color: Colors.red,
+                  textColor: Colors.white,
+                ),
+              ],
+            ),
           ),
         ),
       ),
