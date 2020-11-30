@@ -17,7 +17,7 @@ import 'package:smallorgsys/screens/add_task.dart';
 import 'screens/login.dart';
 import 'package:smallorgsys/screens/evaluate_members.dart';
 
-void main() async {
+void main() {
   runApp(App());
 }
 
