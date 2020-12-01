@@ -92,10 +92,11 @@ class _State extends State<LoginPage> {
                               if (_formkey.currentState.validate()) {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(content: Text('Processing Data')));
+                                Navigator.of(context)
+                                    .pushNamed('/userHomePage');
+                                print(nameController.text);
+                                print(passwordController.text);
                               }
-                              Navigator.of(context).pushNamed('/userHomePage');
-                              print(nameController.text);
-                              print(passwordController.text);
                             },
                           ),
                         ),
@@ -113,10 +114,11 @@ class _State extends State<LoginPage> {
                               if (_formkey.currentState.validate()) {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(content: Text('Processing Data')));
+                                Navigator.of(context)
+                                    .pushNamed('/adminHomePage');
+                                print(nameController.text);
+                                print(passwordController.text);
                               }
-                              Navigator.of(context).pushNamed('/adminHomePage');
-                              print(nameController.text);
-                              print(passwordController.text);
                             },
                           ),
                         ),
@@ -134,10 +136,11 @@ class _State extends State<LoginPage> {
                               if (_formkey.currentState.validate()) {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(content: Text('Processing Data')));
+                                Navigator.of(context)
+                                    .pushNamed('/headHomePage');
+                                print(nameController.text);
+                                print(passwordController.text);
                               }
-                              Navigator.of(context).pushNamed('/headHomePage');
-                              print(nameController.text);
-                              print(passwordController.text);
                             },
                           ),
                         ),

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -54,6 +54,9 @@ class _AddMemberState extends State<AddMember> {
                   ),
                 ),
                 TextFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                  ],
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Please enter some text';
