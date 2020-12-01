@@ -9,11 +9,14 @@ import 'package:smallorgsys/screens/events.dart';
 import 'package:smallorgsys/screens/head_home_page.dart';
 import 'package:smallorgsys/screens/members_page.dart';
 import 'package:smallorgsys/screens/news.dart';
+import 'package:smallorgsys/screens/settings_page.dart';
 import 'package:smallorgsys/screens/news_details.dart';
 import 'package:smallorgsys/screens/speaker_page.dart';
 import 'package:smallorgsys/screens/statistics.dart';
 import 'package:smallorgsys/screens/user_home_page.dart';
+import 'package:smallorgsys/screens/user_bottom_nav.dart';
 import 'package:smallorgsys/screens/add_task.dart';
+import 'package:smallorgsys/screens/settings_page.dart';
 import 'screens/login.dart';
 import 'package:smallorgsys/screens/evaluate_members.dart';
 
@@ -36,7 +39,8 @@ class App extends StatelessWidget {
         '/board': (context) => BoardPage(),
         '/aboutus': (context) => AboutUsPage(),
         '/speakerPage': (context) => SpeakerPage(),
-        '/userHomePage': (context) => UserHomePage(),
+        '/userHomePage': (context) => BottomNav(),
+        '/userBottomNav': (context) => UserHomePage(),
         '/headHomePage': (context) => HeadHomePage(),
         '/membersPage': (context) => Members(),
         '/addTask': (context) => AddTask(),
@@ -44,6 +48,7 @@ class App extends StatelessWidget {
         '/addMember': (context) => AddMember(),
         '/statisticsPage': (context) => StatisticsPage(),
         '/evalMembers': (context) => EvalMembers(),
+        '/settings': (context) => Settings(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

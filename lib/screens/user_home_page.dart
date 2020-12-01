@@ -5,9 +5,6 @@ class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
       body: Center(
           child: ListView(
         children: [
@@ -45,22 +42,35 @@ class UserHomePage extends StatelessWidget {
           homeCard(
               word: 'Attendance Meetings 70%', icon: Icons.pending_actions),
           homeCard(word: 'Attendance Events 90%', icon: Icons.pending_actions),
-          Divider(),
-          Text("Tasks", textAlign: TextAlign.center),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return taskCard(
-                title: "Task $index",
-                description: "Task $index description",
-                checkbox: true,
-              );
-            },
-          ),
+          eventCard(),
         ],
       )),
+    );
+  }
+
+  Widget eventCard() {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+          width: 50,
+          height: 100,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            color: Colors.red,
+            elevation: 10,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const ListTile(
+                  leading: Icon(Icons.event, size: 70),
+                  title: Text('Upcoming Events',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
+          )),
     );
   }
 
@@ -114,18 +124,5 @@ class UserHomePage extends StatelessWidget {
             ),
           ),
         ));
-  }
-
-  Widget taskCard(
-      {@required title, @required description, @required checkbox}) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(description),
-      trailing: Checkbox(
-          value: checkbox,
-          onChanged: (val) {
-            print(val);
-          }),
-    );
   }
 }
