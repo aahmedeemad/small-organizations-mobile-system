@@ -8,7 +8,7 @@ class BoardPage extends StatefulWidget {
 
 class _BoardPageState extends State<BoardPage> {
   @override
-  Widget build(BuildContext context) {
+  /*Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Board'),
@@ -25,6 +25,34 @@ class _BoardPageState extends State<BoardPage> {
         },
       ),
     );
+  }
+  */
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Board'),
+        ),
+        body: Stack(
+          children: <Widget>[
+            Container(color: Colors.black87.withOpacity(0.8)),
+            ClipPath(
+              child: Container(color: Colors.redAccent[700].withOpacity(0.8)),
+              clipper: getClipper(),
+            ),
+            ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return boardWidget(
+                  imagePath:
+                      "https://content.fortune.com/wp-content/uploads/2017/02/506802698.jpg",
+                  name: "Elon Musk",
+                  position: "President",
+                );
+              },
+            ),
+          ],
+        ));
   }
 
   Widget boardWidget(
@@ -60,5 +88,21 @@ class _BoardPageState extends State<BoardPage> {
         ],
       ),
     );
+  }
+}
+
+class getClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
+    path.lineTo(0.0, size.height);
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

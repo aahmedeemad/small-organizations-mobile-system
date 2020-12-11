@@ -9,7 +9,7 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    /*return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
       ),
@@ -22,7 +22,29 @@ class _EventsPageState extends State<EventsPage> {
               i: index);
         },
       ),
-    );
+    );*/
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Events'),
+        ),
+        body: Stack(
+          children: <Widget>[
+            Container(color: Colors.black87.withOpacity(0.8)),
+            ClipPath(
+              child: Container(color: Colors.redAccent[700].withOpacity(0.8)),
+              clipper: getClipper(),
+            ),
+            ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return eventCard(
+                    imagePath:
+                        'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
+                    i: index);
+              },
+            ),
+          ],
+        ));
   }
 
   Widget eventCard({@required imagePath, @required i}) {
@@ -50,5 +72,21 @@ class _EventsPageState extends State<EventsPage> {
         ),
       ),
     );
+  }
+}
+
+class getClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
+    path.lineTo(0.0, size.height);
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

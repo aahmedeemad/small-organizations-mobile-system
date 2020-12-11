@@ -24,7 +24,7 @@ class _DrawerPageState extends State<DrawerPage> {
                 ),
                 Padding(padding: const EdgeInsets.all(10.0)),
                 Text(
-                  'TEDX MIU',
+                  'TEDxMIU',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white),
                 ),

@@ -28,7 +28,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tedx MIU',
+      title: 'TEDxMIU',
       routes: {
         '/': (context) => NewsPage(),
         // '/newsDetails': (context) => NewsDetailsPage(index),
@@ -54,6 +54,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
         primaryColor: Colors.black,
+        //canvasColor: Colors.redAccent[700],
         appBarTheme: AppBarTheme(
           color: Colors.black87,
         ),
