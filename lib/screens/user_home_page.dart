@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    /*return Scaffold(
       body: Center(
           child: ListView(
         children: [
@@ -45,7 +45,58 @@ class UserHomePage extends StatelessWidget {
           eventCard(),
         ],
       )),
-    );
+    );*/
+    return Scaffold(
+        body: Stack(
+      children: <Widget>[
+        Container(color: Colors.black87.withOpacity(0.8)),
+        ClipPath(
+          child: Container(color: Colors.redAccent[700].withOpacity(0.8)),
+          clipper: getClipper(),
+        ),
+        Center(
+            child: ListView(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(25.0),
+                  child: profilePic(),
+                ),
+                Flexible(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Fady Bassel",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        "IT member",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      IconButton(
+                        tooltip: 'Qr Code',
+                        icon: Icon(Icons.qr_code),
+                        iconSize: 30,
+                        onPressed: () {
+                          showQr(context);
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            homeCard(word: ' Tasks Done 30%', icon: Icons.pending_actions),
+            homeCard(
+                word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
+            homeCard(
+                word: ' Attendance Events 90%', icon: Icons.pending_actions),
+            eventCard(),
+          ],
+        )),
+      ],
+    ));
   }
 
   Widget eventCard() {
@@ -124,5 +175,21 @@ class UserHomePage extends StatelessWidget {
             ),
           ),
         ));
+  }
+}
+
+class getClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
+    path.lineTo(0.0, size.height);
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
   }
 }
