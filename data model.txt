@@ -1,0 +1,75 @@
+{
+  "news": {
+    "QAZWSX!@EDC" : {
+      "title" : "news title1",
+      "imagePath" : "https://www.imagepath.com/image1path",
+      "description": "news description1"
+    },
+    
+    "WSXEDC@#RFV" : {
+      "title" : "news title2",
+      "imagePath" : "https://www.imagepath.com/image2path",
+      "description": "news description2"
+    },
+    { ... }
+  },
+  
+  "board": {
+    "PORDTH%@BHG" : {
+      "name" : "board name1",
+      "imagePath" : "https://www.imagepath.com/image1path",
+      "title": "board title1"
+    },
+    
+    "GHTEDV#*UTH" : {
+      "name" : "board name2",
+      "imagePath" : "https://www.imagepath.com/image1path",
+      "title": "board title2"
+    },
+    { ... }
+  },
+  
+  
+  "events" : {
+    "QAZWSX!@EDC" : {
+      "title" : "event title1",
+      "imagePath" : "https://www.imagepath.com/image1path",
+      "date" : "05-01-2021",
+      "locationName" : "MIU",
+      "locationUrl" : "https://maps.com/location",
+      "speakersID" : "ZXCASD*&VBN"
+    },
+    "IUTGHT%$TYF" : {
+      "title" : "event title1",
+      "imagePath" : "https://www.imagepath.com/image2path",
+      "date" : "05-01-2021",
+      "locationName" : "MIU",
+      "locationUrl" : "https://maps.com/location",
+      "speakersID" : "MNBKJH&^YH"
+    },
+    { ... }
+  }
+  
+  "speakers" : {
+    "ZXCASD*&VBN" : {
+      "AHMED MOHAMED" : {
+        "bio" : "bio 1",
+        "imagePath" : "https://www.imagepath.com/image1path",
+        "from" : "09:00AM",
+        "to": "09:30PM",
+        "slogan": "slogan 1",
+        "fullDescription" : "full description 1"
+      },
+      "YOUSSEF ALI" : {
+        "bio" : "bio 1",
+        "imagePath" : "https://www.imagepath.com/image1path",
+        "from" : "09:00AM",
+        "to": "09:30PM",
+        "slogan": "slogan 1",
+        "fullDescription" : "full description 1"
+      },
+      { ... }
+    },
+    { ... }
+  }
+}
