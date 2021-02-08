@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smallorgsys/controllers/news_controller.dart';
+import 'package:smallorgsys/models/news.dart';
 import 'package:smallorgsys/screens/drawer.dart';
 import 'package:smallorgsys/screens/news_details.dart';
 
@@ -8,6 +11,21 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+  // var n = News(title: "1", imagePath: ".com", description: "asd")..news;
+  var _isLoading = true;
+  var providerNewsController;
+  @override
+  void initState() {
+    providerNewsController =
+        Provider.of<NewsController>(context, listen: false);
+    providerNewsController.fetchAndSetNews().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,19 +33,20 @@ class _NewsPageState extends State<NewsPage> {
       appBar: AppBar(
         title: Text('News'),
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return eventCard(
-              imagePath:
-                  'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
-              i: index);
-        },
-      ),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: providerNewsController.news.length,
+              itemBuilder: (context, index) {
+                return eventCard(
+                    imagePath: providerNewsController.news[index].imagePath,
+                    id: providerNewsController.news[index].id);
+              },
+            ),
     );
   }
 
-  Widget eventCard({@required imagePath, @required i}) {
+  Widget eventCard({@required imagePath, @required id}) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: ClipRRect(
@@ -35,12 +54,12 @@ class _NewsPageState extends State<NewsPage> {
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => NewsDetailsPage(i),
+              builder: (context) => NewsDetailsPage(id),
             ));
           },
           child: Card(
             child: Hero(
-              tag: i,
+              tag: id,
               child: Image.network(
                 imagePath,
                 fit: BoxFit.fitWidth,

@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smallorgsys/controllers/news_controller.dart';
+import 'package:smallorgsys/models/news.dart';
 
 class NewsDetailsPage extends StatelessWidget {
-  int index;
-  NewsDetailsPage(this.index);
-
+  final String id;
+  News news;
+  NewsDetailsPage(this.id);
   @override
   Widget build(BuildContext context) {
+    this.news =
+        Provider.of<NewsController>(context, listen: false).findById(this.id);
     return Scaffold(
       appBar: new AppBar(
-        title: new Text('Supernova News'),
+        title: new Text(this.news.title),
       ),
       body: new ListView(
         children: <Widget>[
           Hero(
-            tag: index,
+            tag: id,
             child: new Image.network(
-              'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
+              this.news.imagePath,
               repeat: ImageRepeat.noRepeat,
               fit: BoxFit.fitWidth,
             ),
@@ -28,11 +33,7 @@ class NewsDetailsPage extends StatelessWidget {
           new Padding(
             padding: const EdgeInsets.only(right: 8.0, left: 8.0),
             child: new Text(
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription',
+              this.news.description,
               textAlign: TextAlign.justify,
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
             ),

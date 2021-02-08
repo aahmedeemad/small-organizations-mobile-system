@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:smallorgsys/controllers/news_controller.dart';
+import 'package:smallorgsys/models/news.dart';
 import 'package:smallorgsys/screens/about_us.dart';
 import 'package:smallorgsys/screens/add_member.dart';
 import 'package:smallorgsys/screens/admin_home_page.dart';
@@ -27,40 +30,47 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Tedx MIU',
-      routes: {
-        '/': (context) => NewsPage(),
-        // '/newsDetails': (context) => NewsDetailsPage(index),
-        '/events': (context) => EventsPage(),
-        // '/eventDetails': (context) => EventDetailsPage(),
-        '/login': (context) => LoginPage(),
-        '/adminHomePage': (context) => AdminHomePage(),
-        '/board': (context) => BoardPage(),
-        '/aboutus': (context) => AboutUsPage(),
-        '/speakerPage': (context) => SpeakerPage(),
-        '/userHomePage': (context) => BottomNav(),
-        '/userBottomNav': (context) => UserHomePage(),
-        '/headHomePage': (context) => HeadHomePage(),
-        '/membersPage': (context) => Members(),
-        '/addTask': (context) => AddTask(),
-        '/committeesPage': (context) => CommitteesPage(),
-        '/addMember': (context) => AddMember(),
-        '/statisticsPage': (context) => StatisticsPage(),
-        '/evalMembers': (context) => EvalMembers(),
-        '/settings': (context) => Settings(),
-      },
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        primaryColor: Colors.black,
-        appBarTheme: AppBarTheme(
-          color: Colors.black87,
+    return provider.MultiProvider(
+      providers: [
+        provider.ChangeNotifierProvider.value(
+          value: NewsController(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Tedx MIU',
+        routes: {
+          '/': (context) => NewsPage(),
+          // '/newsDetails': (context) => NewsDetailsPage(index),
+          '/events': (context) => EventsPage(),
+          // '/eventDetails': (context) => EventDetailsPage(),
+          '/login': (context) => LoginPage(),
+          '/adminHomePage': (context) => AdminHomePage(),
+          '/board': (context) => BoardPage(),
+          '/aboutus': (context) => AboutUsPage(),
+          '/speakerPage': (context) => SpeakerPage(),
+          '/userHomePage': (context) => BottomNav(),
+          '/userBottomNav': (context) => UserHomePage(),
+          '/headHomePage': (context) => HeadHomePage(),
+          '/membersPage': (context) => Members(),
+          '/addTask': (context) => AddTask(),
+          '/committeesPage': (context) => CommitteesPage(),
+          '/addMember': (context) => AddMember(),
+          '/statisticsPage': (context) => StatisticsPage(),
+          '/evalMembers': (context) => EvalMembers(),
+          '/settings': (context) => Settings(),
+        },
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+          primaryColor: Colors.black,
+          appBarTheme: AppBarTheme(
+            color: Colors.black87,
+          ),
         ),
+        // theme: ThemeData.light(),
+        // darkTheme: ThemeData.dark(),
+        // home: EventsPage(),
       ),
-      // theme: ThemeData.light(),
-      // darkTheme: ThemeData.dark(),
-      // home: EventsPage(),
     );
   }
 }
