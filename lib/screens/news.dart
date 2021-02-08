@@ -16,9 +16,9 @@ class _NewsPageState extends State<NewsPage> {
   var providerNewsController;
   @override
   void initState() {
-    providerNewsController =
-        Provider.of<NewsController>(context, listen: false);
-    providerNewsController.fetchAndSetNews().then((_) {
+    Provider.of<NewsController>(context, listen: false)
+        .fetchAndSetNews()
+        .then((_) {
       setState(() {
         _isLoading = false;
       });
@@ -26,8 +26,13 @@ class _NewsPageState extends State<NewsPage> {
     super.initState();
   }
 
+  Future<void> _refresh(context) async {
+    await providerNewsController.fetchAndSetNews();
+  }
+
   @override
   Widget build(BuildContext context) {
+    providerNewsController = Provider.of<NewsController>(context);
     return Scaffold(
       drawer: DrawerPage(),
       appBar: AppBar(
@@ -35,13 +40,16 @@ class _NewsPageState extends State<NewsPage> {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: providerNewsController.news.length,
-              itemBuilder: (context, index) {
-                return eventCard(
-                    imagePath: providerNewsController.news[index].imagePath,
-                    id: providerNewsController.news[index].id);
-              },
+          : RefreshIndicator(
+              onRefresh: () => _refresh(context),
+              child: ListView.builder(
+                itemCount: providerNewsController.news.length,
+                itemBuilder: (context, index) {
+                  return eventCard(
+                      imagePath: providerNewsController.news[index].imagePath,
+                      id: providerNewsController.news[index].id);
+                },
+              ),
             ),
     );
   }
