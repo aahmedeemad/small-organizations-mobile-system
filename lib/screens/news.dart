@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/controllers/news_controller.dart';
 import 'package:smallorgsys/models/news.dart';
 import 'package:smallorgsys/screens/drawer.dart';
 import 'package:smallorgsys/screens/news_details.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class NewsPage extends StatefulWidget {
   @override
@@ -68,10 +71,19 @@ class _NewsPageState extends State<NewsPage> {
           child: Card(
             child: Hero(
               tag: id,
-              child: Image.network(
-                imagePath,
-                fit: BoxFit.fitWidth,
+              child: CachedNetworkImage(
+                imageUrl: imagePath,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: Container(
+                    color: Colors.white,
+                  ),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
                 height: 160,
+                fit: BoxFit.fitWidth,
               ),
             ),
           ),

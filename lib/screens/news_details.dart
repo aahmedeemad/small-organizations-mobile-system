@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/controllers/news_controller.dart';
 import 'package:smallorgsys/models/news.dart';
 
@@ -19,10 +21,19 @@ class NewsDetailsPage extends StatelessWidget {
         children: <Widget>[
           Hero(
             tag: id,
-            child: new Image.network(
-              this.news.imagePath,
-              repeat: ImageRepeat.noRepeat,
+            child: CachedNetworkImage(
+              imageUrl: this.news.imagePath,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                child: Container(
+                  color: Colors.white,
+                ),
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.fitWidth,
+              repeat: ImageRepeat.noRepeat,
             ),
           ),
           new Padding(padding: const EdgeInsets.all(5.0)),
