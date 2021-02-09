@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/controllers/news_controller.dart';
-import 'package:smallorgsys/models/news.dart';
 import 'package:smallorgsys/screens/drawer.dart';
 import 'package:smallorgsys/screens/news_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';

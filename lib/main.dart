@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:smallorgsys/controllers/event_controller.dart';
 import 'package:smallorgsys/controllers/news_controller.dart';
-import 'package:smallorgsys/models/news.dart';
+import 'package:smallorgsys/controllers/speakers_controller.dart';
 import 'package:smallorgsys/screens/about_us.dart';
 import 'package:smallorgsys/screens/add_member.dart';
 import 'package:smallorgsys/screens/admin_home_page.dart';
 import 'package:smallorgsys/screens/board.dart';
 import 'package:smallorgsys/screens/committees.dart';
-import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/screens/events.dart';
 import 'package:smallorgsys/screens/head_home_page.dart';
 import 'package:smallorgsys/screens/members_page.dart';
 import 'package:smallorgsys/screens/news.dart';
 import 'package:smallorgsys/screens/settings_page.dart';
-import 'package:smallorgsys/screens/news_details.dart';
 import 'package:smallorgsys/screens/speaker_page.dart';
 import 'package:smallorgsys/screens/statistics.dart';
 import 'package:smallorgsys/screens/user_home_page.dart';
 import 'package:smallorgsys/screens/user_bottom_nav.dart';
 import 'package:smallorgsys/screens/add_task.dart';
-import 'package:smallorgsys/screens/settings_page.dart';
 import 'screens/login.dart';
 import 'package:smallorgsys/screens/evaluate_members.dart';
 
@@ -34,7 +32,13 @@ class App extends StatelessWidget {
       providers: [
         provider.ChangeNotifierProvider.value(
           value: NewsController(),
-        )
+        ),
+        provider.ChangeNotifierProvider.value(
+          value: EventsController(),
+        ),
+        provider.ChangeNotifierProvider.value(
+          value: SpeakersController(),
+        ),
       ],
       child: MaterialApp(
         title: 'Tedx MIU',

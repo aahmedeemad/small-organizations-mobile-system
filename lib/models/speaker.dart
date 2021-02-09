@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Speaker {
+  final String id;
   final String name;
   final String bio;
   final String imagePath;
@@ -9,12 +10,13 @@ class Speaker {
   String slogan;
   final String fullDescription;
   Speaker({
+    this.id,
     @required this.name,
     @required this.bio,
     @required this.imagePath,
     @required this.from,
     @required this.to,
-    @required this.fullDescription,
+    this.fullDescription,
     this.slogan,
   });
 }

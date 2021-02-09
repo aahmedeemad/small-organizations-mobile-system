@@ -1,30 +1,64 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:smallorgsys/controllers/event_controller.dart';
+import 'package:smallorgsys/controllers/speakers_controller.dart';
+import 'package:smallorgsys/models/event.dart';
+import 'package:smallorgsys/screens/speaker_page.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class EventDetailsPage extends StatefulWidget {
-  int index;
-  EventDetailsPage(this.index);
+  final String id;
+  Event event;
+  EventDetailsPage(this.id);
 
   @override
   _EventDetailsPageState createState() => _EventDetailsPageState();
 }
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
+  var _isLoading = true;
+  var providerSpeakersController;
+  @override
+  void initState() {
+    Provider.of<SpeakersController>(context, listen: false)
+        .fetchAndSetSpeakers(widget.id)
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    providerSpeakersController =
+        Provider.of<SpeakersController>(context, listen: false);
+    widget.event = Provider.of<EventsController>(context, listen: false)
+        .findById(widget.id);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Supernova'),
+        title: Text(widget.event.title),
       ),
       body: ListView(
         children: <Widget>[
           Hero(
-            tag: widget.index,
-            child: Image.network(
-              'https://pi.tedcdn.com/r/www.filepicker.io/api/file/vCGCek3NTu7SNHe4tcZv?quality=90&w=260',
-              repeat: ImageRepeat.noRepeat,
+            tag: widget.id,
+            child: CachedNetworkImage(
+              imageUrl: widget.event.imagePath,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                child: Container(
+                  color: Colors.white,
+                ),
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.fitWidth,
+              repeat: ImageRepeat.noRepeat,
             ),
           ),
           SizedBox(height: 10.0, width: 10.0),
@@ -38,7 +72,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       children: <Widget>[
                         Icon(Icons.date_range),
                         Text(
-                          '20-10-2020',
+                          widget.event.date,
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold),
                         ),
@@ -56,10 +90,10 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                         Icon(Icons.location_on),
                         InkWell(
                           onTap: () {
-                            _launchUrl();
+                            _launchUrl(widget.event.locationUrl);
                           },
                           child: Text(
-                            'MIU',
+                            widget.event.locationName,
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -79,11 +113,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           Padding(
             padding: const EdgeInsets.only(right: 8.0, left: 8.0),
             child: new Text(
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription'
-              'descriptiondescriptiondescriptiondescriptiondescription',
+              widget.event.description,
               textAlign: TextAlign.justify,
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
             ),
@@ -102,37 +132,44 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               ],
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return speaker(
-                imagePath:
-                    'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                    'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
-                name: 'Mark Refaat',
-                bio: 'BioBioBioBioBioBioBioBioBio'
-                    'BioBioBioBioBioBioBioBioBioBioBioBioBioBioBio',
-                from: '08:00AM',
-                to: '09:00AM',
-              );
-            },
-          ),
+          _isLoading
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemCount: providerSpeakersController.speakers.length,
+                  itemBuilder: (context, index) {
+                    return speaker(
+                      id: providerSpeakersController.speakers[index].id,
+                      imagePath:
+                          providerSpeakersController.speakers[index].imagePath,
+                      name: providerSpeakersController.speakers[index].name,
+                      bio: providerSpeakersController.speakers[index].bio,
+                      from: providerSpeakersController.speakers[index].from,
+                      to: providerSpeakersController.speakers[index].to,
+                    );
+                  },
+                ),
         ],
       ),
     );
   }
 
   Widget speaker(
-      {@required imagePath,
+      {@required id,
+      @required imagePath,
       @required name,
       @required bio,
       @required from,
       @required to}) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/speakerPage');
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => SpeakerPage(
+            speakerID: id,
+          ),
+        ));
+        // Navigator.of(context).pushNamed('/speakerPage');
       },
       child: new Card(
         child: new ListTile(
@@ -155,8 +192,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     );
   }
 
-  void _launchUrl() async {
-    if (await launcher.canLaunch('https://goo.gl/maps/7zPhKwbhbqyBnPYU6'))
-      await launcher.launch('https://goo.gl/maps/7zPhKwbhbqyBnPYU6');
+  void _launchUrl(url) async {
+    if (await launcher.canLaunch(url)) await launcher.launch(url);
   }
 }
