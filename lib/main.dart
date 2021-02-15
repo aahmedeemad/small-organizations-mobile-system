@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:smallorgsys/controllers/board_controller.dart';
-import 'package:smallorgsys/controllers/events_controller.dart';
+import 'package:smallorgsys/controllers/event_controller.dart';
 import 'package:smallorgsys/controllers/news_controller.dart';
 import 'package:smallorgsys/controllers/speakers_controller.dart';
 import 'package:smallorgsys/screens/about_us.dart';
