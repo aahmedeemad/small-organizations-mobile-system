@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:smallorgsys/controllers/board_controller.dart';
-import 'package:smallorgsys/controllers/event_controller.dart';
-import 'package:smallorgsys/controllers/news_controller.dart';
-import 'package:smallorgsys/controllers/speakers_controller.dart';
-import 'package:smallorgsys/controllers/users_controller.dart';
-import 'package:smallorgsys/controllers/tasks_controller.dart';
+import 'package:smallorgsys/providers/board_provider.dart';
+import 'package:smallorgsys/providers/event_provider.dart';
+import 'package:smallorgsys/providers/news_provider.dart';
+import 'package:smallorgsys/providers/speakers_provider.dart';
+import 'package:smallorgsys/providers/tasks_provider.dart';
 import 'package:smallorgsys/screens/about_us.dart';
 import 'package:smallorgsys/screens/add_member.dart';
 import 'package:smallorgsys/screens/admin_home_page.dart';
@@ -44,9 +43,6 @@ class App extends StatelessWidget {
         ),
         provider.ChangeNotifierProvider.value(
           value: BoardController(),
-        ),
-        provider.ChangeNotifierProvider.value(
-          value: UsersController(),
         ),
         provider.ChangeNotifierProvider.value(
           value: TasksController(),

@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:smallorgsys/controllers/news_controller.dart';
 import 'package:smallorgsys/models/news.dart';
+import 'package:smallorgsys/providers/news_provider.dart';
 
 class NewsDetailsPage extends StatelessWidget {
   final String id;

@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:smallorgsys/controllers/event_controller.dart';
-import 'package:smallorgsys/controllers/speakers_controller.dart';
 import 'package:smallorgsys/models/event.dart';
+import 'package:smallorgsys/providers/event_provider.dart';
+import 'package:smallorgsys/providers/speakers_provider.dart';
 import 'package:smallorgsys/screens/speaker_page.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 

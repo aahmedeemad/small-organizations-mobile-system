@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:smallorgsys/controllers/users_controller.dart';
+import 'package:smallorgsys/providers/users_provider.dart';
 import 'package:smallorgsys/screens/drawer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -51,7 +51,6 @@ class Members extends StatefulWidget {
 }
 
 class _MembersPageState extends State<Members> {
-
   var _isLoading = true;
   var providerUsersController;
   @override

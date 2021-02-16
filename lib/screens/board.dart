@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:smallorgsys/controllers/board_controller.dart';
+import 'package:smallorgsys/providers/board_provider.dart';
 
 class BoardPage extends StatefulWidget {
   BoardPage();
