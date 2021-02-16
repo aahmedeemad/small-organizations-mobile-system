@@ -4,6 +4,7 @@ import 'package:smallorgsys/controllers/board_controller.dart';
 import 'package:smallorgsys/controllers/event_controller.dart';
 import 'package:smallorgsys/controllers/news_controller.dart';
 import 'package:smallorgsys/controllers/speakers_controller.dart';
+import 'package:smallorgsys/controllers/users_controller.dart';
 import 'package:smallorgsys/screens/about_us.dart';
 import 'package:smallorgsys/screens/add_member.dart';
 import 'package:smallorgsys/screens/admin_home_page.dart';
@@ -42,6 +43,9 @@ class App extends StatelessWidget {
         ),
         provider.ChangeNotifierProvider.value(
           value: BoardController(),
+        ),
+        provider.ChangeNotifierProvider.value(
+          value: UsersController(),
         ),
       ],
       child: MaterialApp(
