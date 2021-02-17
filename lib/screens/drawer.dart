@@ -47,37 +47,27 @@ class _DrawerPageState extends State<DrawerPage> {
           Divider(),
           drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
           Divider(),
-          InkWell(
-            child: Consumer<Auth>(
-              builder: (ctx, auth, _) => ListTile(
-                title: Text(auth.isAuth ? "Profile" : "Login"),
-                leading: Icon(auth.isAuth ? Icons.home : Icons.login),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(new MaterialPageRoute(builder: (context) {
-                    return auth.isAuth
-                        ? BottomNav()
-                        : FutureBuilder(
-                            future: auth.autoLogin(),
-                            builder: (ctx, autResSnapshot) {
-                              if (autResSnapshot.data == true)
-                                return BottomNav();
-                              else if (autResSnapshot.connectionState ==
-                                  ConnectionState.waiting)
-                                return CircularProgressIndicator();
-                              else
-                                return LoginPage();
-                            });
-                  }));
-                  // auth.isAuth
-                  //     ? Navigator.of(context).pushNamed('/userHomePage')
-                  //     : Navigator.of(context).pushNamed('/login');
-                },
-              ),
-            ),
+          Consumer<Auth>(
+            builder: (ctx, auth, _) => auth.isAuth
+                ? drawerTile(
+                    title: 'Profile', icon: Icons.home, route: '/userHomePage')
+                : FutureBuilder(
+                    future: auth.autoLogin(),
+                    builder: (ctx, autResSnapshot) {
+                      if (autResSnapshot.data == true) {
+                        return drawerTile(
+                            title: 'Profile',
+                            icon: Icons.home,
+                            route: '/userHomePage');
+                      } else if (autResSnapshot.connectionState ==
+                          ConnectionState.waiting)
+                        return CircularProgressIndicator();
+                      else
+                        return drawerTile(
+                            title: 'Login', icon: Icons.login, route: '/login');
+                    },
+                  ),
           ),
-
-          // drawerTile(title: 'Login', icon: Icons.login, route: '/login'),
         ],
       ),
     );
