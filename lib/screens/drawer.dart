@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smallorgsys/providers/auth.dart';
+import 'package:smallorgsys/screens/login.dart';
+import 'package:smallorgsys/screens/user_bottom_nav.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -6,8 +10,10 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
+  // var authProvider;
   @override
   Widget build(BuildContext context) {
+    // authProvider = Provider.of<Auth>(context);
     return Drawer(
       child: ListView(
         children: [
@@ -41,7 +47,37 @@ class _DrawerPageState extends State<DrawerPage> {
           Divider(),
           drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
           Divider(),
-          drawerTile(title: 'Login', icon: Icons.login, route: '/login'),
+          InkWell(
+            child: Consumer<Auth>(
+              builder: (ctx, auth, _) => ListTile(
+                title: Text(auth.isAuth ? "Profile" : "Login"),
+                leading: Icon(auth.isAuth ? Icons.home : Icons.login),
+                onTap: () {
+                  Navigator.of(context)
+                      .push(new MaterialPageRoute(builder: (context) {
+                    return auth.isAuth
+                        ? BottomNav()
+                        : FutureBuilder(
+                            future: auth.autoLogin(),
+                            builder: (ctx, autResSnapshot) {
+                              if (autResSnapshot.data == true)
+                                return BottomNav();
+                              else if (autResSnapshot.connectionState ==
+                                  ConnectionState.waiting)
+                                return CircularProgressIndicator();
+                              else
+                                return LoginPage();
+                            });
+                  }));
+                  // auth.isAuth
+                  //     ? Navigator.of(context).pushNamed('/userHomePage')
+                  //     : Navigator.of(context).pushNamed('/login');
+                },
+              ),
+            ),
+          ),
+
+          // drawerTile(title: 'Login', icon: Icons.login, route: '/login'),
         ],
       ),
     );
