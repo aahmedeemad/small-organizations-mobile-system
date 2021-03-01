@@ -15,12 +15,20 @@ class _NewsPageState extends State<NewsPage> {
   // var n = News(title: "1", imagePath: ".com", description: "asd")..news;
   var _isLoading = true;
   var providerNewsController;
+  var _isConnected = true;
+
   @override
   void initState() {
     Provider.of<NewsController>(context, listen: false)
         .fetchAndSetNews()
         .then((_) {
       setState(() {
+        if (Provider.of<NewsController>(context, listen: false).status ==
+            "provider not connected") {
+          _isConnected = false;
+        } else {
+          _isConnected = true;
+        }
         _isLoading = false;
       });
     });
@@ -28,7 +36,19 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   Future<void> _refresh(context) async {
-    await providerNewsController.fetchAndSetNews();
+    Provider.of<NewsController>(context, listen: false)
+        .fetchAndSetNews()
+        .then((_) {
+      setState(() {
+        if (Provider.of<NewsController>(context, listen: false).status ==
+            "provider not connected") {
+          _isConnected = false;
+        } else {
+          _isConnected = true;
+        }
+        _isLoading = false;
+      });
+    });
   }
 
   @override
@@ -39,17 +59,31 @@ class _NewsPageState extends State<NewsPage> {
       appBar: AppBar(
         title: Text('News'),
       ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () => _refresh(context),
-              child: ListView.builder(
-                itemCount: providerNewsController.news.length,
-                itemBuilder: (context, index) {
-                  return eventCard(
-                      imagePath: providerNewsController.news[index].imagePath,
-                      id: providerNewsController.news[index].id);
-                },
+      body: _isConnected
+          ? _isLoading
+              ? Center(child: CircularProgressIndicator())
+              : RefreshIndicator(
+                  onRefresh: () => _refresh(context),
+                  child: ListView.builder(
+                    itemCount: providerNewsController.news.length,
+                    itemBuilder: (context, index) {
+                      return eventCard(
+                          imagePath:
+                              providerNewsController.news[index].imagePath,
+                          id: providerNewsController.news[index].id);
+                    },
+                  ),
+                )
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Please check your network connection!'),
+                  RaisedButton(
+                    child: Text("Retry"),
+                    onPressed: () => _refresh(context),
+                  )
+                ],
               ),
             ),
     );
