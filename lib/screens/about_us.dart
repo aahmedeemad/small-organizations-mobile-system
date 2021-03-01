@@ -5,19 +5,18 @@ class AboutUsPage extends StatefulWidget {
   @override
   _AboutUsPageState createState() => _AboutUsPageState();
 }
+
 class _AboutUsPageState extends State<AboutUsPage> {
-    GoogleMapController mapController;
+  GoogleMapController mapController;
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('About us'),
@@ -30,8 +29,8 @@ class _AboutUsPageState extends State<AboutUsPage> {
           //   zoom: 11.0,
           // ),
           //   ),
-         
-        SafeArea(
+
+          SafeArea(
         child: Column(
           children: [
             Image.asset(
@@ -42,16 +41,9 @@ class _AboutUsPageState extends State<AboutUsPage> {
             ),
             dataText(),
           ],
-        
-        ), 
+        ),
       ),
-      
-      
-          
-      
-      )
-      );
-    
+    );
   }
 
   Widget dataText() {
@@ -72,6 +64,3 @@ class _AboutUsPageState extends State<AboutUsPage> {
     );
   }
 }
-
-
-
