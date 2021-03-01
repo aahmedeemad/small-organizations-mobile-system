@@ -36,6 +36,7 @@ dependencies:
   snaplist: ^0.1.8
   url_launcher:
   google_maps_flutter: ^1.0.3
+  firebase_messaging: ^7.0.3
 
 dev_dependencies:
   flutter_test:
