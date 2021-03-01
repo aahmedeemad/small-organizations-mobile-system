@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class AboutUsPage extends StatelessWidget {
+class AboutUsPage extends StatefulWidget {
+  @override
+  _AboutUsPageState createState() => _AboutUsPageState();
+}
+class _AboutUsPageState extends State<AboutUsPage> {
+    GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('About us'),
       ),
-      body: SafeArea(
+      body:
+          //   GoogleMap(
+          // onMapCreated: _onMapCreated,
+          // initialCameraPosition: CameraPosition(
+          //   target: _center,
+          //   zoom: 11.0,
+          // ),
+          //   ),
+         
+        SafeArea(
         child: Column(
           children: [
             Image.asset(
@@ -19,9 +42,16 @@ class AboutUsPage extends StatelessWidget {
             ),
             dataText(),
           ],
-        ),
+        
+        ), 
       ),
-    );
+      
+      
+          
+      
+      )
+      );
+    
   }
 
   Widget dataText() {
@@ -42,3 +72,6 @@ class AboutUsPage extends StatelessWidget {
     );
   }
 }
+
+
+
