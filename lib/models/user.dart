@@ -12,6 +12,7 @@ class User {
   final String token;
   final String imagePath;
   final String phone;
+  final int rating;
 
   // final List<Task> task;
   User({
@@ -26,6 +27,7 @@ class User {
     @required this.token,
     @required this.imagePath,
     @required this.phone,
+    @required this.rating,
   });
 
   Map<String, dynamic> toJson() {
@@ -41,6 +43,7 @@ class User {
       'joinAt': this.joinAt,
       'committee': this.committee,
       'phone': this.phone,
+      'rating': this.rating,
     };
   }
 }

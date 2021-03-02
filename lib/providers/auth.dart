@@ -81,18 +81,18 @@ class Auth with ChangeNotifier {
           'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/${responseData['localId']}.json');
       final dbData = jsonDecode(response1.body) as Map<String, dynamic>;
       _user = User(
-        name: dbData['name'],
-        leftAt: dbData['leftAt'],
-        joinAt: dbData['joinAt'],
-        birthDate: dbData['birthDate'],
-        committee: dbData['committee'],
-        imagePath: dbData['imagePath'],
-        privilege: dbData['privilege'],
-        id: responseData['localId'],
-        email: responseData['email'],
-        token: responseData['idToken'],
-        phone: dbData['phone'],
-      );
+          name: dbData['name'],
+          leftAt: dbData['leftAt'],
+          joinAt: dbData['joinAt'],
+          birthDate: dbData['birthDate'],
+          committee: dbData['committee'],
+          imagePath: dbData['imagePath'],
+          privilege: dbData['privilege'],
+          id: responseData['localId'],
+          email: responseData['email'],
+          token: responseData['idToken'],
+          phone: dbData['phone'],
+          rating: dbData['rating']);
 
       print("_user " + _user.name);
 
@@ -127,18 +127,18 @@ class Auth with ChangeNotifier {
     print("//Auto Login $savedUserData");
     try {
       _user = User(
-        id: savedUserData['id'],
-        birthDate: savedUserData['birthDate'],
-        committee: savedUserData['committee'],
-        email: savedUserData['email'],
-        imagePath: savedUserData['imagePath'],
-        joinAt: savedUserData['joinAt'],
-        leftAt: savedUserData['leftAt'],
-        name: savedUserData['name'],
-        phone: savedUserData['phone'],
-        privilege: savedUserData['privilege'],
-        token: savedUserData['token'],
-      );
+          id: savedUserData['id'],
+          birthDate: savedUserData['birthDate'],
+          committee: savedUserData['committee'],
+          email: savedUserData['email'],
+          imagePath: savedUserData['imagePath'],
+          joinAt: savedUserData['joinAt'],
+          leftAt: savedUserData['leftAt'],
+          name: savedUserData['name'],
+          phone: savedUserData['phone'],
+          privilege: savedUserData['privilege'],
+          token: savedUserData['token'],
+          rating: savedUserData['rating']);
       notifyListeners();
     } on Exception catch (e) {
       print(e.toString());
