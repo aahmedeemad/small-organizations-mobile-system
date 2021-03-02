@@ -1,42 +1,40 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:smallorgsys/models/http_exception.dart';
+import 'package:smallorgsys/models/user.dart';
 
 class Auth with ChangeNotifier {
-  String _token;
-  DateTime _expiryDate;
-  String _userId;
-  String _userName;
-  String _email;
+  User _user;
 
-  Timer _authTimer;
+  User get user {
+    return _user;
+  }
 
   bool get isAuth {
     return token != null;
   }
 
   String get userId {
-    return _userId;
+    return _user.id;
   }
 
   String get userName {
-    return _userName;
+    return _user.name;
   }
 
   String get email {
-    return _email;
+    return _user.email;
   }
 
   String get token {
-    if (_expiryDate != null &&
-        _expiryDate.isAfter(DateTime.now()) &&
-        _token != null) {
-      return _token;
+    if (_user?.token != null) {
+      return _user.token;
     }
     return null;
   }
@@ -52,44 +50,60 @@ class Auth with ChangeNotifier {
           {
             'email': email,
             'password': password,
-            'returnSecureToken': true,
+            'returnSecureToken': false,
           },
         ),
       );
-      print(response);
+      log(response.body);
       final responseData = json.decode(response.body);
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
 
-      _token = responseData['idToken'];
-      _userId = responseData['localId'];
+      // http.put(
+      //   'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/${responseData['localId']}.json',
+      //   body: json.encode(
+      //     {
+      //       'name': "Mark Refaat",
+      //       'imagePath':
+      //           "https://st.depositphotos.com/1269204/1219/i/600/depositphotos_12196477-stock-photo-smiling-men-isolated-on-the.jpg",
+      //       'committee': "IT",
+      //       'joinAt': "2017",
+      //       'leftAt': "2020",
+      //       'privilege': "member",
+      //       'birthDate': '24-05-1999',
+      //       'phone': '01278249244'
+      //     },
+      //   ),
+      // );
 
-      _email = responseData['email'];
-      _userName = _email.substring(0, _email.indexOf('@'));
-      print('/////Test $_userName');
-      if (_userId == null) {
+      final response1 = await http.get(
+          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/${responseData['localId']}.json');
+      final dbData = jsonDecode(response1.body) as Map<String, dynamic>;
+      _user = User(
+        name: dbData['name'],
+        leftAt: dbData['leftAt'],
+        joinAt: dbData['joinAt'],
+        birthDate: dbData['birthDate'],
+        committee: dbData['committee'],
+        imagePath: dbData['imagePath'],
+        privilege: dbData['privilege'],
+        id: responseData['localId'],
+        email: responseData['email'],
+        token: responseData['idToken'],
+        phone: dbData['phone'],
+      );
+
+      print("_user " + _user.name);
+
+      if (_user.id == null) {
         throw HttpException('User ID is null');
       }
-      _expiryDate = DateTime.now().add(
-        Duration(
-          seconds: int.parse(
-            responseData['expiresIn'],
-          ),
-        ),
-      );
-      print('Auth, User id is : $_userId');
+      print('Auth, User id is : ${_user.id}');
       //print('Auth, Token is : $_token');
-      print('Auth, _expiryDate is : $_expiryDate');
-      _autoLogout();
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
-      final userData = json.encode({
-        'token': _token,
-        'userId': _userId,
-        'expiryDate': _expiryDate.toIso8601String(),
-      });
-      prefs.setString('user_data', userData);
+      prefs.setString('user_data', json.encode(_user.toJson()));
     } catch (error) {
       throw error;
     }
@@ -100,6 +114,8 @@ class Auth with ChangeNotifier {
   }
 
   Future<bool> autoLogin() async {
+    if (isAuth) return true;
+    // return Future.value(false);
     final prefs = await SharedPreferences.getInstance();
     print("prefs.containsKey('user_data') ${prefs.containsKey('user_data')}");
     if (!prefs.containsKey('user_data')) {
@@ -108,43 +124,33 @@ class Auth with ChangeNotifier {
     final savedUserData =
         json.decode(prefs.getString('user_data')) as Map<String, dynamic>;
 
-    _expiryDate = DateTime.parse(savedUserData['expiryDate']);
-    if (_expiryDate.isBefore(DateTime.now())) {
-      print("Auto Login Date Check failed");
-      return false;
-    }
-
     print("//Auto Login $savedUserData");
     try {
-      _token = savedUserData['token'];
-      _userId = savedUserData['userId'];
+      _user = User(
+        id: savedUserData['id'],
+        birthDate: savedUserData['birthDate'],
+        committee: savedUserData['committee'],
+        email: savedUserData['email'],
+        imagePath: savedUserData['imagePath'],
+        joinAt: savedUserData['joinAt'],
+        leftAt: savedUserData['leftAt'],
+        name: savedUserData['name'],
+        phone: savedUserData['phone'],
+        privilege: savedUserData['privilege'],
+        token: savedUserData['token'],
+      );
       notifyListeners();
     } on Exception catch (e) {
       print(e.toString());
     }
-    print('Test: $_token');
-    print('_expiryDate: $_expiryDate');
     return true;
   }
 
   Future<void> logout() async {
-    _token = null;
-    _expiryDate = null;
-    _userId = null;
-    _email = null;
-    _userName = null;
-    _authTimer?.cancel();
+    _user = null;
 
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
-  }
-
-  void _autoLogout() {
-    if (_authTimer != null) {
-      _authTimer.cancel();
-    }
-    //final timeInSeconds = _expiryDate.difference(DateTime.now()).inSeconds;
-    _authTimer = Timer(_expiryDate.difference(DateTime.now()), logout);
   }
 }

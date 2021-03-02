@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:smallorgsys/providers/auth.dart';
 
 class AdminHomePage extends StatefulWidget {
   @override
@@ -12,7 +14,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin Home Page'),
-        actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
+        actions: [
+          IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed('/');
+                Provider.of<Auth>(context, listen: false).logout();
+              })
+        ],
       ),
       body: Container(
         child: Padding(

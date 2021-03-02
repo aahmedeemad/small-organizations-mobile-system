@@ -53,7 +53,16 @@ class _LoginPageState extends State<LoginPage> {
         emailController.text,
         passwordController.text,
       );
-      Navigator.of(context).pushNamed('/userHomePage');
+      if (Provider.of<Auth>(context, listen: false).user.privilege ==
+          "member") {
+        Navigator.of(context).pushNamed('/userHomePage');
+      } else if (Provider.of<Auth>(context, listen: false).user.privilege ==
+          "head") {
+        Navigator.of(context).pushNamed('/headHomePage');
+      } else if (Provider.of<Auth>(context, listen: false).user.privilege ==
+          "admin") {
+        Navigator.of(context).pushNamed('/adminHomePage');
+      }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
