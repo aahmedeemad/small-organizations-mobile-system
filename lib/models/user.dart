@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smallorgsys/models/task.dart';
 
 class User {
   final String id;
@@ -14,7 +15,7 @@ class User {
   final String phone;
   final int rating;
 
-  // final List<Task> task;
+  List<Task> tasks = [];
   User({
     @required this.id,
     @required this.name,
@@ -28,6 +29,7 @@ class User {
     @required this.imagePath,
     @required this.phone,
     @required this.rating,
+    // this.tasks,
   });
 
   Map<String, dynamic> toJson() {
@@ -44,6 +46,7 @@ class User {
       'committee': this.committee,
       'phone': this.phone,
       'rating': this.rating,
+      // 'tasks': this.tasks.map((i) => i.toJson()).toList(),
     };
   }
 }

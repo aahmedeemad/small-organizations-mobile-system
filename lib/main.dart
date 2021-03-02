@@ -49,9 +49,9 @@ class App extends StatelessWidget {
         provider.ChangeNotifierProvider.value(
           value: BoardController(),
         ),
-        provider.ChangeNotifierProvider.value(
-          value: TasksController(),
-        ),
+        // provider.ChangeNotifierProvider.value(
+        //   value: TasksController(),
+        // ),
       ],
       child: MaterialApp(
         title: 'Tedx MIU',

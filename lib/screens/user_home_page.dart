@@ -13,53 +13,112 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
+  int totalAtendedEvents = 0;
+
+  @override
+  void initState() {
+    Provider.of<Auth>(context, listen: false)
+        .getTotalAtendedEvents()
+        .then((res) {
+      if (res['success']) {
+        setState(() {
+          totalAtendedEvents = res['totalAtendedEvents'];
+        });
+      }
+    });
+    super.initState();
+  }
+
   Uint8List bytes = Uint8List(0);
   User user;
   @override
   Widget build(BuildContext context) {
     user = Provider.of<Auth>(context).user;
     return Scaffold(
-      body: Center(
-        child: ListView(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(25.0),
-                  child: profilePic(),
+      body: ListView(
+        children: [
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(25.0),
+                child: profilePic(),
+              ),
+              Flexible(
+                child: Column(
+                  children: [
+                    Text(
+                      user.name,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      user.committee + " " + user.privilege,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    IconButton(
+                      tooltip: 'Qr Code',
+                      icon: Icon(Icons.qr_code),
+                      iconSize: 30,
+                      onPressed: () {
+                        showQr(context);
+                      },
+                    ),
+                  ],
                 ),
-                Flexible(
-                  child: Column(
-                    children: [
-                      Text(
-                        user.name,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        user.committee + " " + user.privilege,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      IconButton(
-                        tooltip: 'Qr Code',
-                        icon: Icon(Icons.qr_code),
-                        iconSize: 30,
-                        onPressed: () {
-                          showQr(context);
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              ],
+              )
+            ],
+          ),
+          homeCard(word: ' Tasks done 30%', icon: Icons.pending_actions),
+          // homeCard(
+          //     word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
+          homeCard(
+              word: ' Attend $totalAtendedEvents Events ', icon: Icons.event),
+          eventCard(),
+          SizedBox(height: 15),
+          Divider(thickness: 1),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              "Your Information",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  .copyWith(color: Colors.grey[600]),
             ),
-            homeCard(word: ' Tasks done 30%', icon: Icons.pending_actions),
-            homeCard(
-                word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
-            homeCard(
-                word: ' Attendance Events 90%', icon: Icons.pending_actions),
-            eventCard(),
-          ],
-        ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              user.email,
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Joined At ${user.joinAt}",
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              user.phone,
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Your rating " + user.rating.toString() + "/5",
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
+        ],
       ),
     );
   }

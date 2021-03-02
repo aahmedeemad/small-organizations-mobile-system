@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 
 class Task {
+  final String id;
   final String title;
-  final int assignedto;
   final String description;
-  final int assignedby;
-  final bool status;
+  bool status;
   Task({
+    @required this.id,
     @required this.title,
-    @required this.assignedto,
     @required this.description,
-    @required this.assignedby,
     @required this.status,
   });
+
+  toJson() {
+    return {
+      'id': this.id,
+      'title': this.title,
+      'description': this.description,
+      'status': this.status,
+    };
+  }
 }
