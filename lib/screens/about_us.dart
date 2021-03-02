@@ -7,13 +7,6 @@ class AboutUsPage extends StatefulWidget {
 }
 
 class _AboutUsPageState extends State<AboutUsPage> {
-  GoogleMapController mapController;
-
-  final LatLng _center = const LatLng(45.521563, -122.677433);
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,16 +14,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
         backgroundColor: Colors.black,
         title: Text('About us'),
       ),
-      body:
-          //   GoogleMap(
-          // onMapCreated: _onMapCreated,
-          // initialCameraPosition: CameraPosition(
-          //   target: _center,
-          //   zoom: 11.0,
-          // ),
-          //   ),
-
-          SafeArea(
+      body: SafeArea(
         child: Column(
           children: [
             Image.asset(

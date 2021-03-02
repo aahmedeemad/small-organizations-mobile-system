@@ -9,6 +9,8 @@ class Event {
   final String date;
   final String locationName;
   final String locationUrl;
+  final double longitude;
+  final double latitude;
   final List<Speaker> speakers;
   Event({
     this.id,
@@ -18,6 +20,8 @@ class Event {
     @required this.description,
     @required this.locationName,
     @required this.locationUrl,
+    @required this.longitude,
+    @required this.latitude,
     this.speakers,
   });
 }

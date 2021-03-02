@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/screens/event_details.dart';
+import 'package:smallorgsys/models/event.dart';
 
 class EventsPage extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class EventsPage extends StatefulWidget {
 
 class _EventsPageState extends State<EventsPage> {
   var _isLoading = true;
-  var providerEventsController;
+  EventsController providerEventsController;
   @override
   void initState() {
     Provider.of<EventsController>(context, listen: false)
@@ -29,9 +31,23 @@ class _EventsPageState extends State<EventsPage> {
     await providerEventsController.fetchAndSetEvents();
   }
 
+  final Map<String, Marker> _markers = {};
+
   @override
   Widget build(BuildContext context) {
     providerEventsController = Provider.of<EventsController>(context);
+
+    for (final Event event in providerEventsController.events) {
+      final marker = Marker(
+        markerId: MarkerId(event.title),
+        position: LatLng(event.latitude, event.longitude),
+        infoWindow: InfoWindow(
+          title: event.title,
+          snippet: event.description,
+        ),
+      );
+      _markers[event.id] = marker;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
@@ -40,14 +56,24 @@ class _EventsPageState extends State<EventsPage> {
           ? Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: () => _refresh(context),
-              child: ListView.builder(
-                itemCount: providerEventsController.events.length,
-                itemBuilder: (context, index) {
-                  return eventCard(
-                      imagePath:
-                          providerEventsController.events[index].imagePath,
-                      id: providerEventsController.events[index].id);
-                },
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                          providerEventsController.events[0].latitude,
+                          providerEventsController.events[0].longitude,
+                        ),
+                        zoom: 11.0,
+                      ),
+                      markers: _markers.values.toSet(),
+                    ),
+                  ),
+                  for (final Event event in providerEventsController.events)
+                    eventCard(imagePath: event.imagePath, id: event.id),
+                ],
               ),
             ),
     );
