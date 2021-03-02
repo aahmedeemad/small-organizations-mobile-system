@@ -21,17 +21,18 @@ class PushNotificationsManager {
       // For iOS request permission first.
       _firebaseMessaging.requestNotificationPermissions();
       //_firebaseMessaging.configure();
-      _firebaseMessaging.configure(onMessage: (msg) {
-        print(msg);
-        return;
-      }, onLaunch: (msg) {
-        print(msg);
-        return;
-      }, onResume: (msg) {
-        print(msg);
-        return;
-      });
-      _firebaseMessaging.subscribeToTopic('chat');
+      _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          print('on message $message');
+        },
+        onResume: (Map<String, dynamic> message) async {
+          print('on resume $message');
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          print('on launch $message');
+        },
+      );
+      _firebaseMessaging.subscribeToTopic('');
 
       // For testing purposes print the Firebase Messaging token
       _token = await _firebaseMessaging.getToken();
