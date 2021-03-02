@@ -6,20 +6,19 @@ import 'dart:convert';
 class UsersController with ChangeNotifier {
   List<User> _usersList = [];
 
-
   void addUser(User user) {
-    http.post(
-      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users.json',
-      body: json.encode(
-        {
-          'id' : user.id,
-          'name': user.name,
-          'imagepath': user.imagepath,
-          'qrCode': user.qrCode,
-          'task' : user.task
-        },
-      ),
-    );
+    // http.post(
+    //   'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users.json',
+    //   body: json.encode(
+    //     {
+    //       'id': user.id,
+    //       'name': user.name,
+    //       'imagepath': user.imagepath,
+    //       'qrCode': user.qrCode,
+    //       'task': user.task
+    //     },
+    //   ),
+    // );
     notifyListeners();
   }
 
@@ -30,7 +29,8 @@ class UsersController with ChangeNotifier {
   User findByName(String name) {
     return _usersList.firstWhere((users) => users.name == name);
   }
-    User findById(String id) {
+
+  User findById(String id) {
     return _usersList.firstWhere((users) => users.id == id);
   }
 
@@ -41,16 +41,15 @@ class UsersController with ChangeNotifier {
       final dbData = jsonDecode(response.body) as Map<String, dynamic>;
       final List<User> dbUser = [];
       dbData.forEach((key, data) {
-        dbUser.add(
-          User(
-            id : key,
-          name: data['name'],
-          imagepath: data['imagepath'],
-          qrCode: data['qrCode'],
-          task : data['task'],
-            
-          ),
-        );
+        // dbUser.add(
+        //   User(
+        //     id: key,
+        //     name: data['name'],
+        //     imagepath: data['imagepath'],
+        //     qrCode: data['qrCode'],
+        //     task: data['task'],
+        //   ),
+        // );
       });
       print(dbUser[0].name);
       _usersList = dbUser;

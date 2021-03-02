@@ -1,12 +1,41 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:smallorgsys/models/user.dart';
+import 'package:smallorgsys/providers/auth.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
-class UserHomePage extends StatelessWidget {
+class UserHomePage extends StatefulWidget {
+  @override
+  _UserHomePageState createState() => _UserHomePageState();
+}
+
+class _UserHomePageState extends State<UserHomePage> {
+  int totalAtendedEvents = 0;
+
+  @override
+  void initState() {
+    Provider.of<Auth>(context, listen: false)
+        .getTotalAtendedEvents()
+        .then((res) {
+      if (res['success']) {
+        setState(() {
+          totalAtendedEvents = res['totalAtendedEvents'];
+        });
+      }
+    });
+    super.initState();
+  }
+
+  Uint8List bytes = Uint8List(0);
+  User user;
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<Auth>(context).user;
     return Scaffold(
-      body: Center(
-          child: ListView(
+      body: ListView(
         children: [
           Row(
             children: [
@@ -18,11 +47,11 @@ class UserHomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      "Fady Bassel",
+                      user.name,
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      "IT member",
+                      user.committee + " " + user.privilege,
                       style: TextStyle(fontSize: 16),
                     ),
                     IconButton(
@@ -38,13 +67,59 @@ class UserHomePage extends StatelessWidget {
               )
             ],
           ),
-          homeCard(word: 'tasks done 30%', icon: Icons.pending_actions),
+          homeCard(word: ' Tasks done 30%', icon: Icons.pending_actions),
+          // homeCard(
+          //     word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
           homeCard(
-              word: 'Attendance Meetings 70%', icon: Icons.pending_actions),
-          homeCard(word: 'Attendance Events 90%', icon: Icons.pending_actions),
+              word: ' Attend $totalAtendedEvents Events ', icon: Icons.event),
           eventCard(),
+          SizedBox(height: 15),
+          Divider(thickness: 1),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              "Your Information",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  .copyWith(color: Colors.grey[600]),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              user.email,
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Joined At ${user.joinAt}",
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              user.phone,
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Your rating " + user.rating.toString() + "/5",
+              style:
+                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
+            ),
+          ),
         ],
-      )),
+      ),
     );
   }
 
@@ -81,9 +156,7 @@ class UserHomePage extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.red,
           image: DecorationImage(
-              image: NetworkImage(
-                  'https://avatars0.githubusercontent.com/u/56454311?s=400&u=6a76d8c13ad043b067e0227e27c3ea84e3bbb88e&v=4'),
-              fit: BoxFit.cover),
+              image: NetworkImage(user.imagePath), fit: BoxFit.cover),
           borderRadius: BorderRadius.all(Radius.circular(75.0)),
           boxShadow: [BoxShadow(blurRadius: 7.0, color: Colors.black)]),
     );
@@ -98,7 +171,7 @@ class UserHomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
             Icon(icon, size: 30.0),
@@ -109,22 +182,22 @@ class UserHomePage extends StatelessWidget {
     );
   }
 
-  Future showQr(context) {
+  Future showQr(context) async {
+    Uint8List result = await scanner.generateBarCode(user.id);
+    this.setState(() => this.bytes = result);
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          AlertDialog(
-            title: Text(
-              "Your QR Code",
-              textAlign: TextAlign.center,
-            ),
-            content: Container(
-              child: Icon(
-                Icons.qr_code,
-                size: 200,
-              ),
-            ),
-          );
-        });
+      context: context,
+      child: AlertDialog(
+        title: Text(
+          "Your QR Code",
+          textAlign: TextAlign.center,
+        ),
+        content: Container(
+          height: 200,
+          width: 200,
+          child: Image.memory(bytes),
+        ),
+      ),
+    );
   }
 }

@@ -7,142 +7,115 @@ class EventsController with ChangeNotifier {
   List<Event> _eventsList = [];
 
   void addEvents() async {
-    // // for (int i = 1; i < 10; i++) {
-
-    // // Event event = Event(
-    // //     date: "20-10-2020",
-    // //     title: "Event 0",
-    // //     imagePath:
-    // //         "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
-    // //     description: "Event 0 desc",
-    // //     locationName: "Ay 7ta",
-    // //     locationUrl: "https://goo.gl/maps/7zPhKwbhbqyBnPYU6",
-    // //     latitude: 30.1701457,
-    // //     longitude: 31.4896677);
-    // // http
-    // //     .post(
-    // //   'https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json',
-    // //   body: json.encode(
-    // //     {
-    // //       'title': event.title,
-    // //       'imagePath': event.imagePath,
-    // //       'description': event.description,
-    // //       'date': "20-10-2020",
-    // //       'locationName': event.locationName,
-    // //       'locationUrl': event.locationUrl,
-    // //       'latitude': event.latitude,
-    // //       'longitude': event.longitude,
-    // //     },
-    // //   ),
-    // // )
-    // //     .then((res) {
-    // //   print(res.statusCode);
-    // // });
-    // // }
-    // // for (int i = 0; i < 10; i++) {
     // final response = await http
     //     .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json');
     // final dbData = jsonDecode(response.body) as Map<String, dynamic>;
-    // print(dbData);
     // dbData.forEach((key, data) {
-    //   print(dbData['title']);
-    //   //   http.post(
-    //   //     'https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers.json',
-    //   //     body: json.encode(
-    //   //       {
-    //   //         'name': "Speaker 1",
-    //   //         'imagePath': "https://upload.wikimedia.org/wikipedia/commons/3/3f/",
-    //   //         'bio': "Speaker Bio 1",
-    //   //         'from': "08:00",
-    //   //         'to': "08:30",
-    //   //         'slogan': "Speaker 1 slogan",
-    //   //         'fullDescription': "Speaker 1 fullDescription",
-    //   //         key: {
-    //   //           "date": "20-10-2020",
-    //   //           "description": data['description'],
-    //   //           "imagePath": data['imagePath'],
-    //   //           "locationName": data['locationName'],
-    //   //           "locationUrl": data['locationUrl'],
-    //   //           "title": data['title']
-    //   //         }
-    //   //       },
-    //   //     ),
-    //   //   );
-
-    //   http.put(
-    //     'https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList.json',
-    //     body: {'aa': 111},
-    //   );
-
-    //   http.put(
+    //   http.post(
     //     'https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/$key.json',
     //     body: json.encode(
     //       {
-    //         //   UniqueKey().toString(): {
-    //         //     "imagePath":
-    //         //         "https://upload.wikimedia.org/wikipedia/commons/3/3f/",
-    //         //     "name": "Speaker 1",
-    //         //     "bio": "Speaker Bio 1",
-    //         //     "from": "08:00",
-    //         //     "to": "08:30",
-    //         //   }
-    //         '-MT3Ff8P197ctsy_yV7E': {
-    //           "imagePath":
-    //               "https://upload.wikimedia.org/wikipedia/commons/3/3f/",
-    //           "name": "Speaker 1",
-    //           "bio": "Speaker Bio 1",
-    //           "from": "08:00",
-    //           "to": "08:30",
-    //         }
+    //         "imagePath":
+    //             "https://firebasestorage.googleapis.com/v0/b/tedxmiu-11c76.appspot.com/o/speaker1.jpg?alt=media&token=18d07bc8-d575-45b0-a3a5-9159e90f4f75",
+    //         "name": "Speaker 1",
+    //         "bio": "Speaker Bio 1",
+    //         "from": "08:00",
+    //         "to": "08:30",
     //       },
     //     ),
     //   );
+    //   http.post(
+    //     'https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/$key.json',
+    //     body: json.encode(
+    //       {
+    //         "imagePath":
+    //             "https://firebasestorage.googleapis.com/v0/b/tedxmiu-11c76.appspot.com/o/speaker1.jpg?alt=media&token=18d07bc8-d575-45b0-a3a5-9159e90f4f75",
+    //         "name": "Speaker 2",
+    //         "bio": "Speaker Bio 2",
+    //         "from": "08:30",
+    //         "to": "09:00",
+    //       },
+    //     ),
+    //   );
+    //   http
+    //       .get(
+    //           "https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/$key.json")
+    //       .then((res) {
+    //     Map<String, dynamic> d = jsonDecode(res.body) as Map<String, dynamic>;
+    //     d.forEach((k, v) {
+    //       print(v['name']);
+    //       if (v['name'] == "Speaker 1") {
+    //         http.put(
+    //           'https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers/$k.json',
+    //           body: json.encode(
+    //             {
+    //               'name': "Speaker 1",
+    //               'imagePath':
+    //                   "https://firebasestorage.googleapis.com/v0/b/tedxmiu-11c76.appspot.com/o/speaker1.jpg?alt=media&token=18d07bc8-d575-45b0-a3a5-9159e90f4f75",
+    //               'bio': "Speaker Bio 1",
+    //               'from': "08:00",
+    //               'to': "08:30",
+    //               'slogan': "Speaker 1 slogan",
+    //               'fullDescription': "Speaker 1 fullDescription",
+    //               key: {
+    //                 "date": "20-10-2020",
+    //                 "description": "EVENT DESC 1 From database",
+    //                 "imagePath":
+    //                     "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+    //                 "locationName": "MIUU",
+    //                 "locationUrl": "https://goo.gl/maps/7zPhKwbhbqyBnPYU6",
+    //                 "title": "Super Nova"
+    //               }
+    //             },
+    //           ),
+    //         );
+    //       } else {
+    //         http.put(
+    //           'https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers/$k.json',
+    //           body: json.encode(
+    //             {
+    //               'name': "Speaker 2",
+    //               'imagePath':
+    //                   "https://firebasestorage.googleapis.com/v0/b/tedxmiu-11c76.appspot.com/o/speaker1.jpg?alt=media&token=18d07bc8-d575-45b0-a3a5-9159e90f4f75",
+    //               'bio': "Speaker Bio 2",
+    //               'from': "08:30",
+    //               'to': "09:00",
+    //               'slogan': "Speaker 2 slogan",
+    //               'fullDescription': "Speaker 2 fullDescription",
+    //               key: {
+    //                 "date": "20-10-2020",
+    //                 "description": "EVENT DESC 2 From database",
+    //                 "imagePath":
+    //                     "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+    //                 "locationName": "MIUU",
+    //                 "locationUrl": "https://goo.gl/maps/7zPhKwbhbqyBnPYU6",
+    //                 "title": "Super Nova"
+    //               }
+    //             },
+    //           ),
+    //         );
+    //       }
+    //     });
+    //   });
     // });
-    // // http.post(
-    // //   'https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers.json',
-    // //   body: json.encode(
-    // //     {
-    // //       'name': "Speaker $i",
-    // //       'imagePath': "https://upload.wikimedia.org/wikipedia/commons/3/3f/",
-    // //       'bio': "Speaker Bio $i",
-    // //       'from': "08:00",
-    // //       'to': "08:30",
-    // //       'slogan': "Speaker $i slogan",
-    // //       'fullDescription': "Speaker $i fullDescription",
-    // //       'MT3E2UgRRA_n7ulFF_s': {
-    // //         "date": "20-10-2020",
-    // //         "description": "EVENT DESC 1 From database",
-    // //         "imagePath":
-    // //             "https://lh3.googleusercontent.com/proxy/h-An5zY0koNg6P1kOeRjT98hWuf4frENaxH6k_L0PepHKsW2AZ6myURFfaIchXdMhOm414ULiZauI-WsY3zsWQQmmCUKKM3fZRA7aNw1xej7qQ",
-    // //         "locationName": "MIUU",
-    // //         "locationUrl": "https://goo.gl/maps/7zPhKwbhbqyBnPYU6",
-    // //         "title": "Super Nova"
-    // //       }
-    // //     },
-    // //   ),
-    // // );
-    // // }
-    // // http.put(
-    // //   'https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/-MT3E2UgRRA_n7ulFF_s.json',
-    // //   body: json.encode(
-    // //     {
-    // //       '-MT3Ff87-Fd91FbsnjmC': {
-    // //         "imagePath": "https://upload.wikimedia.org/wikipedia/commons/3/3f/",
-    // //         "name": "Speaker 4",
-    // //         "bio": "Speaker Bio 4",
-    // //         "from": "08:00",
-    // //         "to": "08:30",
-    // //       },
-    // //       '-MT3Ff8P197ctsy_yV7E': {
-    // //         "imagePath": "https://upload.wikimedia.org/wikipedia/commons/3/3f/",
-    // //         "name": "Speaker 1",
-    // //         "bio": "Speaker Bio 1",
-    // //         "from": "08:00",
-    // //         "to": "08:30",
-    // //       }
-    // //     },
-    // //   ),
-    // // );
+  }
+
+  Future userAttendEvent(eventId, userId) async {
+    await http.patch(
+      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersAttendEvents/$userId.json',
+      body: json.encode({eventId: true}),
+    );
+    final res = await http.get(
+        'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/$userId.json');
+    if (res.statusCode == 200) {
+      var dbData = jsonDecode(res.body);
+      return {
+        'success': true,
+        'user_name': dbData['name'],
+        'user_imagePath': dbData['imagePath']
+      };
+    } else
+      return {'success': false};
   }
 
   List<Event> get events {
@@ -154,7 +127,6 @@ class EventsController with ChangeNotifier {
   }
 
   Future<void> fetchAndSetEvents() async {
-    // addEvents();
     try {
       final response = await http
           .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json');

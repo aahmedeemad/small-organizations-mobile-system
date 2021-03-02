@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/providers/auth.dart';
-import 'package:smallorgsys/screens/login.dart';
-import 'package:smallorgsys/screens/user_bottom_nav.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -48,25 +46,35 @@ class _DrawerPageState extends State<DrawerPage> {
           drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
           Divider(),
           Consumer<Auth>(
-            builder: (ctx, auth, _) => auth.isAuth
-                ? drawerTile(
-                    title: 'Profile', icon: Icons.home, route: '/userHomePage')
-                : FutureBuilder(
-                    future: auth.autoLogin(),
-                    builder: (ctx, autResSnapshot) {
-                      if (autResSnapshot.data == true) {
-                        return drawerTile(
-                            title: 'Profile',
-                            icon: Icons.home,
-                            route: '/userHomePage');
-                      } else if (autResSnapshot.connectionState ==
-                          ConnectionState.waiting)
-                        return CircularProgressIndicator();
-                      else
-                        return drawerTile(
-                            title: 'Login', icon: Icons.login, route: '/login');
-                    },
-                  ),
+            builder: (ctx, auth, _) => FutureBuilder(
+              future: auth.autoLogin(),
+              // ignore: missing_return
+              builder: (ctx, autResSnapshot) {
+                if (autResSnapshot.data == true) {
+                  if (auth.user.privilege == "member") {
+                    return drawerTile(
+                        title: 'Profile',
+                        icon: Icons.home,
+                        route: '/userHomePage');
+                  } else if (auth.user.privilege == "head") {
+                    return drawerTile(
+                        title: 'Profile',
+                        icon: Icons.home,
+                        route: '/headHomePage');
+                  } else if (auth.user.privilege == "admin") {
+                    return drawerTile(
+                        title: 'Profile',
+                        icon: Icons.home,
+                        route: '/adminHomePage');
+                  }
+                } else if (autResSnapshot.connectionState ==
+                    ConnectionState.waiting)
+                  return CircularProgressIndicator();
+                else
+                  return drawerTile(
+                      title: 'Login', icon: Icons.login, route: '/login');
+              },
+            ),
           ),
         ],
       ),
