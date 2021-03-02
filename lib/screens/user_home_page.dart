@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,9 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
-  int totalAtendedEvents = 0;
+  int totalAtendedEvents;
+  int tasksPercentage;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -21,8 +24,16 @@ class _UserHomePageState extends State<UserHomePage> {
         .getTotalAtendedEvents()
         .then((res) {
       if (res['success']) {
-        setState(() {
-          totalAtendedEvents = res['totalAtendedEvents'];
+        totalAtendedEvents = res['totalAtendedEvents'];
+        Provider.of<Auth>(context, listen: false).getTask().then((res) {
+          if (res) {
+            int doneTasks =
+                user.tasks.where((task) => task.status == true).length;
+            tasksPercentage = ((doneTasks / user.tasks.length) * 100).round();
+            setState(() {
+              _isLoading = false;
+            });
+          }
         });
       }
     });
@@ -35,91 +46,104 @@ class _UserHomePageState extends State<UserHomePage> {
   Widget build(BuildContext context) {
     user = Provider.of<Auth>(context).user;
     return Scaffold(
-      body: ListView(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(25.0),
-                child: profilePic(),
-              ),
-              Flexible(
-                child: Column(
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView(
+              children: [
+                Row(
                   children: [
-                    Text(
-                      user.name,
-                      style: TextStyle(fontSize: 20),
+                    Padding(
+                      padding: EdgeInsets.all(25.0),
+                      child: profilePic(),
                     ),
-                    Text(
-                      user.committee + " " + user.privilege,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    IconButton(
-                      tooltip: 'Qr Code',
-                      icon: Icon(Icons.qr_code),
-                      iconSize: 30,
-                      onPressed: () {
-                        showQr(context);
-                      },
-                    ),
+                    Flexible(
+                      child: Column(
+                        children: [
+                          Text(
+                            user.name,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            user.committee + " " + user.privilege,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          IconButton(
+                            tooltip: 'Qr Code',
+                            icon: Icon(Icons.qr_code),
+                            iconSize: 30,
+                            onPressed: () {
+                              showQr(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
-          ),
-          homeCard(word: ' Tasks done 30%', icon: Icons.pending_actions),
-          // homeCard(
-          //     word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
-          homeCard(
-              word: ' Attend $totalAtendedEvents Events ', icon: Icons.event),
-          eventCard(),
-          SizedBox(height: 15),
-          Divider(thickness: 1),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              "Your Information",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  .copyWith(color: Colors.grey[600]),
+                homeCard(
+                    word: ' Tasks done $tasksPercentage%',
+                    icon: Icons.pending_actions),
+                // homeCard(
+                //     word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
+                homeCard(
+                    word: ' Attend $totalAtendedEvents Events ',
+                    icon: Icons.event),
+                eventCard(),
+                SizedBox(height: 15),
+                Divider(thickness: 1),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    "Your Information",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(color: Colors.grey[600]),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    user.email,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 18),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Joined At ${user.joinAt}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 18),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    user.phone,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 18),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Your rating " + user.rating.toString() + "/5",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 18),
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              user.email,
-              style:
-                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Joined At ${user.joinAt}",
-              style:
-                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              user.phone,
-              style:
-                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Your rating " + user.rating.toString() + "/5",
-              style:
-                  Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 18),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
