@@ -112,17 +112,19 @@ class UserHomePage extends StatelessWidget {
   Future showQr(context) {
     return showDialog(
         context: context,
-        child: AlertDialog(
-          title: Text(
-            "Your QR Code",
-            textAlign: TextAlign.center,
-          ),
-          content: Container(
-            child: Icon(
-              Icons.qr_code,
-              size: 200,
+        builder: (BuildContext context) {
+          AlertDialog(
+            title: Text(
+              "Your QR Code",
+              textAlign: TextAlign.center,
             ),
-          ),
-        ));
+            content: Container(
+              child: Icon(
+                Icons.qr_code,
+                size: 200,
+              ),
+            ),
+          );
+        });
   }
 }
