@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:smallorgsys/providers/auth.dart';
 
 class HeadHomePage extends StatefulWidget {
@@ -35,7 +34,9 @@ class _HeadHomePageState extends State<HeadHomePage> {
                     image: 'https://cdn2.iconfinder.com/data/icons/scan-to-pay/'
                         '512/scan-pay-payment-01-512.png',
                     title: 'Scan QR',
-                    onpress: _scan,
+                    onpress: () {
+                      Navigator.of(context).pushNamed('/scanQr');
+                    },
                   ),
                   homeIcon(
                     image: 'https://cdn0.iconfinder.com/data/icons/stem-science'
@@ -98,10 +99,5 @@ class _HeadHomePageState extends State<HeadHomePage> {
         ],
       ),
     );
-  }
-
-  Future _scan() async {
-    String barcode = await scanner.scan();
-    // this._outputController.text = barcode;
   }
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/providers/auth.dart';
-import 'package:smallorgsys/screens/login.dart';
-import 'package:smallorgsys/screens/user_bottom_nav.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -50,6 +48,7 @@ class _DrawerPageState extends State<DrawerPage> {
           Consumer<Auth>(
             builder: (ctx, auth, _) => FutureBuilder(
               future: auth.autoLogin(),
+              // ignore: missing_return
               builder: (ctx, autResSnapshot) {
                 if (autResSnapshot.data == true) {
                   if (auth.user.privilege == "member") {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smallorgsys/models/task.dart';
 
 class User {
   final String id;

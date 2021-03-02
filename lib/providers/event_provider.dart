@@ -145,6 +145,24 @@ class EventsController with ChangeNotifier {
     // // );
   }
 
+  Future userAttendEvent(eventId, userId) async {
+    await http.patch(
+      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersAttendEvents/$userId.json',
+      body: json.encode({eventId: true}),
+    );
+    final res = await http.get(
+        'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/$userId.json');
+    if (res.statusCode == 200) {
+      var dbData = jsonDecode(res.body);
+      return {
+        'success': true,
+        'user_name': dbData['name'],
+        'user_imagePath': dbData['imagePath']
+      };
+    } else
+      return {'success': false};
+  }
+
   List<Event> get events {
     return [..._eventsList];
   }

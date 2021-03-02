@@ -17,6 +17,7 @@ import 'package:smallorgsys/screens/events.dart';
 import 'package:smallorgsys/screens/head_home_page.dart';
 import 'package:smallorgsys/screens/members_page.dart';
 import 'package:smallorgsys/screens/news.dart';
+import 'package:smallorgsys/screens/scan_qr.dart';
 import 'package:smallorgsys/screens/settings_page.dart';
 import 'package:smallorgsys/screens/speaker_page.dart';
 import 'package:smallorgsys/screens/statistics.dart';
@@ -74,6 +75,7 @@ class App extends StatelessWidget {
           '/statisticsPage': (context) => StatisticsPage(),
           '/evalMembers': (context) => EvalMembers(),
           '/settings': (context) => Settings(),
+          '/scanQr': (context) => ScanQrPage(),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
