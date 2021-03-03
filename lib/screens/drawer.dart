@@ -90,6 +90,7 @@ class _DrawerPageState extends State<DrawerPage> {
         leading: Icon(icon),
       ),
       onTap: () {
+        Navigator.of(context).pop();
         Navigator.of(context).pushNamed(route);
       },
     );

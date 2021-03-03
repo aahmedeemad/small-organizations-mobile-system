@@ -53,13 +53,13 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (Provider.of<Auth>(context, listen: false).user.privilege ==
           "member") {
-        Navigator.of(context).pushNamed('/userHomePage');
+        Navigator.of(context).pushReplacementNamed('/userHomePage');
       } else if (Provider.of<Auth>(context, listen: false).user.privilege ==
           "head") {
-        Navigator.of(context).pushNamed('/headHomePage');
+        Navigator.of(context).pushReplacementNamed('/headHomePage');
       } else if (Provider.of<Auth>(context, listen: false).user.privilege ==
           "admin") {
-        Navigator.of(context).pushNamed('/adminHomePage');
+        Navigator.of(context).pushReplacementNamed('/adminHomePage');
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
