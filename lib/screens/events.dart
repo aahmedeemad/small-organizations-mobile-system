@@ -6,7 +6,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/models/event.dart';
-import 'package:http/http.dart' as http;
 import 'drawer.dart';
 
 class EventsPage extends StatefulWidget {

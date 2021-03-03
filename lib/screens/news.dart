@@ -5,7 +5,6 @@ import 'package:smallorgsys/providers/news_provider.dart';
 import 'package:smallorgsys/screens/drawer.dart';
 import 'package:smallorgsys/screens/news_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:http/http.dart' as http;
 
 class NewsPage extends StatefulWidget {
   @override
