@@ -28,28 +28,31 @@ class NewsController with ChangeNotifier {
     return _newsList.firstWhere((news) => news.id == id);
   }
 
-  Future<void> fetchAndSetNews() async {
+  Future<bool> fetchAndSetNews() async {
     try {
       final response = await http
           .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/news.json');
-      final dbData = jsonDecode(response.body) as Map<String, dynamic>;
-      final List<News> dbNews = [];
-      dbData.forEach((key, data) {
-        dbNews.add(
-          News(
-            id: key,
-            title: data['title'],
-            imagePath: data['imagePath'],
-            description: data['description'],
-          ),
-        );
-      });
-      //print(dbNews[0].imagePath);
-      _newsList = dbNews;
-      notifyListeners();
+      if (response.statusCode == 200 && response.body != null) {
+        final dbData = jsonDecode(response.body) as Map<String, dynamic>;
+        final List<News> dbNews = [];
+        dbData.forEach((key, data) {
+          dbNews.add(
+            News(
+              id: key,
+              title: data['title'],
+              imagePath: data['imagePath'],
+              description: data['description'],
+            ),
+          );
+        });
+        _newsList = dbNews;
+        notifyListeners();
+        return true;
+      }
+      return false;
     } on Exception catch (e) {
       print(e.toString());
-      return (e);
+      return false;
     }
   }
 }

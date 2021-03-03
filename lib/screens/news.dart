@@ -17,47 +17,31 @@ class _NewsPageState extends State<NewsPage> {
   NewsController providerNewsController;
 
   @override
-  void initState() {
-    Provider.of<NewsController>(context, listen: false)
-        .fetchAndSetNews()
-        .then((_) {
-      setState(() {});
-    });
+  initState() {
+    providerNewsController =
+        Provider.of<NewsController>(context, listen: false);
     super.initState();
   }
 
   Future<void> _refresh(context) async {
-    await providerNewsController.fetchAndSetNews();
+    setState(() {
+      Provider.of<NewsController>(context, listen: false).fetchAndSetNews();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    providerNewsController = Provider.of<NewsController>(context);
     return Scaffold(
-        drawer: DrawerPage(),
-        appBar: AppBar(
-          title: Text('News'),
-        ),
-        body: FutureBuilder(
-            future: http.get(
-                'https://tedxmiu-11c76-default-rtdb.firebaseio.com/news.json'),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('An error ocurred while retriving data,'),
-                        Text('Please check your network connection!'),
-                        RaisedButton(
-                          child: Text("Retry"),
-                          onPressed: () => _refresh(context),
-                        )
-                      ],
-                    ),
-                  );
-                }
+      drawer: DrawerPage(),
+      appBar: AppBar(
+        title: Text('News'),
+      ),
+      body: FutureBuilder(
+        future: providerNewsController.fetchAndSetNews(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              if (snapshot.data == true) {
                 return RefreshIndicator(
                   onRefresh: () => _refresh(context),
                   child: ListView.builder(
@@ -70,10 +54,31 @@ class _NewsPageState extends State<NewsPage> {
                     },
                   ),
                 );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            }));
+              } else
+                return errorWidget(context);
+            } else
+              return errorWidget(context);
+          } else
+            return Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
+  }
+
+  Center errorWidget(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('An error ocurred while retriving data,'),
+          Text('Please check your network connection!'),
+          RaisedButton(
+            child: Text("Retry"),
+            onPressed: () => _refresh(context),
+          )
+        ],
+      ),
+    );
   }
 
   Widget eventCard({@required imagePath, @required id}) {
