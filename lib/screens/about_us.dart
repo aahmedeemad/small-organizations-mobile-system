@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'drawer.dart';
 
 class AboutUsPage extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerPage(),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('About us'),

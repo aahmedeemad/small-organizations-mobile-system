@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/board_provider.dart';
+import 'drawer.dart';
 
 class BoardPage extends StatefulWidget {
   BoardPage();
@@ -29,6 +30,7 @@ class _BoardPageState extends State<BoardPage> {
   Widget build(BuildContext context) {
     providerBoardController = Provider.of<BoardController>(context);
     return Scaffold(
+      drawer: DrawerPage(),
       appBar: AppBar(
         title: Text('Board'),
       ),

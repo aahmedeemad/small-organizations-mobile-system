@@ -7,6 +7,7 @@ import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/models/event.dart';
 import 'package:http/http.dart' as http;
+import 'drawer.dart';
 
 class EventsPage extends StatefulWidget {
   @override
@@ -35,6 +36,7 @@ class _EventsPageState extends State<EventsPage> {
     // providerEventsController = Provider.of<EventsController>(context);
 
     return Scaffold(
+      drawer: DrawerPage(),
       appBar: AppBar(
         title: Text('Events'),
       ),
