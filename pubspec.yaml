@@ -34,11 +34,12 @@ dependencies:
   shared_preferences: ^0.5.12+4
   shimmer:
   snaplist: ^0.1.8
-  url_launcher:
   google_maps_flutter: ^1.0.3
   firebase_core: ^0.5.3
   firebase_storage: ^5.2.0
   firebase_messaging: ^7.0.3
+  carousel_slider: ^2.3.1
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:
