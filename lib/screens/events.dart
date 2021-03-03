@@ -128,7 +128,7 @@ class _EventsPageState extends State<EventsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('An error ocurred while retriving data,'),
+          Text('An error occurred while retrieving data,'),
           Text('Please check your network connection!'),
           RaisedButton(
             child: Text("Retry"),
