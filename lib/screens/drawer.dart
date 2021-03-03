@@ -36,14 +36,7 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
             decoration: BoxDecoration(color: Colors.black),
           ),
-          drawerTile(title: 'News', icon: Icons.event, route: '/'),
-          Divider(),
-          drawerTile(title: 'Events', icon: Icons.event, route: '/events'),
-          Divider(),
-          drawerTile(
-              title: 'Our Team', icon: Icons.assignment_ind, route: '/board'),
-          Divider(),
-          drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
+          drawerTile(title: 'Home', icon: Icons.home, route: '/'),
           Divider(),
           Consumer<Auth>(
             builder: (ctx, auth, _) => FutureBuilder(
@@ -54,17 +47,17 @@ class _DrawerPageState extends State<DrawerPage> {
                   if (auth.user.privilege == "member") {
                     return drawerTile(
                         title: 'Profile',
-                        icon: Icons.home,
+                        icon: Icons.person,
                         route: '/userHomePage');
                   } else if (auth.user.privilege == "head") {
                     return drawerTile(
                         title: 'Profile',
-                        icon: Icons.home,
+                        icon: Icons.person,
                         route: '/headHomePage');
                   } else if (auth.user.privilege == "admin") {
                     return drawerTile(
                         title: 'Profile',
-                        icon: Icons.home,
+                        icon: Icons.person,
                         route: '/adminHomePage');
                   }
                 } else if (autResSnapshot.connectionState ==
@@ -76,6 +69,15 @@ class _DrawerPageState extends State<DrawerPage> {
               },
             ),
           ),
+          Divider(),
+          drawerTile(title: 'News', icon: Icons.event, route: '/news'),
+          Divider(),
+          drawerTile(title: 'Events', icon: Icons.event, route: '/events'),
+          Divider(),
+          drawerTile(
+              title: 'Our Team', icon: Icons.assignment_ind, route: '/board'),
+          Divider(),
+          drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
         ],
       ),
     );

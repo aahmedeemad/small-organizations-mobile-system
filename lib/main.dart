@@ -24,6 +24,7 @@ import 'package:smallorgsys/screens/statistics.dart';
 import 'package:smallorgsys/screens/user_bottom_nav.dart';
 import 'package:smallorgsys/screens/user_home_page.dart';
 import 'package:smallorgsys/screens/login.dart';
+import 'package:smallorgsys/screens/home.dart';
 
 void main() {
   runApp(App());
@@ -56,7 +57,8 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Tedx MIU',
         routes: {
-          '/': (context) => NewsPage(),
+          '/': (context) => HomePage(),
+          '/news': (context) => NewsPage(),
           // '/newsDetails': (context) => NewsDetailsPage(index),
           '/events': (context) => EventsPage(),
           // '/eventDetails': (context) => EventDetailsPage(),
