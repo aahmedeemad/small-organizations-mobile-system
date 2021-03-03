@@ -14,7 +14,7 @@ class NewsPage extends StatefulWidget {
 
 class _NewsPageState extends State<NewsPage> {
   // var n = News(title: "1", imagePath: ".com", description: "asd")..news;
-  var providerNewsController;
+  NewsController providerNewsController;
 
   @override
   void initState() {
@@ -27,11 +27,7 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   Future<void> _refresh(context) async {
-    Provider.of<NewsController>(context, listen: false)
-        .fetchAndSetNews()
-        .then((_) {
-      setState(() {});
-    });
+    await providerNewsController.fetchAndSetNews();
   }
 
   @override

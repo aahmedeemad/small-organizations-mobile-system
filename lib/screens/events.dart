@@ -6,6 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/models/event.dart';
+import 'package:http/http.dart' as http;
 
 class EventsPage extends StatefulWidget {
   @override
@@ -13,16 +14,13 @@ class EventsPage extends StatefulWidget {
 }
 
 class _EventsPageState extends State<EventsPage> {
-  var _isLoading = true;
   EventsController providerEventsController;
   @override
   void initState() {
     Provider.of<EventsController>(context, listen: false)
         .fetchAndSetEvents()
         .then((_) {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -52,30 +50,52 @@ class _EventsPageState extends State<EventsPage> {
       appBar: AppBar(
         title: Text('Events'),
       ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () => _refresh(context),
-              child: ListView(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 3,
-                    child: GoogleMap(
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                          providerEventsController.events[0].latitude,
-                          providerEventsController.events[0].longitude,
-                        ),
-                        zoom: 11.0,
-                      ),
-                      markers: _markers.values.toSet(),
-                    ),
+      body: FutureBuilder(
+          future: http.get(
+              'https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json'),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('An error ocurred while retriving data,'),
+                      Text('Please check your network connection!'),
+                      RaisedButton(
+                        child: Text("Retry"),
+                        onPressed: () => _refresh(context),
+                      )
+                    ],
                   ),
-                  for (final Event event in providerEventsController.events)
-                    eventCard(imagePath: event.imagePath, id: event.id),
-                ],
-              ),
-            ),
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: () => _refresh(context),
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            providerEventsController.events[0].latitude,
+                            providerEventsController.events[0].longitude,
+                          ),
+                          zoom: 11.0,
+                        ),
+                        markers: _markers.values.toSet(),
+                      ),
+                    ),
+                    for (final Event event in providerEventsController.events)
+                      eventCard(imagePath: event.imagePath, id: event.id),
+                  ],
+                ),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
     );
   }
 

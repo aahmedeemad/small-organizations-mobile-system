@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/widgets.dart';
 import 'package:smallorgsys/models/event.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +5,6 @@ import 'dart:convert';
 
 class EventsController with ChangeNotifier {
   List<Event> _eventsList = [];
-  String status = '';
 
   void addEvents() async {
     // final response = await http
@@ -131,11 +128,6 @@ class EventsController with ChangeNotifier {
 
   Future<void> fetchAndSetEvents() async {
     try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        status = 'provider connected';
-        //print(status);
-    try {
       final response = await http
           .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json');
       final dbData = jsonDecode(response.body) as Map<String, dynamic>;
@@ -153,7 +145,7 @@ class EventsController with ChangeNotifier {
           latitude: data['latitude'],
         ));
       });
-      print(dbEvents[0].imagePath);
+      //print(dbEvents[0].imagePath);
       _eventsList = dbEvents;
       notifyListeners();
     } on Exception catch (e) {
@@ -161,10 +153,4 @@ class EventsController with ChangeNotifier {
       throw (e);
     }
   }
-  } on SocketException catch (_) {
-      status = 'provider not connected';
-      //print(status);
-      return status;
-    }
-}
 }
