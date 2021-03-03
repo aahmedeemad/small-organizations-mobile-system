@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -40,6 +41,8 @@ class _UserHomePageState extends State<UserHomePage> {
     super.initState();
   }
 
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  bool _checkbox = false;
   Uint8List bytes = Uint8List(0);
   User user;
   @override
@@ -86,7 +89,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 // homeCard(
                 //     word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
                 homeCard(
-                    word: ' Attend $totalAtendedEvents Events ',
+                    word: ' Attended $totalAtendedEvents events ',
                     icon: Icons.event),
                 eventCard(),
                 SizedBox(height: 15),
@@ -115,7 +118,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Joined At ${user.joinAt}",
+                    "TEDx-er since ${user.joinAt}",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
@@ -135,11 +138,38 @@ class _UserHomePageState extends State<UserHomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Your rating " + user.rating.toString() + "/5",
+                    "Your evaluation " + user.rating.toString() + "/5",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
                         .copyWith(fontSize: 18),
+                  ),
+                ),
+                Container(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    itemCount: 1,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text('Subscribe to latest updates'),
+                        trailing: Checkbox(
+                            value: _checkbox,
+                            onChanged: (value) {
+                              if (_checkbox == true) {
+                                setState(() {
+                                  _firebaseMessaging
+                                      .subscribeToTopic("mainNotifications");
+                                });
+                              } else {
+                                setState(() {
+                                  _firebaseMessaging.unsubscribeFromTopic(
+                                      "mainNotifications");
+                                });
+                              }
+                            }),
+                      );
+                    },
                   ),
                 ),
               ],
