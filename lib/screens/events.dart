@@ -17,81 +17,67 @@ class _EventsPageState extends State<EventsPage> {
   EventsController providerEventsController;
   @override
   void initState() {
-    Provider.of<EventsController>(context, listen: false)
-        .fetchAndSetEvents()
-        .then((_) {
-      setState(() {});
-    });
+    providerEventsController =
+        Provider.of<EventsController>(context, listen: false);
     super.initState();
   }
 
   Future<void> _refresh(context) async {
-    await providerEventsController.fetchAndSetEvents();
+    setState(() {
+      providerEventsController.fetchAndSetEvents();
+    });
   }
 
   final Map<String, Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
-    providerEventsController = Provider.of<EventsController>(context);
+    // providerEventsController = Provider.of<EventsController>(context);
 
-    for (final Event event in providerEventsController.events) {
-      final marker = Marker(
-        markerId: MarkerId(event.title),
-        position: LatLng(event.latitude, event.longitude),
-        infoWindow: InfoWindow(
-          title: event.title,
-          snippet: event.description,
-        ),
-      );
-      _markers[event.id] = marker;
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
       ),
       body: FutureBuilder(
-          future: http.get(
-              'https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json'),
+          future: providerEventsController.fetchAndSetEvents(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('An error ocurred while retriving data,'),
-                      Text('Please check your network connection!'),
-                      RaisedButton(
-                        child: Text("Retry"),
-                        onPressed: () => _refresh(context),
-                      )
+              if (snapshot.hasData && snapshot.data == true) {
+                for (final Event event in providerEventsController.events) {
+                  final marker = Marker(
+                    markerId: MarkerId(event.title),
+                    position: LatLng(event.latitude, event.longitude),
+                    infoWindow: InfoWindow(
+                      title: event.title,
+                      snippet: event.description,
+                    ),
+                  );
+                  _markers[event.id] = marker;
+                }
+                return RefreshIndicator(
+                  onRefresh: () => _refresh(context),
+                  child: ListView(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(
+                              providerEventsController.events[0].latitude,
+                              providerEventsController.events[0].longitude,
+                            ),
+                            zoom: 11.0,
+                          ),
+                          markers: _markers.values.toSet(),
+                        ),
+                      ),
+                      for (final Event event in providerEventsController.events)
+                        eventCard(imagePath: event.imagePath, id: event.id),
                     ],
                   ),
                 );
-              }
-              return RefreshIndicator(
-                onRefresh: () => _refresh(context),
-                child: ListView(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            providerEventsController.events[0].latitude,
-                            providerEventsController.events[0].longitude,
-                          ),
-                          zoom: 11.0,
-                        ),
-                        markers: _markers.values.toSet(),
-                      ),
-                    ),
-                    for (final Event event in providerEventsController.events)
-                      eventCard(imagePath: event.imagePath, id: event.id),
-                  ],
-                ),
-              );
+              } else
+                return errorWidget(context);
             } else {
               return Center(child: CircularProgressIndicator());
             }
@@ -131,6 +117,22 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget errorWidget(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('An error ocurred while retriving data,'),
+          Text('Please check your network connection!'),
+          RaisedButton(
+            child: Text("Retry"),
+            onPressed: () => _refresh(context),
+          )
+        ],
       ),
     );
   }

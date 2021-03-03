@@ -25,7 +25,7 @@ class _NewsPageState extends State<NewsPage> {
 
   Future<void> _refresh(context) async {
     setState(() {
-      Provider.of<NewsController>(context, listen: false).fetchAndSetNews();
+      providerNewsController.fetchAndSetNews();
     });
   }
 
@@ -40,22 +40,18 @@ class _NewsPageState extends State<NewsPage> {
         future: providerNewsController.fetchAndSetNews(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              if (snapshot.data == true) {
-                return RefreshIndicator(
-                  onRefresh: () => _refresh(context),
-                  child: ListView.builder(
-                    itemCount: providerNewsController.news.length,
-                    itemBuilder: (context, index) {
-                      return eventCard(
-                          imagePath:
-                              providerNewsController.news[index].imagePath,
-                          id: providerNewsController.news[index].id);
-                    },
-                  ),
-                );
-              } else
-                return errorWidget(context);
+            if (snapshot.hasData && snapshot.data == true) {
+              return RefreshIndicator(
+                onRefresh: () => _refresh(context),
+                child: ListView.builder(
+                  itemCount: providerNewsController.news.length,
+                  itemBuilder: (context, index) {
+                    return eventCard(
+                        imagePath: providerNewsController.news[index].imagePath,
+                        id: providerNewsController.news[index].id);
+                  },
+                ),
+              );
             } else
               return errorWidget(context);
           } else
@@ -65,7 +61,7 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
-  Center errorWidget(BuildContext context) {
+  Widget errorWidget(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

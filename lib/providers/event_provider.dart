@@ -126,31 +126,36 @@ class EventsController with ChangeNotifier {
     return _eventsList.firstWhere((events) => events.id == id);
   }
 
-  Future<void> fetchAndSetEvents() async {
+  Future<bool> fetchAndSetEvents() async {
     try {
       final response = await http
           .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json');
-      final dbData = jsonDecode(response.body) as Map<String, dynamic>;
-      final List<Event> dbEvents = [];
-      dbData.forEach((key, data) {
-        dbEvents.add(Event(
-          id: key,
-          title: data['title'],
-          date: data['date'],
-          description: data['description'],
-          imagePath: data['imagePath'],
-          locationName: data['locationName'],
-          locationUrl: data['locationUrl'],
-          longitude: data['longitude'],
-          latitude: data['latitude'],
-        ));
-      });
-      //print(dbEvents[0].imagePath);
-      _eventsList = dbEvents;
-      notifyListeners();
+      if (response.statusCode == 200 && response.body != null) {
+        final dbData = jsonDecode(response.body) as Map<String, dynamic>;
+        final List<Event> dbEvents = [];
+        dbData.forEach((key, data) {
+          dbEvents.add(Event(
+            id: key,
+            title: data['title'],
+            date: data['date'],
+            description: data['description'],
+            imagePath: data['imagePath'],
+            locationName: data['locationName'],
+            locationUrl: data['locationUrl'],
+            longitude: data['longitude'],
+            latitude: data['latitude'],
+          ));
+        });
+        //print(dbEvents[0].imagePath);
+        _eventsList = dbEvents;
+        notifyListeners();
+        return true;
+      }
+      return false;
     } on Exception catch (e) {
       print(e.toString());
-      throw (e);
+      // throw (e);
+      return false;
     }
   }
 }
