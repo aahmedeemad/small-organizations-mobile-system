@@ -8,6 +8,8 @@
    <application
         android:label="smallorgsys"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBdqTpky3SPLI0U_fAlG826XweWB2fZN9s"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="fcm_default_channel" />
