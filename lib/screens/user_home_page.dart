@@ -158,11 +158,13 @@ class _UserHomePageState extends State<UserHomePage> {
                             onChanged: (value) {
                               if (_checkbox == true) {
                                 setState(() {
+                                  _checkbox = !_checkbox;
                                   _firebaseMessaging
                                       .subscribeToTopic("mainNotifications");
                                 });
                               } else {
                                 setState(() {
+                                  _checkbox = !_checkbox;
                                   _firebaseMessaging.unsubscribeFromTopic(
                                       "mainNotifications");
                                 });
@@ -241,7 +243,7 @@ class _UserHomePageState extends State<UserHomePage> {
     this.setState(() => this.bytes = result);
     return showDialog(
       context: context,
-      child: AlertDialog(
+      builder: (BuildContext context) => AlertDialog(
         title: Text(
           "Your QR Code",
           textAlign: TextAlign.center,
@@ -253,5 +255,21 @@ class _UserHomePageState extends State<UserHomePage> {
         ),
       ),
     );
+
+    //due to flutter upgrade
+    /*return showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(
+          "Your QR Code",
+          textAlign: TextAlign.center,
+        ),
+        content: Container(
+          height: 200,
+          width: 200,
+          child: Image.memory(bytes),
+        ),
+      ),
+    );*/
   }
 }
