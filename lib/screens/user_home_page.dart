@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:smallorgsys/models/user.dart';
 import 'package:smallorgsys/providers/auth.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:smallorgsys/providers/tasks_provider.dart';
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -25,11 +26,16 @@ class _UserHomePageState extends State<UserHomePage> {
         .then((res) {
       if (res['success']) {
         totalAtendedEvents = res['totalAtendedEvents'];
-        Provider.of<Auth>(context, listen: false).getTask().then((res) {
+        Provider.of<TasksController>(context, listen: false)
+            .getTask(admin: false)
+            .then((res) {
           if (res) {
+            List usertasks =
+                Provider.of<TasksController>(context, listen: false).usertasks;
+            print(usertasks);
             int doneTasks =
-                user.tasks.where((task) => task.status == true).length;
-            tasksPercentage = ((doneTasks / user.tasks.length) * 100).round();
+                usertasks.where((task) => task.status == true).length;
+            tasksPercentage = ((doneTasks / usertasks.length) * 100).round();
             setState(() {
               _isLoading = false;
             });
@@ -46,7 +52,7 @@ class _UserHomePageState extends State<UserHomePage> {
   User user;
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<Auth>(context).user;
+    user = Provider.of<Auth>(context, listen: false).user;
     return Scaffold(
       body: _isLoading
           ? Center(child: CircularProgressIndicator())

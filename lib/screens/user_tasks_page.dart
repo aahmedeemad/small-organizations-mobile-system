@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/models/task.dart';
-import 'package:smallorgsys/models/user.dart';
 import 'package:smallorgsys/providers/auth.dart';
+import 'package:smallorgsys/providers/tasks_provider.dart';
 
 class Tasks extends StatefulWidget {
   @override
@@ -11,13 +11,14 @@ class Tasks extends StatefulWidget {
 }
 
 class _TasksState extends State<Tasks> {
-  User authUser;
+  List usertasks;
 
   @override
   Widget build(BuildContext context) {
-    authUser = Provider.of<Auth>(context).user;
-    var tasksPercentage = authUser.tasks.where((u) => u.status == true).length /
-        authUser.tasks.length;
+    usertasks = Provider.of<TasksController>(context).usertasks;
+    String userid = Provider.of<TasksController>(context).userId;
+    var tasksPercentage =
+        usertasks.where((u) => u.status == true).length / usertasks.length;
     return Container(
       child: Column(
         children: [
@@ -55,11 +56,9 @@ class _TasksState extends State<Tasks> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: ScrollPhysics(),
-              itemCount: authUser.tasks.length,
+              itemCount: usertasks.length,
               itemBuilder: (context, index) {
-                return taskCard(
-                  task: authUser.tasks[index],
-                );
+                return taskCard(task: usertasks[index], userid: userid);
               },
             ),
           ),
@@ -68,15 +67,15 @@ class _TasksState extends State<Tasks> {
     );
   }
 
-  Widget taskCard({@required Task task}) {
+  Widget taskCard({@required Task task, @required String userid}) {
     return ListTile(
       title: Text(task.title),
       subtitle: Text(task.description),
       trailing: Checkbox(
           value: task.status,
           onChanged: (val) {
-            Provider.of<Auth>(context, listen: false)
-                .changeTaskStatus(task)
+            Provider.of<TasksController>(context, listen: false)
+                .changeTaskStatus(task: task, userId: userid)
                 .then((res) {
               if (res == true)
                 setState(() {

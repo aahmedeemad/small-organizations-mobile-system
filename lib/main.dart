@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:provider/provider.dart';
 import 'package:smallorgsys/providers/auth.dart';
 import 'package:smallorgsys/providers/board_provider.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
@@ -27,7 +28,12 @@ import 'package:smallorgsys/screens/login.dart';
 import 'package:smallorgsys/screens/home.dart';
 
 void main() {
-  runApp(App());
+  runApp(
+    provider.ChangeNotifierProvider(
+      create: (context) => Auth(),
+      child: App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
@@ -35,8 +41,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return provider.MultiProvider(
       providers: [
-        provider.ChangeNotifierProvider.value(
-          value: Auth(),
+        ChangeNotifierProxyProvider<Auth, TasksController>(
+          create: (_) => TasksController(
+              Provider.of<Auth>(context, listen: false).token,
+              Provider.of<Auth>(context, listen: false).userId, []),
+          update: (ctx, auth, tasks) =>
+              tasks..receiveToken(auth, tasks.usertasks),
         ),
         provider.ChangeNotifierProvider.value(
           value: NewsController(),
