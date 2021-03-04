@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smallorgsys/models/http_exception.dart';
 import 'package:smallorgsys/models/user.dart';
@@ -20,7 +21,10 @@ class Auth with ChangeNotifier {
   }
 
   String get userId {
-    return _user.id;
+    if (_user?.id != null) {
+      return _user.id;
+    }
+    return null;
   }
 
   String get userName {
@@ -165,7 +169,6 @@ class Auth with ChangeNotifier {
 
   Future<void> logout() async {
     _user = null;
-
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
