@@ -36,24 +36,56 @@ class UsersController with ChangeNotifier {
 
   Future<void> fetchAndSetUsers() async {
     try {
-      final response = await http
+      final res = await http
           .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/users.json');
-      final dbData = jsonDecode(response.body) as Map<String, dynamic>;
-      final List<User> dbUser = [];
-      dbData.forEach((key, data) {
-        // dbUser.add(
-        //   User(
-        //     id: key,
-        //     name: data['name'],
-        //     imagepath: data['imagepath'],
-        //     qrCode: data['qrCode'],
-        //     task: data['task'],
-        //   ),
-        // );
-      });
-      print(dbUser[0].name);
-      _usersList = dbUser;
-      notifyListeners();
+      if (res.statusCode == 200) {
+        final dbData = jsonDecode(res.body) as Map<String, dynamic>;
+        final List<User> dbUser = [];
+        dbData.forEach((key, data) {
+          dbUser.add(User(
+              id: key,
+              birthDate: data['birthDate'],
+              committee: data['committee'],
+              email: data['email'],
+              imagePath: data['imagePath'],
+              joinAt: data['joinAt'],
+              leftAt: data['leftAt'],
+              name: data['name'],
+              phone: data['phone'],
+              privilege: data['privilege'],
+              token: data['token'],
+              rating: data['rating']));
+        });
+        _usersList = dbUser;
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+      throw (e);
+    }
+  }
+
+  Future<void> updateUserRating({int rating, String userId}) async {
+    print(userId);
+    try {
+      final res = await http.patch(
+        'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/${userId}.json',
+        body: json.encode(
+          {
+            'rating': rating,
+          },
+        ),
+      );
+      if (res.statusCode == 200) {
+        var index = _usersList.indexWhere((user) => user.id == userId);
+        _usersList[index].rating = rating;
+        notifyListeners();
+      } else {
+        return false;
+      }
     } on Exception catch (e) {
       print(e.toString());
       throw (e);

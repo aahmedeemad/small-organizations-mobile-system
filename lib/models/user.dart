@@ -13,7 +13,7 @@ class User {
   final String token;
   final String imagePath;
   final String phone;
-  final int rating;
+  int rating;
 
   List<Task> tasks = [];
   User({

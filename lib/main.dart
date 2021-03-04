@@ -7,6 +7,7 @@ import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/providers/news_provider.dart';
 import 'package:smallorgsys/providers/speakers_provider.dart';
 import 'package:smallorgsys/providers/tasks_provider.dart';
+import 'package:smallorgsys/providers/users_provider.dart';
 import 'package:smallorgsys/screens/about_us.dart';
 import 'package:smallorgsys/screens/add_member.dart';
 import 'package:smallorgsys/screens/add_task.dart';
@@ -59,6 +60,9 @@ class App extends StatelessWidget {
         ),
         provider.ChangeNotifierProvider.value(
           value: BoardController(),
+        ),
+        provider.ChangeNotifierProvider.value(
+          value: UsersController(),
         ),
         // provider.ChangeNotifierProvider.value(
         //   value: TasksController(),

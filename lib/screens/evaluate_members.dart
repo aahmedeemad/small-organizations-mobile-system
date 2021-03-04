@@ -1,41 +1,99 @@
 import 'dart:math';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:smallorgsys/models/user.dart';
+import 'package:smallorgsys/providers/users_provider.dart';
 
-class EvalMembers extends StatelessWidget {
+class EvalMembers extends StatefulWidget {
+  @override
+  _EvalMembersState createState() => _EvalMembersState();
+}
+
+class _EvalMembersState extends State<EvalMembers> {
+  UsersController providerUsersController;
+  @override
+  void initState() {
+    super.initState();
+    providerUsersController =
+        Provider.of<UsersController>(context, listen: false);
+  }
+
+  Future<void> _refresh(context) async {
+    setState(() {
+      providerUsersController.fetchAndSetUsers();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Evaluate members')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.search),
-                labelText: 'Search by name',
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 15,
-              itemBuilder: (context, index) {
-                return member(
-                  name: "Mark Refaat $index",
-                  imagePath:
-                      'https://upload.wikimedia.org/wikipedia/commons/3/3f/'
-                      'TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg',
+      body: FutureBuilder(
+          future: providerUsersController.fetchAndSetUsers(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData && snapshot.data == true) {
+                List<User> users = providerUsersController.users;
+                return RefreshIndicator(
+                  onRefresh: () => _refresh(context),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            icon: Icon(Icons.search),
+                            labelText: 'Search by name',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            for (final User user in users)
+                              member(
+                                  name: user.name,
+                                  imagePath: user.imagePath,
+                                  id: user.id,
+                                  rating: user.rating)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
-              },
-            ),
-          ),
+              } else
+                return errorWidget(context);
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
+    );
+  }
+
+  Widget errorWidget(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('An error occurred while retrieving data,'),
+          Text('Please check your network connection!'),
+          RaisedButton(
+            child: Text("Retry"),
+            onPressed: () => _refresh(context),
+          )
         ],
       ),
     );
   }
 
-  Widget member({@required name, @required imagePath}) {
+  Widget member(
+      {@required String name,
+      @required String imagePath,
+      @required String id,
+      @required int rating}) {
     return Card(
       elevation: 3.0,
       child: ListTile(
@@ -52,7 +110,10 @@ class EvalMembers extends StatelessWidget {
           ),
         ),
         title: Text(name),
-        subtitle: StarDisplay(value: Random().nextInt(5)),
+        subtitle: StarDisplay(
+          value: rating,
+          id: id,
+        ),
         onTap: () {},
       ),
     );
@@ -60,22 +121,27 @@ class EvalMembers extends StatelessWidget {
 }
 
 class StarDisplay extends StatelessWidget {
-  final int value;
-  StarDisplay({@required this.value});
+  final dynamic value;
+  final dynamic id;
+  StarDisplay({@required this.value, @required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 3.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(5, (index) {
-          return Icon(
-            index < value ? Icons.star : Icons.star_border,
-            color: Colors.red,
-          );
-        }),
+    return RatingBar.builder(
+      initialRating: value.toDouble(),
+      minRating: 0,
+      direction: Axis.horizontal,
+      allowHalfRating: false,
+      itemCount: 5,
+      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
       ),
+      onRatingUpdate: (rating) {
+        Provider.of<UsersController>(context, listen: false)
+            .updateUserRating(userId: id, rating: rating.toInt());
+      },
     );
   }
 }
