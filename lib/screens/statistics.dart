@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:smallorgsys/providers/auth.dart';
+import 'package:smallorgsys/providers/tasks_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+
+import 'package:smallorgsys/providers/tasks_provider.dart';
 
 class StatisticsPage extends StatelessWidget {
-  final Map<String, double> dataIT = {
-    "Completed": 10,
-    "Not Completed": 3,
-  };
-  final Map<String, double> dataHR = {
-    "Completed": 5,
-    "Not Completed": 1,
-  };
-  final Map<String, double> dataPR = {
-    "Completed": 4,
-    "Not Completed": 6,
-  };
-  final Map<String, double> dataMedia = {
-    "Completed": 1,
-    "Not Completed": 8,
-  };
-
   @override
   Widget build(BuildContext context) {
+    Provider.of<TasksController>(context, listen: false)
+        .getAllTasks(admin: Provider.of<Auth>(context, listen: false).isAdmin);
+    Map stats =
+        Provider.of<TasksController>(context, listen: false).tasksStat();
     return Scaffold(
       appBar: AppBar(
         title: Text('Statistics'),
       ),
       body: ListView(
         children: [
-          chartWidget(committeName: 'IT departement', data: dataIT),
-          chartWidget(committeName: 'HR departement', data: dataHR),
-          chartWidget(committeName: 'PR departement', data: dataPR),
-          chartWidget(committeName: 'Media departement', data: dataMedia),
+          chartWidget(
+              committeName: 'IT departement',
+              data: stats['IT'] != null ? stats['IT'] : [0, 0]),
+          chartWidget(
+              committeName: 'HR departement',
+              data: stats['HR'] != null ? stats['HR'] : [0, 0]),
+          chartWidget(
+              committeName: 'PR departement',
+              data: stats['PR'] != null ? stats['PR'] : [0, 0]),
+          chartWidget(
+              committeName: 'Media departement',
+              data: stats['Media'] != null ? stats['Media'] : [0, 0]),
         ],
       ),
     );
@@ -52,7 +54,10 @@ class StatisticsPage extends StatelessWidget {
                 ),
               ),
             ),
-            PieChart(dataMap: data),
+            PieChart(dataMap: {
+              'completed': data[0].toDouble(),
+              'In progress': data[1].toDouble()
+            }),
             // Divider(color: Colors.red),
           ],
         ),
