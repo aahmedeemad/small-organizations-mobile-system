@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:smallorgsys/models/task.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +11,7 @@ class TasksController with ChangeNotifier {
   String userId;
 
   TasksController(this.authToken, this.userId, this._singleUserTasks);
+
   // void addTask(Task task) {
   //   http.post(
   //     'https://tedxmiu-11c76-default-rtdb.firebaseio.com/tasks.json',
@@ -41,6 +40,33 @@ class TasksController with ChangeNotifier {
     return _tasksList.firstWhere((tasks) => tasks.title == title);
   }
 
+  Future getAllTasks({@required bool admin}) async {
+    final res = await http.get(
+        'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks.json');
+    if (res.statusCode == 200) {
+      Map<String, dynamic> dbData = jsonDecode(res.body);
+      final List<Task> tasks = [];
+
+      dbData.forEach((k, user) {
+        user.forEach((key, task) {
+          tasks.add(
+            Task(
+              title: task['title'],
+              description: task['description'],
+              status: task['status'],
+              committee: task['committee'],
+              id: k + '-' + key,
+            ),
+          );
+        });
+      });
+      _tasksList = tasks;
+      return true;
+    } else
+      print(res.statusCode);
+    return false;
+  }
+
   Future getTask({bool admin = false, String requestedId = ''}) async {
     // final res = await http.post(
     //     'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/$userId.json',
@@ -58,7 +84,9 @@ class TasksController with ChangeNotifier {
     String userId = '';
     if (admin == true && requestedId != '') {
       userId = requestedId;
-    } else if (admin == false) {
+    } else if (admin == false && requestedId == '')
+      return false;
+    else if (admin == false) {
       userId = this.userId;
     }
 
@@ -74,6 +102,7 @@ class TasksController with ChangeNotifier {
             title: v['title'],
             description: v['description'],
             status: v['status'],
+            committee: v['committee'],
             id: k,
             // userId: v['userId']
           ),
@@ -108,6 +137,25 @@ class TasksController with ChangeNotifier {
     this.authToken = auth.token;
     this.userId = auth.userId;
     this._singleUserTasks = items;
+  }
+
+  Map<String, List> tasksStat() {
+    List tasks = _tasksList;
+    Map<String, List> stat = new Map();
+    for (var task in tasks) {
+      if (stat.containsKey(task.committee)) {
+        task.status
+            ? stat[task.committee][0] += 1
+            : stat[task.committee][1] += 1;
+      } else {
+        stat[task.committee] = [0, 0];
+        task.status
+            ? stat[task.committee][0] += 1
+            : stat[task.committee][1] += 1;
+      }
+    }
+    print(stat);
+    return stat;
   }
 
   // Future<void> fetchAndSetTasks() async {
