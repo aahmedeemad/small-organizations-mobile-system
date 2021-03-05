@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +22,15 @@ class _UserHomePageState extends State<UserHomePage> {
     Provider.of<Auth>(context, listen: false)
         .getTotalAtendedEvents()
         .then((res) {
+      print(res['success']);
       if (res['success']) {
         totalAtendedEvents = res['totalAtendedEvents'];
         Provider.of<TasksController>(context, listen: false)
-            .getTask(admin: false)
+            .getTask(
+                admin: false,
+                requestedId: Provider.of<Auth>(context, listen: false).user.id)
             .then((res) {
+          print(res);
           if (res) {
             List usertasks =
                 Provider.of<TasksController>(context, listen: false).usertasks;
@@ -45,8 +48,6 @@ class _UserHomePageState extends State<UserHomePage> {
     super.initState();
   }
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  bool _checkbox = false;
   Uint8List bytes = Uint8List(0);
   User user;
   @override
@@ -95,7 +96,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 homeCard(
                     word: ' Attended $totalAtendedEvents events ',
                     icon: Icons.event),
-                eventCard(),
+                // eventCard(),
                 SizedBox(height: 15),
                 Divider(thickness: 1),
                 Padding(
@@ -142,40 +143,11 @@ class _UserHomePageState extends State<UserHomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Your evaluation " + user.rating.toString() + "/5",
+                    "Your evaluation " + user.rating.toString() + " 🌟",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
                         .copyWith(fontSize: 18),
-                  ),
-                ),
-                Container(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text('Subscribe to latest updates'),
-                        trailing: Checkbox(
-                            value: _checkbox,
-                            onChanged: (value) {
-                              if (_checkbox == true) {
-                                setState(() {
-                                  _checkbox = !_checkbox;
-                                  _firebaseMessaging
-                                      .subscribeToTopic("mainNotifications");
-                                });
-                              } else {
-                                setState(() {
-                                  _checkbox = !_checkbox;
-                                  _firebaseMessaging.unsubscribeFromTopic(
-                                      "mainNotifications");
-                                });
-                              }
-                            }),
-                      );
-                    },
                   ),
                 ),
               ],

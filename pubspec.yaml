@@ -35,8 +35,6 @@ dependencies:
   shimmer:
   snaplist: ^0.1.8
   google_maps_flutter: ^1.0.3
-  firebase_core: ^0.5.3
-  firebase_storage: ^5.2.0
   carousel_slider: ^2.3.1
   url_launcher: ^5.7.10
   flutter_rating_bar: ^3.2.0+1
