@@ -6,6 +6,7 @@ import 'package:smallorgsys/models/event.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/providers/speakers_provider.dart';
 import 'package:smallorgsys/screens/speaker_page.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class EventDetailsPage extends StatefulWidget {
@@ -144,65 +145,30 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                         ],
                       ),
                     ),
-                    FutureBuilder(
-                        future: providerSpeakersController
-                            .fetchAndSetSpeakers(widget.id),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            if (!snapshot.hasError) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: ScrollPhysics(),
-                                itemCount:
-                                    providerSpeakersController.speakers.length,
-                                itemBuilder: (context, index) {
-                                  return speaker(
-                                    id: providerSpeakersController
-                                        .speakers[index].id,
-                                    imagePath: providerSpeakersController
-                                        .speakers[index].imagePath,
-                                    name: providerSpeakersController
-                                        .speakers[index].name,
-                                    bio: providerSpeakersController
-                                        .speakers[index].bio,
-                                    from: providerSpeakersController
-                                        .speakers[index].from,
-                                    to: providerSpeakersController
-                                        .speakers[index].to,
-                                  );
-                                },
-                              );
-                            } else
-                              return errorWidget(context);
-                          } else {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        }),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      itemCount: providerSpeakersController.speakers.length,
+                      itemBuilder: (context, index) {
+                        return speaker(
+                          id: providerSpeakersController.speakers[index].id,
+                          imagePath: providerSpeakersController
+                              .speakers[index].imagePath,
+                          name: providerSpeakersController.speakers[index].name,
+                          bio: providerSpeakersController.speakers[index].bio,
+                          from: providerSpeakersController.speakers[index].from,
+                          to: providerSpeakersController.speakers[index].to,
+                        );
+                      },
+                    ),
                   ],
                 );
               } else
-                return errorWidget(context);
+                return NetworkErrorWidget(retryButton: () => _refresh(context));
             } else {
               return Center(child: CircularProgressIndicator());
             }
           }),
-    );
-  }
-
-  Widget errorWidget(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('An error occurred while retrieving data,'),
-          Text('Please check your network connection!'),
-          RaisedButton(
-            child: Text("Retry"),
-            onPressed: () => _refresh(context),
-          )
-        ],
-      ),
     );
   }
 

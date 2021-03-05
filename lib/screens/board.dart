@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/board_provider.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 import 'drawer.dart';
 
 class BoardPage extends StatefulWidget {
@@ -54,7 +55,7 @@ class _BoardPageState extends State<BoardPage> {
                   },
                 );
               } else
-                return errorWidget(context);
+                return NetworkErrorWidget(retryButton: () => _refresh(context));
             } else {
               return Center(child: CircularProgressIndicator());
             }
@@ -112,22 +113,6 @@ class _BoardPageState extends State<BoardPage> {
             position,
             style: TextStyle(fontSize: 18),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget errorWidget(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('An error occurred while retrieving data,'),
-          Text('Please check your network connection!'),
-          RaisedButton(
-            child: Text("Retry"),
-            onPressed: () => _refresh(context),
-          )
         ],
       ),
     );

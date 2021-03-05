@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/speakers_provider.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 
 class SpeakerPage extends StatefulWidget {
   final speakerID;
@@ -48,7 +49,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
           Container(color: Colors.black87.withOpacity(0.8)),
           ClipPath(
             child: Container(color: Colors.redAccent[700].withOpacity(0.8)),
-            clipper: getClipper(),
+            clipper: GetClipper(),
           ),
           FutureBuilder(
               future: providerSpeakersController.fetchSpeaker(widget.speakerID),
@@ -126,7 +127,8 @@ class _SpeakerPageState extends State<SpeakerPage> {
                       ),
                     );
                   } else
-                    return errorWidget(context);
+                    return NetworkErrorWidget(
+                        retryButton: () => _refresh(context));
                 } else {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -135,25 +137,9 @@ class _SpeakerPageState extends State<SpeakerPage> {
       ),
     );
   }
-
-  Widget errorWidget(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('An error occurred while retrieving data,'),
-          Text('Please check your network connection!'),
-          RaisedButton(
-            child: Text("Retry"),
-            onPressed: () => _refresh(context),
-          )
-        ],
-      ),
-    );
-  }
 }
 
-class getClipper extends CustomClipper<Path> {
+class GetClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = new Path();

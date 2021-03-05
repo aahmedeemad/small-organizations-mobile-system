@@ -6,6 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/models/event.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 import 'drawer.dart';
 
 class EventsPage extends StatefulWidget {
@@ -78,7 +79,7 @@ class _EventsPageState extends State<EventsPage> {
                   ),
                 );
               } else
-                return errorWidget(context);
+                return NetworkErrorWidget(retryButton: () => _refresh(context));
             } else {
               return Center(child: CircularProgressIndicator());
             }
@@ -118,22 +119,6 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget errorWidget(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('An error occurred while retrieving data,'),
-          Text('Please check your network connection!'),
-          RaisedButton(
-            child: Text("Retry"),
-            onPressed: () => _refresh(context),
-          )
-        ],
       ),
     );
   }

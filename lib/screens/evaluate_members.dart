@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/models/user.dart';
 import 'package:smallorgsys/providers/users_provider.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 
 class EvalMembers extends StatefulWidget {
   @override
@@ -65,27 +66,11 @@ class _EvalMembersState extends State<EvalMembers> {
                   ),
                 );
               } else
-                return errorWidget(context);
+                return NetworkErrorWidget(retryButton: () => _refresh(context));
             } else {
               return Center(child: CircularProgressIndicator());
             }
           }),
-    );
-  }
-
-  Widget errorWidget(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('An error occurred while retrieving data,'),
-          Text('Please check your network connection!'),
-          RaisedButton(
-            child: Text("Retry"),
-            onPressed: () => _refresh(context),
-          )
-        ],
-      ),
     );
   }
 
