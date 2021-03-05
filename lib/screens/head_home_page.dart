@@ -60,14 +60,14 @@ class _HeadHomePageState extends State<HeadHomePage> {
                       Navigator.of(context).pushNamed('/addTask');
                     },
                   ),
-                  homeIcon(
-                    image: 'https://cdn2.iconfinder.com/data/icons/user-actions'
-                        '-line/24/add_user_member_friend-256.png',
-                    title: 'Add new member',
-                    onpress: () {
-                      Navigator.of(context).pushNamed('/addMember');
-                    },
-                  ),
+                  // homeIcon(
+                  //   image: 'https://cdn2.iconfinder.com/data/icons/user-actions'
+                  //       '-line/24/add_user_member_friend-256.png',
+                  //   title: 'Add new member',
+                  //   onpress: () {
+                  //     Navigator.of(context).pushNamed('/addMember');
+                  //   },
+                  // ),
                 ],
               )
             ],
