@@ -9,6 +9,7 @@ import 'package:smallorgsys/screens/speaker_page.dart';
 import 'package:smallorgsys/widgets/network_error_widget.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
+// ignore: must_be_immutable
 class EventDetailsPage extends StatefulWidget {
   final String id;
   Event event;

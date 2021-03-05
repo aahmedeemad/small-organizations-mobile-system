@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:smallorgsys/providers/auth.dart';
 import 'package:smallorgsys/providers/tasks_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-
-import 'package:smallorgsys/providers/tasks_provider.dart';
 
 class StatisticsPage extends StatelessWidget {
   @override

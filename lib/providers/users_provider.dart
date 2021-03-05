@@ -72,7 +72,7 @@ class UsersController with ChangeNotifier {
     print(userId);
     try {
       final res = await http.patch(
-        'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/${userId}.json',
+        'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users/$userId.json',
         body: json.encode(
           {
             'rating': rating,

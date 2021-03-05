@@ -118,7 +118,7 @@ class TasksController with ChangeNotifier {
   Future changeTaskStatus(
       {@required Task task, @required dynamic userId}) async {
     final res = await http.put(
-      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/${userId}/${task.id}.json',
+      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/$userId/$task.id.json',
       body: json.encode(
         {
           'title': task.title,

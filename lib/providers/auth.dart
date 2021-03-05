@@ -4,7 +4,6 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smallorgsys/models/http_exception.dart';
 import 'package:smallorgsys/models/user.dart';

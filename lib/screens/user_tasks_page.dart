@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/models/task.dart';
-import 'package:smallorgsys/providers/auth.dart';
 import 'package:smallorgsys/providers/tasks_provider.dart';
 
 class Tasks extends StatefulWidget {

@@ -5,14 +5,22 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/models/news.dart';
 import 'package:smallorgsys/providers/news_provider.dart';
 
-class NewsDetailsPage extends StatelessWidget {
+class NewsDetailsPage extends StatefulWidget {
   final String id;
-  News news;
+
   NewsDetailsPage(this.id);
+
+  @override
+  _NewsDetailsPageState createState() => _NewsDetailsPageState();
+}
+
+class _NewsDetailsPageState extends State<NewsDetailsPage> {
+  News news;
+
   @override
   Widget build(BuildContext context) {
-    this.news =
-        Provider.of<NewsController>(context, listen: false).findById(this.id);
+    this.news = Provider.of<NewsController>(context, listen: false)
+        .findById(this.widget.id);
     return Scaffold(
       appBar: new AppBar(
         title: new Text(this.news.title),
@@ -20,7 +28,7 @@ class NewsDetailsPage extends StatelessWidget {
       body: new ListView(
         children: <Widget>[
           Hero(
-            tag: id,
+            tag: widget.id,
             child: CachedNetworkImage(
               imageUrl: this.news.imagePath,
               progressIndicatorBuilder: (context, url, downloadProgress) =>
