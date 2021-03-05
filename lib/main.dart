@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:provider/provider.dart';
+import 'package:smallorgsys/models/news.dart';
 import 'package:smallorgsys/providers/auth.dart';
 import 'package:smallorgsys/providers/board_provider.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
@@ -27,8 +28,9 @@ import 'package:smallorgsys/screens/user_bottom_nav.dart';
 import 'package:smallorgsys/screens/user_home_page.dart';
 import 'package:smallorgsys/screens/login.dart';
 import 'package:smallorgsys/screens/home.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-void main() {
+void main() async {
   runApp(
     provider.ChangeNotifierProvider(
       create: (context) => Auth(),
@@ -37,7 +39,38 @@ void main() {
   );
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  var navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    OneSignal.shared.setNotificationOpenedHandler(
+        (OSNotificationOpenedResult result) async {
+      if (result.notification.payload.additionalData['page'] == "news") {
+        await navigatorKey.currentState.pushNamed('/news');
+      }
+    });
+
+    await OneSignal.shared.init("078531c6-98d6-43fe-bbaa-79c2e39650be");
+
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+
+    // Subscribe user to notifications
+    OneSignal.shared.setSubscription(true);
+    // OneSignal.shared.setSubscription(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return provider.MultiProvider(
@@ -69,6 +102,7 @@ class App extends StatelessWidget {
         // ),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         title: 'Tedx MIU',
         routes: {
           '/': (context) => HomePage(),
