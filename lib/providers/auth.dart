@@ -45,15 +45,15 @@ class Auth with ChangeNotifier {
     return null;
   }
 
-  Future getTotalAtendedEvents() async {
-    print(userId);
+  Future getTotalAtendedEvents({bool admin = false, String userId}) async {
+    admin == false ? userId = this.userId : userId = userId;
     final res = await http.get(
         'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersAttendEvents/$userId.json');
     if (res.statusCode == 200) {
       var dbData = jsonDecode(res.body);
       return {
         'success': true,
-        'totalAtendedEvents': dbData.length,
+        'totalAtendedEvents': dbData != null ? dbData.length : 0,
       };
     } else
       return {'success': false};

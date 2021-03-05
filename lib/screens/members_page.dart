@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/users_provider.dart';
+import 'package:smallorgsys/screens/admin_view_member.dart';
 import 'package:smallorgsys/screens/drawer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -86,23 +87,27 @@ class _MembersPageState extends State<Members> {
                 itemBuilder: (context, index) {
                   return eventCard(
                       imagePath: providerUsersController.users[index].imagePath,
-                      name: providerUsersController.users[index].name);
+                      name: providerUsersController.users[index].name,
+                      id: providerUsersController.users[index].id);
                 },
               ),
             ),
     );
   }
 
-  Widget eventCard({@required imagePath, @required name}) {
+  Widget eventCard({@required imagePath, @required name, @required id}) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: InkWell(
           onTap: () {
-            // Navigator.of(context).push(MaterialPageRoute(
-            //   builder: (context) => NewsDetailsPage(id),
-            // ));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdminViewMember(id),
+              ),
+            );
           },
           child: Card(
             child: Hero(
@@ -118,7 +123,7 @@ class _MembersPageState extends State<Members> {
                   ),
                 ),
                 errorWidget: (context, url, error) => Icon(Icons.error),
-                height: 160,
+                height: 170,
                 fit: BoxFit.fitWidth,
               ),
             ),
