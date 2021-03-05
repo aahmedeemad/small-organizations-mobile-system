@@ -170,6 +170,7 @@ class Auth with ChangeNotifier {
     _user = null;
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+    prefs.setString('user_data', null);
+    // prefs.clear();
   }
 }
