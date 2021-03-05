@@ -12,40 +12,53 @@ class BoardPage extends StatefulWidget {
 }
 
 class _BoardPageState extends State<BoardPage> {
-  var _isLoading = true;
   var providerBoardController;
   @override
   void initState() {
     Provider.of<BoardController>(context, listen: false)
         .fetchAndSetBoard()
         .then((_) {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() {});
     });
     super.initState();
   }
 
+  Future<void> _refresh(context) async {
+    setState(() {
+      Provider.of<BoardController>(context, listen: false).fetchAndSetBoard();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    providerBoardController = Provider.of<BoardController>(context);
+    providerBoardController =
+        Provider.of<BoardController>(context, listen: false);
     return Scaffold(
       drawer: DrawerPage(),
       appBar: AppBar(
         title: Text('Board'),
       ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: providerBoardController.board.length,
-              itemBuilder: (context, index) {
-                return boardWidget(
-                  imagePath: providerBoardController.board[index].imagePath,
-                  name: providerBoardController.board[index].name,
-                  position: providerBoardController.board[index].position,
+      body: FutureBuilder(
+          future: providerBoardController.fetchAndSetBoard(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (!snapshot.hasError) {
+                return ListView.builder(
+                  itemCount: providerBoardController.board.length,
+                  itemBuilder: (context, index) {
+                    return boardWidget(
+                      imagePath: providerBoardController.board[index].imagePath,
+                      name: providerBoardController.board[index].name,
+                      position: providerBoardController.board[index].position,
+                    );
+                  },
                 );
-              },
-            ),
+              } else
+                return errorWidget(context);
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
     );
   }
 
@@ -99,6 +112,22 @@ class _BoardPageState extends State<BoardPage> {
             position,
             style: TextStyle(fontSize: 18),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget errorWidget(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('An error occurred while retrieving data,'),
+          Text('Please check your network connection!'),
+          RaisedButton(
+            child: Text("Retry"),
+            onPressed: () => _refresh(context),
+          )
         ],
       ),
     );
