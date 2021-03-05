@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smallorgsys/providers/auth.dart';
 
 class DrawerPage extends StatefulWidget {
@@ -78,6 +80,28 @@ class _DrawerPageState extends State<DrawerPage> {
               title: 'Our Team', icon: Icons.assignment_ind, route: '/board'),
           Divider(),
           drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
+          FutureBuilder(
+            future: SharedPreferences.getInstance(),
+            // ignore: missing_return
+            builder: (ctx, AsyncSnapshot<SharedPreferences> autResSnapshot) {
+              if (autResSnapshot.connectionState == ConnectionState.done &&
+                  autResSnapshot.hasData) {
+                return CheckboxListTile(
+                    title: Text("Receive notification"),
+                    value: autResSnapshot.data.getBool('subNotifications'),
+                    onChanged: (newValue) {
+                      setState(() {
+                        autResSnapshot.data
+                            .setBool('subNotifications', newValue);
+                        OneSignal.shared.setSubscription(newValue);
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.platform);
+              } else if (autResSnapshot.connectionState ==
+                  ConnectionState.waiting)
+                return Center(child: CircularProgressIndicator());
+            },
+          ),
         ],
       ),
     );

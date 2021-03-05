@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:provider/provider.dart';
-import 'package:smallorgsys/models/news.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smallorgsys/providers/auth.dart';
 import 'package:smallorgsys/providers/board_provider.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
@@ -66,9 +66,11 @@ class _AppState extends State<App> {
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
-    // Subscribe user to notifications
-    OneSignal.shared.setSubscription(true);
-    // OneSignal.shared.setSubscription(false);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getBool('subNotifications') == null) {
+      sharedPreferences.setBool('subNotifications', true);
+      OneSignal.shared.setSubscription(true);
+    }
   }
 
   @override
