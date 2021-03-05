@@ -66,18 +66,28 @@ class _HomePageState extends State<HomePage> {
                             return CarouselSlider(
                               items: [
                                 for (var i = 1; i <= 3; i++)
-                                  //1st Image of Slider
-                                  Container(
-                                    margin: EdgeInsets.all(6.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            "${providerNewsController.news[i].imagePath}"),
-                                        fit: BoxFit.cover,
+                                  GestureDetector(
+                                      child:
+                                          //1st Image of Slider
+                                          Container(
+                                        margin: EdgeInsets.all(6.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                "${providerNewsController.news[i].imagePath}"),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => NewsDetailsPage(
+                                              "${providerNewsController.news[i].id}"),
+                                        ));
+                                      }),
                               ],
                               //Slider Container properties
                               options: CarouselOptions(
@@ -115,9 +125,11 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(20.0),
                         child: InkWell(
                           onTap: () {
+                            var eventid =
+                                providerEventsController.events.length - 1;
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => EventDetailsPage(
-                                  '${providerEventsController.events.length - 1}'),
+                                  '${providerEventsController.events[eventid].id}'),
                             ));
                           },
                           child: Card(
@@ -159,41 +171,42 @@ class _HomePageState extends State<HomePage> {
                             .copyWith(color: Colors.grey[600]),
                       ),
                     ),
+                    Padding(padding: const EdgeInsets.symmetric(vertical: 8.0)),
                     Center(
                       child: Row(
                         children: <Widget>[
                           Expanded(
-                            child: new RaisedButton(
+                            child: FlatButton(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: new Text("Facebook"),
+                              child: Image.asset('images/fb.png'),
                               color: Colors.blueAccent[600],
                               onPressed: _launchFB,
                             ),
                           ),
                           Expanded(
-                            child: new RaisedButton(
+                            child: new FlatButton(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: new Text("Instagram"),
+                              child: Image.asset('images/ig.png'),
                               color: Colors.blueAccent[600],
                               onPressed: _launchIG,
                             ),
                           ),
                           Expanded(
-                            child: new RaisedButton(
+                            child: new FlatButton(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: new Text("Twitter"),
+                              child: Image.asset('images/tw.png'),
                               color: Colors.blueAccent[600],
                               onPressed: _launchTW,
                             ),
                           ),
                           Expanded(
-                            child: new RaisedButton(
+                            child: new FlatButton(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: new Text("LinkedIN"),
+                              child: Image.asset('images/in.png'),
                               color: Colors.blueAccent[600],
                               onPressed: _launchLIN,
                             ),
