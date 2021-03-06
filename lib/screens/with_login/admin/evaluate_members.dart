@@ -12,16 +12,23 @@ class EvalMembers extends StatefulWidget {
 
 class _EvalMembersState extends State<EvalMembers> {
   UsersController providerUsersController;
+  Future<List<User>> users;
   @override
   void initState() {
     super.initState();
     providerUsersController =
         Provider.of<UsersController>(context, listen: false);
+    providerUsersController.fetchAndSetUsers().then((_) {
+      setState(() {
+        users = Future.value(providerUsersController.users);
+      });
+    });
   }
 
   Future<void> _refresh(context) async {
     setState(() {
       providerUsersController.fetchAndSetUsers();
+      users = Future.value(providerUsersController.users);
     });
   }
 
@@ -29,29 +36,42 @@ class _EvalMembersState extends State<EvalMembers> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Evaluate members')),
-      body: FutureBuilder(
-          future: providerUsersController.fetchAndSetUsers(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasData && snapshot.data == true) {
-                List<User> users = providerUsersController.users;
-                return RefreshIndicator(
-                  onRefresh: () => _refresh(context),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            icon: Icon(Icons.search),
-                            labelText: 'Search by name',
-                          ),
-                        ),
-                      ),
-                      Expanded(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                icon: Icon(Icons.search),
+                labelText: 'Search by name',
+              ),
+              onChanged: (val) {
+                users = Future.value(providerUsersController.users);
+                setState(() {
+                  users.then((u) {
+                    users = Future.value(u
+                        .where((user) =>
+                            user.name.toLowerCase().contains(val.toLowerCase()))
+                        .toList());
+                  });
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+                future: users,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data);
+                      // List<User> users = providerUsersController.users;
+                      print(users);
+                      return RefreshIndicator(
+                        onRefresh: () => _refresh(context),
                         child: ListView(
                           children: [
-                            for (final User user in users)
+                            for (final User user in snapshot.data)
                               member(
                                   name: user.name,
                                   imagePath: user.imagePath,
@@ -59,16 +79,17 @@ class _EvalMembersState extends State<EvalMembers> {
                                   rating: user.rating)
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              } else
-                return NetworkErrorWidget(retryButton: () => _refresh(context));
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          }),
+                      );
+                    } else
+                      return NetworkErrorWidget(
+                          retryButton: () => _refresh(context));
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
+          ),
+        ],
+      ),
     );
   }
 
