@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/models/event.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
 import 'package:smallorgsys/providers/speakers_provider.dart';
-import 'package:smallorgsys/screens/speaker_page.dart';
+import 'package:smallorgsys/screens/without_login/speaker_page.dart';
 import 'package:smallorgsys/widgets/network_error_widget.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
@@ -183,9 +183,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => SpeakerPage(
-            speakerID: id,
-          ),
+          builder: (context) => SpeakerPage(speakerID: id),
         ));
         // Navigator.of(context).pushNamed('/speakerPage');
       },

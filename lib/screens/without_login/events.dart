@@ -4,10 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
-import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/models/event.dart';
+import 'package:smallorgsys/screens/without_login/drawer.dart';
+import 'package:smallorgsys/screens/without_login/event_details.dart';
 import 'package:smallorgsys/widgets/network_error_widget.dart';
-import 'drawer.dart';
 
 class EventsPage extends StatefulWidget {
   @override

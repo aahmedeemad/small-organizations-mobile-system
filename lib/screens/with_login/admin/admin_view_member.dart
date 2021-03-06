@@ -7,10 +7,9 @@ import 'package:smallorgsys/providers/users_provider.dart';
 import 'package:smallorgsys/providers/auth.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:smallorgsys/providers/tasks_provider.dart';
-import 'package:smallorgsys/providers/users_provider.dart';
 
 class AdminViewMember extends StatefulWidget {
-  String id;
+  final String id;
   AdminViewMember(this.id);
 
   @override

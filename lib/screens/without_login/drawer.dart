@@ -23,7 +23,7 @@ class _DrawerPageState extends State<DrawerPage> {
                 Padding(padding: const EdgeInsets.all(10.0)),
                 CircleAvatar(
                   child: Image.asset(
-                    'images/tedxMiuHome.jpg',
+                    'images/drawer/tedxMiuHome.jpg',
                   ),
                   maxRadius: 35.0,
                   minRadius: 25.0,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/providers/auth.dart';
+import 'package:smallorgsys/widgets/home_icon_button_widget.dart';
 
 class AdminHomePage extends StatefulWidget {
   @override
@@ -30,21 +31,19 @@ class _AdminHomePageState extends State<AdminHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  homeIcon(
-                    image: 'https://cdn2.iconfinder.com/data/icons/scan-to-pay/'
-                        '512/scan-pay-payment-01-512.png',
-                    title: 'Scan QR',
+                  HomeIconButton(
+                    image: 'images/admin_home/scan_qr.webp',
                     onpress: () {
                       Navigator.of(context).pushNamed('/scanQr');
                     },
+                    title: 'Scan QR',
                   ),
-                  homeIcon(
-                    image: 'https://cdn0.iconfinder.com/data/icons/'
-                        'human-resource-1-3/66/47-512.png',
-                    title: 'Evalution',
+                  HomeIconButton(
+                    image: 'images/admin_home/evalution.webp',
                     onpress: () {
                       Navigator.of(context).pushNamed('/evalMembers');
                     },
+                    title: 'Evalution',
                   ),
                 ],
               ),
@@ -52,17 +51,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  homeIcon(
-                    image: 'https://cdn4.iconfinder.com/data/icons/company-str'
-                        'ucture-6/64/directors-board-committee-administration-organization-512.png',
+                  HomeIconButton(
+                    image: 'images/admin_home/committees.webp',
                     title: 'Committees',
                     onpress: () {
                       Navigator.of(context).pushNamed('/committeesPage');
                     },
                   ),
-                  homeIcon(
-                    image: 'https://cdn0.iconfinder.com/data/icons/human-reso'
-                        'urce-management-5/64/sq482_human_resource_reporting_statistics_find_analyze_insights-512.png',
+                  HomeIconButton(
+                    image: 'images/admin_home/statistics.webp',
                     title: 'Statistics',
                     onpress: () {
                       Navigator.of(context).pushNamed('/statisticsPage');
@@ -73,30 +70,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget homeIcon({@required image, @required title, @required onpress}) {
-    return InkWell(
-      onTap: onpress,
-      child: Column(
-        children: [
-          Image.network(
-            image,
-            repeat: ImageRepeat.noRepeat,
-            fit: BoxFit.fitWidth,
-            height: 120,
-            color: Colors.grey[800],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              title,
-              style: TextStyle(color: Colors.grey[800]),
-            ),
-          )
-        ],
       ),
     );
   }

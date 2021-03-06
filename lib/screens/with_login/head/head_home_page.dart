@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/providers/auth.dart';
+import 'package:smallorgsys/widgets/home_icon_button_widget.dart';
 
 class HeadHomePage extends StatefulWidget {
   @override
@@ -30,17 +31,15 @@ class _HeadHomePageState extends State<HeadHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  homeIcon(
-                    image: 'https://cdn2.iconfinder.com/data/icons/scan-to-pay/'
-                        '512/scan-pay-payment-01-512.png',
+                  HomeIconButton(
+                    image: 'images/head_home/scan_qr.webp',
                     title: 'Scan QR',
                     onpress: () {
                       Navigator.of(context).pushNamed('/scanQr');
                     },
                   ),
-                  homeIcon(
-                    image: 'https://cdn0.iconfinder.com/data/icons/stem-science'
-                        '-technology-engineering-math-education/64/team-teamwork-members-group-people-mass-256.png',
+                  HomeIconButton(
+                    image: 'images/head_home/committee.webp',
                     title: 'Members',
                     onpress: () {
                       Navigator.of(context).pushNamed('/membersPage');
@@ -52,9 +51,8 @@ class _HeadHomePageState extends State<HeadHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  homeIcon(
-                    image: 'https://cdn0.iconfinder.com/data/icons/'
-                        'human-resource-1-3/66/47-512.png',
+                  HomeIconButton(
+                    image: 'images/head_home/add_task.webp',
                     title: 'Add Task',
                     onpress: () {
                       Navigator.of(context).pushNamed('/addTask');
@@ -82,7 +80,7 @@ class _HeadHomePageState extends State<HeadHomePage> {
       onTap: onpress,
       child: Column(
         children: [
-          Image.network(
+          Image.asset(
             image,
             repeat: ImageRepeat.noRepeat,
             fit: BoxFit.fitWidth,

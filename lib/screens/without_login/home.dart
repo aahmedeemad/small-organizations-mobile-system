@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'drawer.dart';
+import 'package:smallorgsys/screens/without_login/drawer.dart';
+import 'package:smallorgsys/screens/without_login/event_details.dart';
+import 'package:smallorgsys/screens/without_login/news_details.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:smallorgsys/providers/event_provider.dart';
-import 'package:smallorgsys/screens/event_details.dart';
 import 'package:smallorgsys/providers/news_provider.dart';
-import 'package:smallorgsys/screens/news_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -175,41 +176,25 @@ class _HomePageState extends State<HomePage> {
                     Center(
                       child: Row(
                         children: <Widget>[
-                          Expanded(
-                            child: FlatButton(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Image.asset('images/fb.png'),
-                              color: Colors.blueAccent[600],
-                              onPressed: _launchFB,
-                            ),
+                          socialMediaProfile(
+                            image: 'images/home/fb.png',
+                            url: "https://www.facebook.com/TEDxMIU",
+                            context: context,
                           ),
-                          Expanded(
-                            child: new FlatButton(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Image.asset('images/ig.png'),
-                              color: Colors.blueAccent[600],
-                              onPressed: _launchIG,
-                            ),
+                          socialMediaProfile(
+                            image: 'images/home/ig.png',
+                            url: "https://www.instagram.com/tedxmiu/",
+                            context: context,
                           ),
-                          Expanded(
-                            child: new FlatButton(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Image.asset('images/tw.png'),
-                              color: Colors.blueAccent[600],
-                              onPressed: _launchTW,
-                            ),
+                          socialMediaProfile(
+                            image: 'images/home/tw.png',
+                            url: 'https://twitter.com/tedxmiu',
+                            context: context,
                           ),
-                          Expanded(
-                            child: new FlatButton(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Image.asset('images/in.png'),
-                              color: Colors.blueAccent[600],
-                              onPressed: _launchLIN,
-                            ),
+                          socialMediaProfile(
+                            image: 'images/home/in.png',
+                            url: 'https://eg.linkedin.com/company/tedxmiu',
+                            context: context,
                           ),
                         ],
                       ),
@@ -217,19 +202,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 );
               } else
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('An error occurred while retrieving data,'),
-                      Text('Please check your network connection!'),
-                      RaisedButton(
-                        child: Text("Retry"),
-                        onPressed: () => _refresh(context),
-                      )
-                    ],
-                  ),
-                );
+                return NetworkErrorWidget(retryButton: () => _refresh(context));
             } else {
               return Center(child: CircularProgressIndicator());
             }
@@ -237,39 +210,46 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _launchFB() async {
-    const url = 'https://www.facebook.com/TEDxMIU';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  Widget socialMediaProfile({
+    @required image,
+    @required url,
+    @required context,
+  }) {
+    return Expanded(
+      child: new FlatButton(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Image.asset(image),
+        color: Colors.blueAccent[600],
+        onPressed: () => _launch(url: url, context: context),
+      ),
+    );
   }
 
-  void _launchIG() async {
-    const url = 'https://www.instagram.com/tedxmiu/';
+  void _launch({@required url, @required context}) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw 'Could not launch $url';
-    }
-  }
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Alert!"),
+        content: Text("Can't open this website."),
+        actions: [
+          FlatButton(
+            child: Text("Ok"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
 
-  void _launchTW() async {
-    const url = 'https://twitter.com/tedxmiu';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  void _launchLIN() async {
-    const url = 'https://eg.linkedin.com/company/tedxmiu';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
     }
   }
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/news_provider.dart';
-import 'package:smallorgsys/screens/drawer.dart';
-import 'package:smallorgsys/screens/news_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:smallorgsys/screens/without_login/drawer.dart';
+import 'package:smallorgsys/screens/without_login/news_details.dart';
 import 'package:smallorgsys/widgets/network_error_widget.dart';
 
 class NewsPage extends StatefulWidget {
