@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Task {
-  final String id;
+  String id;
   final String title;
   final String description;
   bool status;
   final String committee;
   Task({
-    @required this.id,
+    this.id,
     @required this.title,
     @required this.description,
     @required this.status,
@@ -16,7 +16,7 @@ class Task {
 
   toJson() {
     return {
-      'id': this.id,
+      // 'id': this.id,
       'title': this.title,
       'description': this.description,
       'status': this.status,

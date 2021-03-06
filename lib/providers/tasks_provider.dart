@@ -40,6 +40,35 @@ class TasksController with ChangeNotifier {
     return _tasksList.firstWhere((tasks) => tasks.title == title);
   }
 
+  Future<bool> deleteTask(String userId, String taskId) async {
+    final res = await http.delete(
+        'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/$userId/$taskId.json');
+    if (res.statusCode == 200) return true;
+
+    return false;
+  }
+
+  Future<bool> updateTask(String userId, Task task) async {
+    final res = await http.put(
+      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/$userId/${task.id}.json',
+      body: jsonEncode(task.toJson()),
+    );
+    if (res.statusCode == 200) return true;
+
+    return false;
+  }
+
+  Future<String> addTask(String userId, Task task) async {
+    final res = await http.post(
+      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/$userId.json',
+      body: jsonEncode(task.toJson()),
+    );
+    print(res.body);
+    if (res.statusCode == 200) return jsonDecode(res.body)['name'];
+
+    return null;
+  }
+
   Future getAllTasks({@required bool admin}) async {
     final res = await http.get(
         'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks.json');
@@ -87,7 +116,7 @@ class TasksController with ChangeNotifier {
     } else if (admin == false && requestedId == '')
       return false;
     else if (admin == false) {
-      userId = this.userId;
+      userId = requestedId;
     }
 
     final res = await http.get(
@@ -95,6 +124,10 @@ class TasksController with ChangeNotifier {
     if (res.statusCode == 200) {
       Map<String, dynamic> dbData = jsonDecode(res.body);
       final List<Task> tasks = [];
+      if (dbData == null || dbData.length == 0) {
+        _singleUserTasks = [];
+        return null;
+      }
 
       dbData.forEach((k, v) {
         tasks.add(
@@ -118,7 +151,7 @@ class TasksController with ChangeNotifier {
   Future changeTaskStatus(
       {@required Task task, @required dynamic userId}) async {
     final res = await http.put(
-      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/$userId/$task.id.json',
+      'https://tedxmiu-11c76-default-rtdb.firebaseio.com/usersTasks/$userId/${task.id}.json',
       body: json.encode(
         {
           'title': task.title,
