@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smallorgsys/models/task.dart';
 import 'package:smallorgsys/providers/tasks_provider.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 
 class HeadUserTasks extends StatefulWidget {
   final String id;
@@ -20,6 +21,9 @@ class _HeadUserTasksState extends State<HeadUserTasks> {
   List<Task> _tasks;
 
   // String dropdownValue = "Mark";
+  Future<void> _refresh(context) async {
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -96,6 +100,9 @@ class _HeadUserTasksState extends State<HeadUserTasks> {
                       );
                     },
                   );
+                } else if (!snapshot.hasError) {
+                  return NetworkErrorWidget(
+                      retryButton: () => _refresh(context));
                 } else {
                   return Center(child: Text("No tasks assigned for this user"));
                 }

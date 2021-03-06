@@ -6,6 +6,7 @@ import 'package:smallorgsys/models/user.dart';
 import 'package:smallorgsys/providers/auth.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:smallorgsys/providers/tasks_provider.dart';
+import 'package:smallorgsys/widgets/network_error_widget.dart';
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -15,7 +16,37 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   int totalAtendedEvents;
   int tasksPercentage;
-  bool _isLoading = true;
+
+  Future<void> _refresh(context) async {
+    setState(() {
+      Provider.of<Auth>(context, listen: false)
+          .getTotalAtendedEvents()
+          .then((res) {
+        print(res['success']);
+        if (res['success']) {
+          totalAtendedEvents = res['totalAtendedEvents'];
+          Provider.of<TasksController>(context, listen: false)
+              .getTask(
+                  admin: false,
+                  requestedId:
+                      Provider.of<Auth>(context, listen: false).user.id)
+              .then((res) {
+            print(res);
+            if (res) {
+              List usertasks =
+                  Provider.of<TasksController>(context, listen: false)
+                      .usertasks;
+              print(usertasks);
+              int doneTasks =
+                  usertasks.where((task) => task.status == true).length;
+              tasksPercentage = ((doneTasks / usertasks.length) * 100).round();
+              setState(() {});
+            }
+          });
+        }
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -38,9 +69,7 @@ class _UserHomePageState extends State<UserHomePage> {
             int doneTasks =
                 usertasks.where((task) => task.status == true).length;
             tasksPercentage = ((doneTasks / usertasks.length) * 100).round();
-            setState(() {
-              _isLoading = false;
-            });
+            setState(() {});
           }
         });
       }
@@ -53,106 +82,116 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<Auth>(context, listen: false).user;
-    return Scaffold(
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView(
-              children: [
-                Row(
+    return FutureBuilder(
+        future:
+            Provider.of<Auth>(context, listen: false).getTotalAtendedEvents(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (!snapshot.hasError) {
+              return Scaffold(
+                body: ListView(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(25.0),
-                      child: profilePic(),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(25.0),
+                          child: profilePic(),
+                        ),
+                        Flexible(
+                          child: Column(
+                            children: [
+                              Text(
+                                user.name,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                user.committee + " " + user.privilege,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              IconButton(
+                                tooltip: 'Qr Code',
+                                icon: Icon(Icons.qr_code),
+                                iconSize: 30,
+                                onPressed: () {
+                                  showQr(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    Flexible(
-                      child: Column(
-                        children: [
-                          Text(
-                            user.name,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            user.committee + " " + user.privilege,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          IconButton(
-                            tooltip: 'Qr Code',
-                            icon: Icon(Icons.qr_code),
-                            iconSize: 30,
-                            onPressed: () {
-                              showQr(context);
-                            },
-                          ),
-                        ],
+                    homeCard(
+                        word: ' Tasks done $tasksPercentage%',
+                        icon: Icons.pending_actions),
+                    // homeCard(
+                    //     word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
+                    homeCard(
+                        word: ' Attended $totalAtendedEvents events ',
+                        icon: Icons.event),
+                    // eventCard(),
+                    SizedBox(height: 15),
+                    Divider(thickness: 1),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        "Your Information",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(color: Colors.grey[600]),
                       ),
-                    )
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        user.email,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: 18),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "TEDx-er since ${user.joinAt}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: 18),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        user.phone,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: 18),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Your evaluation " + user.rating.toString() + " 🌟",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: 18),
+                      ),
+                    ),
                   ],
                 ),
-                homeCard(
-                    word: ' Tasks done $tasksPercentage%',
-                    icon: Icons.pending_actions),
-                // homeCard(
-                //     word: ' Attendance Meetings 70%', icon: Icons.pending_actions),
-                homeCard(
-                    word: ' Attended $totalAtendedEvents events ',
-                    icon: Icons.event),
-                // eventCard(),
-                SizedBox(height: 15),
-                Divider(thickness: 1),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    "Your Information",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.grey[600]),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    user.email,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 18),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "TEDx-er since ${user.joinAt}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 18),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    user.phone,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 18),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Your evaluation " + user.rating.toString() + " 🌟",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 18),
-                  ),
-                ),
-              ],
-            ),
-    );
+              );
+            } else
+              return NetworkErrorWidget(retryButton: () => _refresh(context));
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
 
   Widget eventCard() {

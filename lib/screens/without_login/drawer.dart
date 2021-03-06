@@ -53,13 +53,13 @@ class _DrawerPageState extends State<DrawerPage> {
                         route: '/userHomePage');
                   } else if (auth.user.privilege == "head") {
                     return drawerTile(
-                        title: 'Profile',
-                        icon: Icons.person,
+                        title: 'Management',
+                        icon: Icons.handyman,
                         route: '/headHomePage');
                   } else if (auth.user.privilege == "admin") {
                     return drawerTile(
-                        title: 'Profile',
-                        icon: Icons.person,
+                        title: 'Management',
+                        icon: Icons.handyman,
                         route: '/adminHomePage');
                   }
                 } else if (autResSnapshot.connectionState ==
@@ -80,6 +80,7 @@ class _DrawerPageState extends State<DrawerPage> {
               title: 'Our Team', icon: Icons.assignment_ind, route: '/board'),
           Divider(),
           drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
+          Divider(),
           FutureBuilder(
             future: SharedPreferences.getInstance(),
             // ignore: missing_return

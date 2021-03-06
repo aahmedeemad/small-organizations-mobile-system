@@ -58,6 +58,7 @@ class _AdminViewMemberState extends State<AdminViewMember> {
         .firstWhere((user) => user.id == widget.id);
     print(user);
     return Scaffold(
+      appBar: AppBar(),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(

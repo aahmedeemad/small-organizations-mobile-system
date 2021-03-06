@@ -74,7 +74,6 @@ class _MembersPageState extends State<Members> {
   Widget build(BuildContext context) {
     providerUsersController = Provider.of<UsersController>(context);
     return Scaffold(
-      drawer: DrawerPage(),
       appBar: AppBar(
         title: Text('Members'),
       ),
