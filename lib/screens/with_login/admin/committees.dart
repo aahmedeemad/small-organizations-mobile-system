@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smallorgsys/screens/with_login/admin/members_page.dart';
 
 class CommitteesPage extends StatefulWidget {
   @override
@@ -29,7 +30,14 @@ class _CommitteesPageState extends State<CommitteesPage> {
       padding: const EdgeInsets.all(4.0),
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed('/membersPage');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Members(
+                committee: name,
+              ),
+            ),
+          );
         },
         child: Card(
           elevation: 5.0,

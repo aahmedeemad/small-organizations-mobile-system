@@ -4,6 +4,7 @@ import 'package:smallorgsys/providers/auth.dart';
 import 'package:smallorgsys/screens/without_login/drawer.dart';
 import 'package:smallorgsys/widgets/home_icon_button_widget.dart';
 import 'package:smallorgsys/widgets/network_error_widget.dart';
+import 'package:smallorgsys/screens/with_login/admin/members_page.dart';
 
 class HeadHomePage extends StatefulWidget {
   @override
@@ -56,7 +57,16 @@ class _HeadHomePageState extends State<HeadHomePage> {
                               image: 'images/head_home/committee.webp',
                               title: 'Members',
                               onpress: () {
-                                Navigator.of(context).pushNamed('/membersPage');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Members(
+                                      committee: Provider.of<Auth>(context,
+                                              listen: false)
+                                          .committee,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ],

@@ -34,10 +34,15 @@ class UsersController with ChangeNotifier {
     return _usersList.firstWhere((users) => users.id == id);
   }
 
-  Future<void> fetchAndSetUsers() async {
+  Future<void> fetchAndSetUsers({String filter = ''}) async {
+    String filter_parameters = '';
     try {
-      final res = await http
-          .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/users.json');
+      filter_parameters =
+          filter != '' ? 'orderBy="committee"&equalTo="$filter"' : '';
+      print(filter_parameters);
+      final res = await http.get(
+          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users.json?$filter_parameters');
+      print(res);
       if (res.statusCode == 200) {
         final dbData = jsonDecode(res.body) as Map<String, dynamic>;
         final List<User> dbUser = [];

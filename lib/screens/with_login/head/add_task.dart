@@ -21,7 +21,8 @@ class _AddTaskState extends State<AddTask> {
     super.initState();
     usersController = Provider.of<UsersController>(context, listen: false);
     Provider.of<UsersController>(context, listen: false)
-        .fetchAndSetUsers()
+        .fetchAndSetUsers(
+            filter: Provider.of<Auth>(context, listen: false).user.committee)
         .then((_) {
       setState(() {
         users = Future.value(usersController.users

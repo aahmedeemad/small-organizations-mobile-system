@@ -47,6 +47,8 @@ import 'package:smallorgsys/screens/without_login/drawer.dart';
 //   }
 // }
 class Members extends StatefulWidget {
+  String committee;
+  Members({this.committee});
   @override
   _MembersPageState createState() => _MembersPageState();
 }
@@ -57,7 +59,7 @@ class _MembersPageState extends State<Members> {
   @override
   void initState() {
     Provider.of<UsersController>(context, listen: false)
-        .fetchAndSetUsers()
+        .fetchAndSetUsers(filter: widget.committee)
         .then((_) {
       setState(() {
         _isLoading = false;
@@ -67,7 +69,7 @@ class _MembersPageState extends State<Members> {
   }
 
   Future<void> _refresh(context) async {
-    await providerUsersController.fetchAndSetUsers();
+    await providerUsersController.fetchAndSetUsers(filter: widget.committee);
   }
 
   @override

@@ -30,6 +30,10 @@ class Auth with ChangeNotifier {
     return _user.name;
   }
 
+  String get committee {
+    return _user.committee;
+  }
+
   String get email {
     return _user.email;
   }
