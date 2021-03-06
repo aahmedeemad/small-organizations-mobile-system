@@ -16,44 +16,12 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   int totalAtendedEvents;
   int tasksPercentage;
-
-  Future<void> _refresh(context) async {
-    setState(() {
-      Provider.of<Auth>(context, listen: false)
-          .getTotalAtendedEvents()
-          .then((res) {
-        print(res['success']);
-        if (res['success']) {
-          totalAtendedEvents = res['totalAtendedEvents'];
-          Provider.of<TasksController>(context, listen: false)
-              .getTask(
-                  admin: false,
-                  requestedId:
-                      Provider.of<Auth>(context, listen: false).user.id)
-              .then((res) {
-            print(res);
-            if (res) {
-              List usertasks =
-                  Provider.of<TasksController>(context, listen: false)
-                      .usertasks;
-              print(usertasks);
-              int doneTasks =
-                  usertasks.where((task) => task.status == true).length;
-              tasksPercentage = ((doneTasks / usertasks.length) * 100).round();
-              setState(() {});
-            }
-          });
-        }
-      });
-    });
-  }
-
+  Future attendedEvents;
   @override
   void initState() {
-    Provider.of<Auth>(context, listen: false)
+    attendedEvents = Provider.of<Auth>(context, listen: false)
         .getTotalAtendedEvents()
         .then((res) {
-      print(res['success']);
       if (res['success']) {
         totalAtendedEvents = res['totalAtendedEvents'];
         Provider.of<TasksController>(context, listen: false)
@@ -61,11 +29,10 @@ class _UserHomePageState extends State<UserHomePage> {
                 admin: false,
                 requestedId: Provider.of<Auth>(context, listen: false).user.id)
             .then((res) {
-          print(res);
           if (res) {
             List usertasks =
                 Provider.of<TasksController>(context, listen: false).usertasks;
-            print(usertasks);
+
             int doneTasks =
                 usertasks.where((task) => task.status == true).length;
             tasksPercentage = ((doneTasks / usertasks.length) * 100).round();
@@ -83,8 +50,7 @@ class _UserHomePageState extends State<UserHomePage> {
   Widget build(BuildContext context) {
     user = Provider.of<Auth>(context, listen: false).user;
     return FutureBuilder(
-        future:
-            Provider.of<Auth>(context, listen: false).getTotalAtendedEvents(),
+        future: attendedEvents,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (!snapshot.hasError) {
@@ -286,5 +252,33 @@ class _UserHomePageState extends State<UserHomePage> {
         ),
       ),
     );*/
+  }
+
+  Future<void> _refresh(context) async {
+    setState(() {
+      attendedEvents = Provider.of<Auth>(context, listen: false)
+          .getTotalAtendedEvents()
+          .then((res) {
+        if (res['success']) {
+          totalAtendedEvents = res['totalAtendedEvents'];
+          Provider.of<TasksController>(context, listen: false)
+              .getTask(
+                  admin: false,
+                  requestedId:
+                      Provider.of<Auth>(context, listen: false).user.id)
+              .then((res) {
+            if (res) {
+              List usertasks =
+                  Provider.of<TasksController>(context, listen: false)
+                      .usertasks;
+              int doneTasks =
+                  usertasks.where((task) => task.status == true).length;
+              tasksPercentage = ((doneTasks / usertasks.length) * 100).round();
+              setState(() {});
+            }
+          });
+        }
+      });
+    });
   }
 }

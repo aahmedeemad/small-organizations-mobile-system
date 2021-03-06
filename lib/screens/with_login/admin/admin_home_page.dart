@@ -11,8 +11,19 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+  Future attendedEvents;
   Future<void> _refresh(context) async {
-    setState(() {});
+    setState(() {
+      attendedEvents =
+          Provider.of<Auth>(context, listen: false).getTotalAtendedEvents();
+    });
+  }
+
+  @override
+  void initState() {
+    attendedEvents =
+        Provider.of<Auth>(context, listen: false).getTotalAtendedEvents();
+    super.initState();
   }
 
   @override
@@ -31,8 +42,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         ],
       ),
       body: FutureBuilder(
-          future:
-              Provider.of<Auth>(context, listen: false).getTotalAtendedEvents(),
+          future: attendedEvents,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasError) {

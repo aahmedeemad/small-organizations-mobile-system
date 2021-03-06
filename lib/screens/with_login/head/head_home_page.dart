@@ -12,8 +12,19 @@ class HeadHomePage extends StatefulWidget {
 }
 
 class _HeadHomePageState extends State<HeadHomePage> {
+  Future attendedEvenets;
   Future<void> _refresh(context) async {
-    setState(() {});
+    setState(() {
+      attendedEvenets =
+          Provider.of<Auth>(context, listen: false).getTotalAtendedEvents();
+    });
+  }
+
+  @override
+  void initState() {
+    attendedEvenets =
+        Provider.of<Auth>(context, listen: false).getTotalAtendedEvents();
+    super.initState();
   }
 
   @override
@@ -32,8 +43,7 @@ class _HeadHomePageState extends State<HeadHomePage> {
         ],
       ),
       body: FutureBuilder(
-          future:
-              Provider.of<Auth>(context, listen: false).getTotalAtendedEvents(),
+          future: attendedEvenets,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasError) {
