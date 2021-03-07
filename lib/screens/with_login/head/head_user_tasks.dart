@@ -20,6 +20,9 @@ class _HeadUserTasksState extends State<HeadUserTasks> {
   Future<List<Task>> ftasks;
   List<Task> _tasks;
 
+  final _updateFormkey = GlobalKey<FormState>();
+  final _addFormkey = GlobalKey<FormState>();
+
   // String dropdownValue = "Mark";
   Future<void> _refresh(context) async {
     setState(() {});
@@ -181,27 +184,46 @@ class _HeadUserTasksState extends State<HeadUserTasks> {
     _titleEditingController.clear();
     _descEditingController.clear();
     var alert = AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          TextField(
-            controller: _titleEditingController,
-            autofocus: true,
-            decoration: InputDecoration(
-              labelText: "Task",
+      content: Form(
+        key: _addFormkey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              controller: _titleEditingController,
+              autofocus: true,
+              decoration: InputDecoration(
+                labelText: "Task",
+              ),
             ),
-          ),
-          TextField(
-            controller: _descEditingController,
-            decoration: InputDecoration(
-              labelText: "Desciption",
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              controller: _descEditingController,
+              decoration: InputDecoration(
+                labelText: "Desciption",
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       actions: <Widget>[
         FlatButton(
             onPressed: () {
+              if (!_addFormkey.currentState.validate()) {
+                // Invalid!
+                return;
+              }
               _handleSubmitted(
                   _titleEditingController.text, _descEditingController.text);
               Navigator.pop(context);
@@ -242,27 +264,47 @@ class _HeadUserTasksState extends State<HeadUserTasks> {
     _descEditingController.text = item.description;
     var alert = AlertDialog(
       title: Text("Update Task"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          TextField(
-            controller: _titleEditingController,
-            autofocus: true,
-            decoration: InputDecoration(
-              labelText: "Task",
+      content: Form(
+        key: _updateFormkey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              controller: _titleEditingController,
+              autofocus: true,
+              decoration: InputDecoration(
+                labelText: "Task",
+              ),
             ),
-          ),
-          TextField(
-            controller: _descEditingController,
-            decoration: InputDecoration(
-              labelText: "Desciption",
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              controller: _descEditingController,
+              decoration: InputDecoration(
+                labelText: "Desciption",
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       actions: <Widget>[
         FlatButton(
             onPressed: () async {
+              if (!_updateFormkey.currentState.validate()) {
+                // Invalid!
+                return;
+              }
+              _updateFormkey.currentState.save();
               Task t = Task(
                 title: _titleEditingController.text,
                 committee: _tasks[index].committee,

@@ -21,20 +21,9 @@ class EventDetailsPage extends StatefulWidget {
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
   var providerSpeakersController;
-  @override
-  void initState() {
-    Provider.of<SpeakersController>(context, listen: false)
-        .fetchAndSetSpeakers(widget.id)
-        .then((_) {
-      setState(() {});
-    });
-    super.initState();
-  }
 
   Future<void> _refresh(context) async {
-    setState(() {
-      providerSpeakersController.fetchAndSetSpeakers(widget.id);
-    });
+    setState(() {});
   }
 
   @override

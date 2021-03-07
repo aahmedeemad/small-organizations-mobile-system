@@ -16,17 +16,17 @@ class _ScanQrPageState extends State<ScanQrPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<EventsController>(context, listen: false)
-        .fetchAndSetEvents()
-        .then((_) {
-      selectedEvent = providerEventsController?.events[0].id;
+    providerEventsController =
+        Provider.of<EventsController>(context, listen: false);
+    providerEventsController.fetchAndSetEvents().then((_) {
+      setState(() {
+        selectedEvent = providerEventsController?.events[0].id;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    providerEventsController = Provider.of<EventsController>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Scan Qr"),
