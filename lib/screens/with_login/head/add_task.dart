@@ -60,6 +60,10 @@ class _AddTaskState extends State<AddTask> {
                                     committee: snapshot.data[index].committee),
                               ));
                             },
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(snapshot.data[index].imagePath),
+                            ),
                             title: Text(snapshot.data[index].name),
                           ),
                         );

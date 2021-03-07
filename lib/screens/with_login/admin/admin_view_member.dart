@@ -116,16 +116,6 @@ class _AdminViewMemberState extends State<AdminViewMember> {
                 ),
                 SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    user.email == null ? '.' : user.email,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 18),
-                  ),
-                ),
-                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "TEDx-er since ${user.joinAt}",

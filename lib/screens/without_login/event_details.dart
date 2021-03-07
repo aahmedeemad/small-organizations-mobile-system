@@ -209,6 +209,30 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   }
 
   void _launchUrl(url) async {
-    if (await launcher.canLaunch(url)) await launcher.launch(url);
+    if (await launcher.canLaunch(url))
+      await launcher.launch(url);
+    else {
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Alert!"),
+        content: Text("Can't open this website."),
+        actions: [
+          FlatButton(
+            child: Text("Ok"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
   }
 }

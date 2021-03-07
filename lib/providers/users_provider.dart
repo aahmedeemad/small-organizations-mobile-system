@@ -35,13 +35,13 @@ class UsersController with ChangeNotifier {
   }
 
   Future<void> fetchAndSetUsers({String filter = ''}) async {
-    String filter_parameters = '';
+    String filterParameters = '';
     try {
-      filter_parameters =
+      filterParameters =
           filter != '' ? 'orderBy="committee"&equalTo="$filter"' : '';
-      print(filter_parameters);
+      print(filterParameters);
       final res = await http.get(
-          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users.json?$filter_parameters');
+          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/users.json?$filterParameters');
       print(res);
       if (res.statusCode == 200) {
         final dbData = jsonDecode(res.body) as Map<String, dynamic>;

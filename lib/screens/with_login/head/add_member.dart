@@ -87,6 +87,7 @@ class _AddMemberState extends State<AddMember> {
   }
 
   _imgFromGallery() async {
+    // ignore: deprecated_member_use
     File image = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50);
 

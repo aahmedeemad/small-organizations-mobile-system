@@ -40,7 +40,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerPage(),
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Home"),
+      ),
       body: FutureBuilder(
           future: providerEventsController.fetchAndSetEvents(),
           builder: (context, snapshot) {

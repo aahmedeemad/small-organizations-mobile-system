@@ -4,7 +4,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smallorgsys/providers/users_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:smallorgsys/screens/with_login/admin/admin_view_member.dart';
-import 'package:smallorgsys/screens/without_login/drawer.dart';
 
 // class Members extends StatelessWidget {
 //   @override
@@ -47,7 +46,7 @@ import 'package:smallorgsys/screens/without_login/drawer.dart';
 //   }
 // }
 class Members extends StatefulWidget {
-  String committee;
+  final String committee;
   Members({this.committee});
   @override
   _MembersPageState createState() => _MembersPageState();

@@ -56,8 +56,13 @@ class _AppState extends State<App> {
   Future<void> initPlatformState() async {
     OneSignal.shared.setNotificationOpenedHandler(
         (OSNotificationOpenedResult result) async {
-      if (result.notification.payload.additionalData['page'] == "news") {
-        await navigatorKey.currentState.pushNamed('/news');
+      if (result.notification.payload.additionalData != null) {
+        if (result.notification.payload.additionalData['page'] == "news") {
+          await navigatorKey.currentState.pushNamed('/news');
+        } else if (result.notification.payload.additionalData['page'] ==
+            "events") {
+          await navigatorKey.currentState.pushNamed('/events');
+        }
       }
     });
 

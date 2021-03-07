@@ -52,7 +52,8 @@ class _UserHomePageState extends State<UserHomePage> {
     return FutureBuilder(
         future: attendedEvents,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              tasksPercentage != null) {
             if (!snapshot.hasError) {
               return Scaffold(
                 body: ListView(

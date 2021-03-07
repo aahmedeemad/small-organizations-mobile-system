@@ -15,16 +15,13 @@ class SpeakerPage extends StatefulWidget {
 }
 
 class _SpeakerPageState extends State<SpeakerPage> {
-  var _isLoading = true;
   var providerSpeakersController;
   @override
   void initState() {
     Provider.of<SpeakersController>(context, listen: false)
         .fetchSpeaker(widget.speakerID)
         .then((_) {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() {});
     });
     super.initState();
   }
