@@ -28,7 +28,8 @@ class _AddTaskState extends State<AddTask> {
         users = Future.value(usersController.users
             .where((user) =>
                 user.committee ==
-                Provider.of<Auth>(context, listen: false).user.committee)
+                    Provider.of<Auth>(context, listen: false).user.committee &&
+                user.id != Provider.of<Auth>(context, listen: false).user.id)
             .toList());
       });
     });
