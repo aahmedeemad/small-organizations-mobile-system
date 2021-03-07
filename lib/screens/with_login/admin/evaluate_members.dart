@@ -142,9 +142,17 @@ class StarDisplay extends StatelessWidget {
         Icons.star,
         color: Colors.amber,
       ),
-      onRatingUpdate: (rating) {
-        Provider.of<UsersController>(context, listen: false)
-            .updateUserRating(userId: id, rating: rating.toInt());
+      onRatingUpdate: (rating) async {
+        bool success =
+            await Provider.of<UsersController>(context, listen: false)
+                .updateUserRating(userId: id, rating: rating.toInt());
+        if (success) {
+          Scaffold.of(context)
+              .showSnackBar(SnackBar(content: Text('User evaluated')));
+        } else {
+          Scaffold.of(context)
+              .showSnackBar(SnackBar(content: Text('Something gone wrong..')));
+        }
       },
     );
   }
