@@ -26,8 +26,8 @@ class _EvalMembersState extends State<EvalMembers> {
   }
 
   Future<void> _refresh(context) async {
+    await providerUsersController.fetchAndSetUsers();
     setState(() {
-      providerUsersController.fetchAndSetUsers();
       users = Future.value(providerUsersController.users);
     });
   }
@@ -142,17 +142,9 @@ class StarDisplay extends StatelessWidget {
         Icons.star,
         color: Colors.amber,
       ),
-      onRatingUpdate: (rating) async {
-        bool success =
-            await Provider.of<UsersController>(context, listen: false)
-                .updateUserRating(userId: id, rating: rating.toInt());
-        if (success) {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text('User evaluated')));
-        } else {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text('Something gone wrong..')));
-        }
+      onRatingUpdate: (rating) {
+        Provider.of<UsersController>(context, listen: false)
+            .updateUserRating(userId: id, rating: rating.toInt());
       },
     );
   }

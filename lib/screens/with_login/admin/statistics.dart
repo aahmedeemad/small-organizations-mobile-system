@@ -6,14 +6,7 @@ import 'package:smallorgsys/widgets/network_error_widget.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-class StatisticsPage extends StatefulWidget {
-  StatisticsPage({Key key}) : super(key: key);
-
-  @override
-  _StatisticsPageState createState() => _StatisticsPageState();
-}
-
-class _StatisticsPageState extends State<StatisticsPage> {
+class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

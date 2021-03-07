@@ -33,13 +33,18 @@ class _AdminViewMemberState extends State<AdminViewMember> {
             .getTask(admin: true, requestedId: widget.id)
             .then((res) {
           print(res);
-          if (res) {
+          if (res != null) {
             List usertasks =
                 Provider.of<TasksController>(context, listen: false).usertasks;
-            print(usertasks);
+
             int doneTasks =
                 usertasks.where((task) => task.status == true).length;
             tasksPercentage = ((doneTasks / usertasks.length) * 100).round();
+            setState(() {
+              _isLoading = false;
+            });
+          } else {
+            tasksPercentage = 0;
             setState(() {
               _isLoading = false;
             });
