@@ -15,20 +15,9 @@ class BoardPage extends StatefulWidget {
 
 class _BoardPageState extends State<BoardPage> {
   var providerBoardController;
-  @override
-  void initState() {
-    Provider.of<BoardController>(context, listen: false)
-        .fetchAndSetBoard()
-        .then((_) {
-      setState(() {});
-    });
-    super.initState();
-  }
 
   Future<void> _refresh(context) async {
-    setState(() {
-      Provider.of<BoardController>(context, listen: false).fetchAndSetBoard();
-    });
+    setState(() {});
   }
 
   @override
