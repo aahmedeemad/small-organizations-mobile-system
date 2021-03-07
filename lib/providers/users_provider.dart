@@ -73,7 +73,7 @@ class UsersController with ChangeNotifier {
     }
   }
 
-  Future<void> updateUserRating({int rating, String userId}) async {
+  Future<bool> updateUserRating({int rating, String userId}) async {
     print(userId);
     try {
       final res = await http.patch(
@@ -88,6 +88,7 @@ class UsersController with ChangeNotifier {
         var index = _usersList.indexWhere((user) => user.id == userId);
         _usersList[index].rating = rating;
         notifyListeners();
+        return true;
       } else {
         return false;
       }

@@ -14,28 +14,20 @@ class StatisticsPage extends StatefulWidget {
 }
 
 class _StatisticsPageState extends State<StatisticsPage> {
-  Future getTasks;
-  @override
-  void initState() {
-    getTasks = Provider.of<TasksController>(context, listen: false)
-        .getAllTasks(admin: Provider.of<Auth>(context, listen: false).isAdmin);
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    Map stats =
-        Provider.of<TasksController>(context, listen: false).tasksStat();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Statistics'),
       ),
       body: FutureBuilder(
-          future: getTasks,
+          future: _refresh(context),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (!snapshot.hasError) {
+                Map stats = Provider.of<TasksController>(context, listen: false)
+                    .tasksStat();
+
                 return ListView(
                   children: [
                     chartWidget(
@@ -62,11 +54,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
   }
 
   Future<void> _refresh(context) async {
-    setState(() {
-      getTasks = Provider.of<TasksController>(context, listen: false)
-          .getAllTasks(
-              admin: Provider.of<Auth>(context, listen: false).isAdmin);
-    });
+    await Provider.of<TasksController>(context, listen: false)
+        .getAllTasks(admin: Provider.of<Auth>(context, listen: false).isAdmin);
   }
 }
 
