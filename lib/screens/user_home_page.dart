@@ -161,9 +161,10 @@ class UserHomePage extends StatelessWidget {
   }
 
   Future showQr(context) {
-    return showDialog(
-        context: context,
-        child: AlertDialog(
+	return showDialog(
+	  context: context,
+	  builder: (BuildContext cx) {
+	    return AlertDialog(
           title: Text(
             "Your QR Code",
             textAlign: TextAlign.center,
@@ -174,7 +175,9 @@ class UserHomePage extends StatelessWidget {
               size: 200,
             ),
           ),
-        ));
+        );
+	},
+	);
   }
 }
 
