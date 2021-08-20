@@ -26,6 +26,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     setState(() {});
   }
 
+  bool descTextShowFlag = false;
+
   @override
   Widget build(BuildContext context) {
     providerSpeakersController =
@@ -115,11 +117,37 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                     SizedBox(height: 25, width: 15),
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                      child: new Text(
-                        widget.event.description,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.w300),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(
+                            widget.event.description,
+                            maxLines: descTextShowFlag ? 1000 : 2,
+                            textAlign: TextAlign.start,
+                            //textAlign: TextAlign.justify,
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.w300),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                descTextShowFlag = !descTextShowFlag;
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                descTextShowFlag
+                                    ? Text(
+                                        "...Show Less",
+                                        style: TextStyle(color: Colors.blue),
+                                      )
+                                    : Text("Show More...",
+                                        style: TextStyle(color: Colors.blue))
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
