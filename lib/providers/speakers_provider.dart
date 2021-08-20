@@ -81,22 +81,23 @@ class SpeakersController with ChangeNotifier {
 
   Future<void> fetchAndSetSpeakers(eventID) async {
     try {
-      print(
-          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/$eventID.json');
-      final response = await http.get(
-          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/$eventID.json');
-      final dbData = jsonDecode(response.body) as Map<String, dynamic>;
+      //print('https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/$eventID.json');
+      //final response = await http.get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/eventSpeakersList/$eventID.json');
+      final response = await http.get('http://tedxmiu.com/speakersapi.php');
+      final dbData = jsonDecode(response.body);
       final List<Speaker> dbSpeakers = [];
-      dbData.forEach((key, data) {
-        dbSpeakers.add(
-          Speaker(
-              id: key,
-              name: data['name'],
-              bio: data['bio'],
-              from: data['from'],
-              to: data['to'],
-              imagePath: data['imagePath']),
-        );
+      dbData.forEach((data) {
+        if (data['event_id'] == eventID) {
+          dbSpeakers.add(
+            Speaker(
+                id: data['id'],
+                name: data['name'],
+                bio: data['bio'],
+                from: data['fromm'],
+                to: data['too'],
+                imagePath: 'http://tedxmiu.com/' + data['imagePath']),
+          );
+        }
       });
       print(dbSpeakers[0].imagePath);
       _speakersList = dbSpeakers;
@@ -109,21 +110,22 @@ class SpeakersController with ChangeNotifier {
 
   Future<void> fetchSpeaker(speakerID) async {
     try {
-      print(
-          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers/$speakerID.json');
-      final response = await http.get(
-          'https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers/$speakerID.json');
-      final dbData = jsonDecode(response.body) as Map<String, dynamic>;
-      print(dbData);
+      //print('https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers/$speakerID.json');
+      //final response = await http.get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/speakers/$speakerID.json');
+      final response = await http.get('http://tedxmiu.com/speakersapi.php');
+      final dbData = jsonDecode(response.body);
+      int intSpeakeriD = int.parse(speakerID);
+      int intSpeakerID = intSpeakeriD - 1;
       speaker = Speaker(
-          id: speakerID,
-          name: dbData['name'],
-          bio: dbData['bio'],
-          from: dbData['from'],
-          to: dbData['to'],
-          imagePath: dbData['imagePath'],
-          slogan: dbData['slogan'],
-          fullDescription: dbData['fullDescription']);
+          id: dbData[intSpeakerID]['id'],
+          name: dbData[intSpeakerID]['name'],
+          bio: dbData[intSpeakerID]['bio'],
+          from: dbData[intSpeakerID]['fromm'],
+          to: dbData[intSpeakerID]['too'],
+          imagePath: 'http://tedxmiu.com/' + dbData[intSpeakerID]['imagePath'],
+          slogan: dbData[intSpeakerID]['slogan'],
+          fullDescription: dbData[intSpeakerID]['fullDescription']);
+
       // final List<Speaker> dbSpeakers = [];
       // dbData.forEach((key, data) {
       //   dbSpeakers.add(

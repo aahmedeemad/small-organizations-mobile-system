@@ -6,7 +6,7 @@ import 'dart:convert';
 class NewsController with ChangeNotifier {
   List<News> _newsList = [];
 
-  void addNews(News news) {
+  /*void addNews(News news) {
     http.post(
       'https://tedxmiu-11c76-default-rtdb.firebaseio.com/news.json',
       body: json.encode(
@@ -18,7 +18,7 @@ class NewsController with ChangeNotifier {
       ),
     );
     notifyListeners();
-  }
+  }*/
 
   List<News> get news {
     return [..._newsList];
@@ -30,17 +30,17 @@ class NewsController with ChangeNotifier {
 
   Future<bool> fetchAndSetNews() async {
     try {
-      final response = await http
-          .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/news.json');
+      //final response = await http.get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/news.json');
+      final response = await http.get('http://tedxmiu.com/newsapi.php');
       if (response.statusCode == 200 && response.body != null) {
-        final dbData = jsonDecode(response.body) as Map<String, dynamic>;
+        final dbData = jsonDecode(response.body);
         final List<News> dbNews = [];
-        dbData.forEach((key, data) {
+        dbData.forEach((data) {
           dbNews.add(
             News(
-              id: key,
+              id: data['id'],
               title: data['title'],
-              imagePath: data['imagePath'],
+              imagePath: 'http://tedxmiu.com/' + data['imagePath'],
               description: data['description'],
             ),
           );

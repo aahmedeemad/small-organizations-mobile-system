@@ -89,17 +89,19 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                               child: Row(
                                 children: <Widget>[
                                   Icon(Icons.location_on),
-                                  InkWell(
-                                    onTap: () {
-                                      _launchUrl(widget.event.locationUrl);
-                                    },
-                                    child: Text(
-                                      widget.event.locationName,
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red,
-                                        decoration: TextDecoration.underline,
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        _launchUrl(widget.event.locationUrl);
+                                      },
+                                      child: Text(
+                                        widget.event.locationName,
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                          decoration: TextDecoration.underline,
+                                        ),
                                       ),
                                     ),
                                   ),

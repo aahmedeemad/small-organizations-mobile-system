@@ -9,6 +9,7 @@ class Speaker {
   final String to;
   String slogan;
   final String fullDescription;
+
   Speaker({
     this.id,
     @required this.name,

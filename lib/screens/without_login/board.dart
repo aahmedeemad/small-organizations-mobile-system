@@ -27,7 +27,7 @@ class _BoardPageState extends State<BoardPage> {
     return Scaffold(
       drawer: DrawerPage(),
       appBar: AppBar(
-        title: Text('Board'),
+        title: Text('Team Members'),
       ),
       body: FutureBuilder(
           future: providerBoardController.fetchAndSetBoard(),
@@ -41,6 +41,7 @@ class _BoardPageState extends State<BoardPage> {
                       imagePath: providerBoardController.board[index].imagePath,
                       name: providerBoardController.board[index].name,
                       position: providerBoardController.board[index].position,
+                      year: providerBoardController.board[index].year,
                     );
                   },
                 );
@@ -54,12 +55,25 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   Widget boardWidget(
-      {@required imagePath, @required name, @required position}) {
+      {@required imagePath,
+      @required name,
+      @required position,
+      @required year}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          SizedBox(height: 10.0),
+          if (position == 'President' || position == 'CEO') ...[
+            SizedBox(height: 10.0),
+            Text(
+              '--- ' + year + ' Board ---',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+          SizedBox(height: 15.0),
           CachedNetworkImage(
             imageUrl: imagePath,
             progressIndicatorBuilder: (context, url, downloadProgress) =>

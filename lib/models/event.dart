@@ -12,6 +12,7 @@ class Event {
   final double longitude;
   final double latitude;
   final List<Speaker> speakers;
+
   Event({
     this.id,
     @required this.title,

@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                           if (snapshot.hasData && snapshot.data == true) {
                             return CarouselSlider(
                               items: [
-                                for (var i = 1; i <= 3; i++)
+                                for (var i = 0; i < 3; i++)
                                   GestureDetector(
                                       child:
                                           //1st Image of Slider
@@ -128,8 +128,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(20.0),
                         child: InkWell(
                           onTap: () {
-                            var eventid =
-                                providerEventsController.events.length - 1;
+                            var eventid = 0;
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => EventDetailsPage(
                                   '${providerEventsController.events[eventid].id}'),
@@ -137,13 +136,10 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: Card(
                             child: Hero(
-                              tag: providerEventsController.events.length - 1,
+                              tag: 0,
                               child: CachedNetworkImage(
                                 imageUrl: providerEventsController
-                                    .events[
-                                        providerEventsController.events.length -
-                                            1]
-                                    .imagePath,
+                                    .events[0].imagePath,
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) =>
                                         Shimmer.fromColors(
@@ -155,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
-                                height: 160,
+                                height: 200,
                                 fit: BoxFit.fitWidth,
                               ),
                             ),

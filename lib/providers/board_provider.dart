@@ -30,21 +30,21 @@ class BoardController with ChangeNotifier {
 
   Future<void> fetchAndSetBoard() async {
     try {
-      final response = await http
-          .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/board.json');
-      final dbData = jsonDecode(response.body) as Map<String, dynamic>;
+      // final response = await http
+      //     .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/board.json');
+      final response = await http.get('http://tedxmiu.com/boardapi.php');
+      final dbData = jsonDecode(response.body);
       final List<Board> dbBoard = [];
-      dbData.forEach((key, data) {
+      dbData.forEach((data) {
         dbBoard.add(Board(
-          id: key,
+          id: data['id'],
           position: data['position'],
-          order: int.parse(data['order']),
           name: data['name'],
-          imagePath: data['imagePath'],
+          imagePath: 'http://tedxmiu.com/' + data['imagePath'],
+          year: data['year'],
         ));
       });
       _boardList = dbBoard;
-      _boardList.sort((a, b) => a.order.compareTo(b.order));
       notifyListeners();
     } on Exception catch (e) {
       print(e.toString());

@@ -5,13 +5,13 @@ class Board {
   final String name;
   final String position;
   final String imagePath;
-  final int order;
+  final String year;
 
   Board({
     @required this.id,
     @required this.name,
     @required this.position,
     @required this.imagePath,
-    @required this.order,
+    @required this.year,
   });
 }

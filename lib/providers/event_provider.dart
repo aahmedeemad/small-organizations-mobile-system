@@ -128,22 +128,22 @@ class EventsController with ChangeNotifier {
 
   Future<bool> fetchAndSetEvents() async {
     try {
-      final response = await http
-          .get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json');
+      //final response = await http.get('https://tedxmiu-11c76-default-rtdb.firebaseio.com/events.json');
+      final response = await http.get('http://tedxmiu.com/eventsapi.php');
       if (response.statusCode == 200 && response.body != null) {
-        final dbData = jsonDecode(response.body) as Map<String, dynamic>;
+        final dbData = jsonDecode(response.body);
         final List<Event> dbEvents = [];
-        dbData.forEach((key, data) {
+        dbData.forEach((data) {
           dbEvents.add(Event(
-            id: key,
+            id: data['id'],
             title: data['title'],
             date: data['date'],
             description: data['description'],
-            imagePath: data['imagePath'],
+            imagePath: 'http://tedxmiu.com/' + data['imagePath'],
             locationName: data['locationName'],
             locationUrl: data['locationUrl'],
-            longitude: data['longitude'],
-            latitude: data['latitude'],
+            longitude: double.parse(data['longitude']),
+            latitude: double.parse(data['latitude']),
           ));
         });
         //print(dbEvents[0].imagePath);
