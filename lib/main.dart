@@ -9,7 +9,7 @@ import 'package:smallorgsys/providers/news_provider.dart';
 import 'package:smallorgsys/providers/speakers_provider.dart';
 import 'package:smallorgsys/providers/tasks_provider.dart';
 import 'package:smallorgsys/providers/users_provider.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:smallorgsys/screens/with_login/admin/admin_home_page.dart';
 import 'package:smallorgsys/screens/with_login/admin/committees.dart';
 import 'package:smallorgsys/screens/with_login/admin/evaluate_members.dart';
@@ -54,28 +54,28 @@ class _AppState extends State<App> {
   }
 
   Future<void> initPlatformState() async {
-    OneSignal.shared.setNotificationOpenedHandler(
-        (OSNotificationOpenedResult result) async {
-      if (result.notification.payload.additionalData != null) {
-        if (result.notification.payload.additionalData['page'] == "news") {
-          await navigatorKey.currentState.pushNamed('/news');
-        } else if (result.notification.payload.additionalData['page'] ==
-            "events") {
-          await navigatorKey.currentState.pushNamed('/events');
-        }
-      }
-    });
+    // OneSignal.shared.setNotificationOpenedHandler(
+    //     (OSNotificationOpenedResult result) async {
+    //   if (result.notification.payload.additionalData != null) {
+    //     if (result.notification.payload.additionalData['page'] == "news") {
+    //       await navigatorKey.currentState.pushNamed('/news');
+    //     } else if (result.notification.payload.additionalData['page'] ==
+    //         "events") {
+    //       await navigatorKey.currentState.pushNamed('/events');
+    //     }
+    //   }
+    // });
 
-    await OneSignal.shared.init("078531c6-98d6-43fe-bbaa-79c2e39650be");
+    // await OneSignal.shared.init("078531c6-98d6-43fe-bbaa-79c2e39650be");
 
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    // OneSignal.shared
+    //     .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getBool('subNotifications') == null) {
-      sharedPreferences.setBool('subNotifications', true);
-      OneSignal.shared.setSubscription(true);
-    }
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // if (sharedPreferences.getBool('subNotifications') == null) {
+    //   sharedPreferences.setBool('subNotifications', true);
+    //   OneSignal.shared.setSubscription(true);
+    // }
   }
 
   @override

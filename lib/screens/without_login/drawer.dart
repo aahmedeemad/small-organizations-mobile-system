@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smallorgsys/providers/auth.dart';
@@ -80,7 +80,7 @@ class _DrawerPageState extends State<DrawerPage> {
               title: 'Our Team', icon: Icons.assignment_ind, route: '/board'),
           Divider(),
           drawerTile(title: 'About us', icon: Icons.info, route: '/aboutus'),
-          Divider(),
+          /*Divider(),
           FutureBuilder(
             future: SharedPreferences.getInstance(),
             // ignore: missing_return
@@ -94,7 +94,7 @@ class _DrawerPageState extends State<DrawerPage> {
                       setState(() {
                         autResSnapshot.data
                             .setBool('subNotifications', newValue);
-                        OneSignal.shared.setSubscription(newValue);
+                        // OneSignal.shared.setSubscription(newValue);
                       });
                     },
                     controlAffinity: ListTileControlAffinity.platform);
@@ -102,7 +102,7 @@ class _DrawerPageState extends State<DrawerPage> {
                   ConnectionState.waiting)
                 return Center(child: CircularProgressIndicator());
             },
-          ),
+          ),*/
         ],
       ),
     );
