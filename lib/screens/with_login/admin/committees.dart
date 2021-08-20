@@ -19,7 +19,11 @@ class _CommitteesPageState extends State<CommitteesPage> {
           committeeCard(name: 'HR'),
           committeeCard(name: 'IT'),
           committeeCard(name: 'PR'),
-          committeeCard(name: 'Media'),
+          committeeCard(name: 'FR'),
+          committeeCard(name: 'Coaching'),
+          committeeCard(name: 'Production'),
+          committeeCard(name: 'Coordination'),
+          committeeCard(name: 'Hunters'),
         ],
       ),
     );

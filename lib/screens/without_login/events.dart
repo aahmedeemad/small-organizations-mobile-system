@@ -65,10 +65,10 @@ class _EventsPageState extends State<EventsPage> {
                         child: GoogleMap(
                           initialCameraPosition: CameraPosition(
                             target: LatLng(
-                              providerEventsController.events[0].latitude,
-                              providerEventsController.events[0].longitude,
+                              30.09,
+                              31.29,
                             ),
-                            zoom: 11.0,
+                            zoom: 10.0,
                           ),
                           markers: _markers.values.toSet(),
                         ),

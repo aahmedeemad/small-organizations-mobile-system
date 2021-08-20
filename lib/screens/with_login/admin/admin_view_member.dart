@@ -113,7 +113,7 @@ class _AdminViewMemberState extends State<AdminViewMember> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    "Your Information",
+                    "Information",
                     style: Theme.of(context)
                         .textTheme
                         .headline5
@@ -144,7 +144,7 @@ class _AdminViewMemberState extends State<AdminViewMember> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Your evaluation " + user.rating.toString() + " 🌟",
+                    "Evaluation " + user.rating.toString() + " 🌟",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
