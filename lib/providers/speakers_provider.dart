@@ -90,12 +90,13 @@ class SpeakersController with ChangeNotifier {
         if (data['event_id'] == eventID) {
           dbSpeakers.add(
             Speaker(
-                id: data['id'],
-                name: data['name'],
-                bio: data['bio'],
-                from: data['fromm'],
-                to: data['too'],
-                imagePath: 'http://tedxmiu.com/' + data['imagePath']),
+              id: data['id'],
+              name: data['name'],
+              bio: data['bio'],
+              from: data['fromm'],
+              to: data['too'],
+              imagePath: 'http://tedxmiu.com/' + data['imagePath'],
+            ),
           );
         }
       });
@@ -123,7 +124,6 @@ class SpeakersController with ChangeNotifier {
           from: dbData[intSpeakerID]['fromm'],
           to: dbData[intSpeakerID]['too'],
           imagePath: 'http://tedxmiu.com/' + dbData[intSpeakerID]['imagePath'],
-          slogan: dbData[intSpeakerID]['slogan'],
           fullDescription: dbData[intSpeakerID]['fullDescription']);
 
       // final List<Speaker> dbSpeakers = [];

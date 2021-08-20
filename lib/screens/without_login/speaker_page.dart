@@ -101,7 +101,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                           ),
                           SizedBox(height: 15.0),
                           Text(
-                            providerSpeakersController.speaker.slogan,
+                            providerSpeakersController.speaker.bio,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 17.0,

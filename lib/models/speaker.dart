@@ -7,7 +7,6 @@ class Speaker {
   final String imagePath;
   final String from;
   final String to;
-  String slogan;
   final String fullDescription;
 
   Speaker({
@@ -18,6 +17,5 @@ class Speaker {
     @required this.from,
     @required this.to,
     this.fullDescription,
-    this.slogan,
   });
 }
