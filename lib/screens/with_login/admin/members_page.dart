@@ -82,54 +82,77 @@ class _MembersPageState extends State<Members> {
           ? Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: () => _refresh(context),
-              child: ListView.builder(
-                itemCount: providerUsersController.users.length,
-                itemBuilder: (context, index) {
-                  return eventCard(
-                      imagePath: providerUsersController.users[index].imagePath,
-                      name: providerUsersController.users[index].name,
-                      id: providerUsersController.users[index].id);
-                },
-              ),
+              child: (providerUsersController.users.length <= 1)
+                  ? Center(
+                      child: Text(
+                        'No members found for this comittee!',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: providerUsersController.users.length,
+                      itemBuilder: (context, index) {
+                        return eventCard(
+                            imagePath:
+                                providerUsersController.users[index].imagePath,
+                            name: providerUsersController.users[index].name,
+                            id: providerUsersController.users[index].id,
+                            privilege:
+                                providerUsersController.users[index].privilege);
+                      },
+                    ),
             ),
     );
   }
 
-  Widget eventCard({@required imagePath, @required name, @required id}) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AdminViewMember(id),
-              ),
-            );
-          },
-          child: Card(
-            child: Hero(
-              tag: name,
-              child: CachedNetworkImage(
-                imageUrl: imagePath,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
-                  child: Container(
-                    color: Colors.white,
-                  ),
+  Widget eventCard(
+      {@required imagePath,
+      @required name,
+      @required id,
+      @required privilege}) {
+    if (privilege.contains('member')) {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdminViewMember(id),
                 ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-                height: 170,
-                fit: BoxFit.fitWidth,
+              );
+            },
+            child: Card(
+              child: Hero(
+                tag: name,
+                child: CachedNetworkImage(
+                  imageUrl: imagePath,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: Container(
+                      color: Colors.white,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  height: 170,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Text('');
+    }
   }
 }
