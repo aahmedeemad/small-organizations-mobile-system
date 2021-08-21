@@ -20,19 +20,14 @@ class _DrawerPageState extends State<DrawerPage> {
           DrawerHeader(
             child: ListView(
               children: <Widget>[
-                Padding(padding: const EdgeInsets.all(10.0)),
+                Padding(padding: const EdgeInsets.all(4.0)),
                 CircleAvatar(
                   child: Image.asset(
                     'images/drawer/tedxMiuHome.jpg',
                   ),
-                  maxRadius: 35.0,
-                  minRadius: 25.0,
-                ),
-                Padding(padding: const EdgeInsets.all(10.0)),
-                Text(
-                  'TEDx MIU',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white),
+                  backgroundColor: Colors.black,
+                  maxRadius: 55.0,
+                  minRadius: 35.0,
                 ),
               ],
             ),
