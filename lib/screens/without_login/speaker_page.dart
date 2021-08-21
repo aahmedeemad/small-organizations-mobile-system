@@ -53,74 +53,77 @@ class _SpeakerPageState extends State<SpeakerPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (!snapshot.hasError) {
-                    return Positioned(
-                      width: MediaQuery.of(context).size.width,
-                      top: MediaQuery.of(context).size.height / 15,
-                      child: Column(
-                        children: <Widget>[
-                          CachedNetworkImage(
-                            imageUrl:
-                                providerSpeakersController.speaker.imagePath,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    Shimmer.fromColors(
-                              baseColor: Colors.grey[300],
-                              highlightColor: Colors.grey[100],
-                              child: Container(
+                    return new SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(height: 40.0),
+                            CachedNetworkImage(
+                              imageUrl:
+                                  providerSpeakersController.speaker.imagePath,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      Shimmer.fromColors(
+                                baseColor: Colors.grey[300],
+                                highlightColor: Colors.grey[100],
+                                child: Container(
+                                  width: 150.0,
+                                  height: 150.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(75.0)),
+                                  ),
+                                ),
+                              ),
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
                                 width: 150.0,
                                 height: 150.0,
                                 decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              fit: BoxFit.fitWidth,
+                              repeat: ImageRepeat.noRepeat,
+                            ),
+                            SizedBox(height: 10.0),
+                            Text(
+                              providerSpeakersController.speaker.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5.0),
+                            Text(
+                              providerSpeakersController.speaker.bio,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17.0,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                            SizedBox(height: 5.0),
+                            new Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                providerSpeakersController
+                                    .speaker.fullDescription,
+                                style: TextStyle(
                                   color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(75.0)),
+                                  fontSize: 21.0,
                                 ),
                               ),
                             ),
-                            imageBuilder: (context, imageProvider) => Container(
-                              width: 150.0,
-                              height: 150.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            fit: BoxFit.fitWidth,
-                            repeat: ImageRepeat.noRepeat,
-                          ),
-                          SizedBox(height: 40.0),
-                          Text(
-                            providerSpeakersController.speaker.name,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 15.0),
-                          Text(
-                            providerSpeakersController.speaker.bio,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          SizedBox(height: 35.0),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              providerSpeakersController
-                                  .speaker.fullDescription,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 21.0,
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   } else
